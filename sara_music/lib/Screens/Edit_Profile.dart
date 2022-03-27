@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
+import 'package:sara_music/globalss.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
+import 'package:sara_music/authi/login.dart';
+
 
 class Edit_Profile extends StatefulWidget {
   @override
+
   State<StatefulWidget> createState() {
     return Edit_ProfileState();
   }
@@ -12,6 +20,11 @@ class Edit_Profile extends StatefulWidget {
 
 class Edit_ProfileState extends State<Edit_Profile> {
   bool showPassword = false;
+    TextEditingController About = TextEditingController();
+    TextEditingController Education = TextEditingController();
+        TextEditingController Name = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +107,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: Name,
                             decoration: InputDecoration(
                               labelText: "Username",
                               enabledBorder: UnderlineInputBorder(
@@ -110,6 +124,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
                             height: 15,
                           ),
                           TextFormField(
+                            controller: About,
                             decoration: InputDecoration(
                               labelText: "About",
                               enabledBorder: UnderlineInputBorder(
@@ -130,6 +145,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
                             height: 15,
                           ),
                           TextFormField(
+                            controller: Education,
                             decoration: InputDecoration(
                               labelText: "Education",
                               enabledBorder: UnderlineInputBorder(
@@ -164,7 +180,9 @@ class Edit_ProfileState extends State<Edit_Profile> {
                                 color: Colors.black)),
                       ),
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          save();
+                        },
                         color: Colors.pink[600],
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         elevation: 2,
@@ -187,5 +205,70 @@ class Edit_ProfileState extends State<Edit_Profile> {
         ),
       ),
     );
+  }
+  
+    void _displayErrorMotionToast3() {
+    MotionToast.error(
+      title: Text(
+        'Error',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Please Fill Up All Fields !'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+   void _displayErrorMotionToast1() {
+    MotionToast.success(
+      title: Text(
+        'Success',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Profile Updated!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+  Future<void> save() async{
+   
+
+      var body1 = jsonEncode({
+    'name': Name.text,    
+  'About': About.text,
+  'Education':Education.text,
+     });
+              
+    var res= await http.patch(Uri.parse("http://192.168.1.41:3000/tasks/me"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + globalss.authToken 
+
+  }, body: body1);
+    
+
+     if(Name.text.isNotEmpty&&About.text.isNotEmpty&&Education.text.isNotEmpty){
+
+           if(res.statusCode==200){
+                    
+    Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => bottom_bar()),
+            );
+              return _displayErrorMotionToast1();
+     }
+     else{
+       print(res.body);
+     }
+ 
+    }
+    else{
+        return _displayErrorMotionToast3();
+    }
+ 
   }
 }

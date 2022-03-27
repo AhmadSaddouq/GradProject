@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sara_music/Screens/Categories_Screen.dart';
 import 'package:sara_music/Screens/Category.dart';
+import 'package:sara_music/Screens/Homepage.dart';
+import 'package:sara_music/Screens/bottom_bar.dart';
 import 'package:sara_music/authi/ForgetPassword.dart';
 import 'package:sara_music/authi/IntroPage.dart';
 import 'package:sara_music/authi/Signup.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
+import 'package:sara_music/globalss.dart';
 
 
 
@@ -244,19 +248,25 @@ TextEditingController Passwoord = TextEditingController();
   'password':Passwoord.text
      });
               
-    var res= await http.post(Uri.parse("http://192.168.43.148:3000/users/log"),headers: {
+    var res= await http.post(Uri.parse("http://192.168.1.41:3000/users/log"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
   },body: body1);
 
+    
+
+
   print(res.statusCode);
-        
+
+      
     if(Passwoord.text.isNotEmpty&&UserN.text.isNotEmpty){
 
            if(res.statusCode==200){
+                    Map<String, dynamic> DB = jsonDecode(res.body);
 
-    Navigator.push(
+  globalss.authToken= DB['token'];
+      Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Categories_Screen()),
+              MaterialPageRoute(builder: (context) => bottom_bar()),
             );
               return _displayErrorMotionToast1();
      }

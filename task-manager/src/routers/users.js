@@ -3,6 +3,8 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const { sendWelcomeEmail} = require('../emails/accounts')
 const { deleteModel } = require('mongoose')
+const Task = require('../models/task')
+
 
 const router = new express.Router()
 
@@ -13,7 +15,7 @@ try{
    const token = await user.generateAuthToken()
 
    res.send({user,token})
-
+   
 }
  catch(e){
     console.log(e)
@@ -21,11 +23,11 @@ res.status(400).send()
 }
 })
 
+
+
 router.post('/users/pinF',async (req,res)=>{
     try {
         const user = await User.findOne({email:req.body.email})
-        console.log(req.body.email)
-
         const Isuser = await User.CheckValidate(user._id,req.body.Pin)
 
         if(Isuser==false){
@@ -107,6 +109,20 @@ router.post('/users/logout', auth, async (req, res) => {
        res.status(500).send()
    }
 })
+
+router.post('/users/Welcome',  auth, async (req, res)=>{
+    try{
+      const user1 = await User.findById({ id: req.user._id, name:req.user.name})
+          
+      console.log(user1)
+       res.status(201).send({user1})
+    
+    }
+     catch(e){
+        console.log(e)
+    res.status(400).send()
+    }
+    })
 
    
    
@@ -192,10 +208,10 @@ router.post('/users/logout', auth, async (req, res) => {
 
 
 //-------------------
-router.post('/users', async (req,res)=>{
+router.post('/users',  async (req,res)=>{
     try{
          const user = new User(req.body)
-
+       
           if (req.body.password!=req.body.ConfPass) {
               
               throw new Error('Invalid Password"')
@@ -206,12 +222,15 @@ user.Tries = 4;
 
 
     await user.save();
+    sendWelcomeEmail(user.email, user.name,user.Pin)
+
    const token = await user.generateAuthToken()
 
-//    sendWelcomeEmail(user.email, user.name,user.Pin)
- 
-     
+
     res.status(201).send({user,token})
+
+ 
+
 
  
     } catch(e){
@@ -243,7 +262,7 @@ router.patch('/users/forget',async (req, res) => {
 
 await user.save()
 
-//   sendWelcomeEmail(user.email, user.name,user.Pin)
+  sendWelcomeEmail(user.email, user.name,user.Pin)
     res.status(201).send({user})
 }
 }catch(e){

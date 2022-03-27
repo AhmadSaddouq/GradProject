@@ -182,7 +182,7 @@ class ResetPasswordState extends State<ResetPassword> {
 
      });
               
-    var res= await http.patch(Uri.parse("http://172.19.26.67:3000/users/reset"),headers: {
+    var res= await http.patch(Uri.parse("http://192.168.1.41:3000/users/reset"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
   },body: body1);

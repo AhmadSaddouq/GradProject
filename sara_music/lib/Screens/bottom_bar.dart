@@ -145,24 +145,24 @@ class bottom_barState extends State<bottom_bar> {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(LineIcons.home),
-                  // title: Text("Home"),
+                  label: "Home",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LineIcons.calendarPlus),
-                  // title: Text("Booking"),
+                  label:"Booking",
                 ),
                 BottomNavigationBarItem(
                   activeIcon: null,
                   icon: Icon(null),
-                  // title: Text("Search"),
+                   label: "Search",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LineIcons.addToShoppingCart),
-                  // title: Text("Shop"),
+                   label: "Shop",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LineIcons.user),
-                  // title: Text("Profile"),
+                   label: "Profile",
                 ),
               ],
             ),

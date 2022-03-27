@@ -134,7 +134,7 @@ class ForgetPasswordState extends State<ForgetPassword> {
   'email': Email.text
          });
               
-    var res= await http.patch(Uri.parse("http://172.19.26.67:3000/users/forget"),headers: {
+    var res= await http.patch(Uri.parse("http://192.168.1.41:3000/users/forget"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       
   },body: body1);

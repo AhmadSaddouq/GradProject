@@ -433,7 +433,7 @@ TextEditingController Gendeer = TextEditingController();
     'Gender': Gendeer.text
      });
               
-    var res= await http.post(Uri.parse("http://192.168.43.148:3000/users"),headers: {
+    var res= await http.post(Uri.parse("http://192.168.1.41:3000/users"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
   } ,body: body1);
 
@@ -463,10 +463,10 @@ return ;
        Map<String, dynamic> DB = jsonDecode(res.body);
            
        if(res.statusCode==400){
-         if(DB['errors']['name']!=null){
-          return _displayErrorMotionToast7();
+        //  if(DB['errors']['name']!=null){
+        //   return _displayErrorMotionToast7();
 
-         }
+        //  }
              if(DB['_message'] != null){
           return _displayErrorMotionToast9();
            }
@@ -490,6 +490,12 @@ return ;
       if (res.statusCode == 201) {
         globalss.SignPage = 1;
         globalss.authToken = DB['token'];
+ var res1= await http.post(Uri.parse("http://192.168.1.41:3000/tasks"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + globalss.authToken 
+
+  } );
+  print(res1.statusCode);
         String responseString = res.body;
         print("Response String: " + responseString);
         

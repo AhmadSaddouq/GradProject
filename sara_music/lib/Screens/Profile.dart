@@ -1,26 +1,100 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sara_music/Screens/Edit_Profile.dart';
 import 'package:sara_music/Screens/MyDrawer.dart';
+import 'package:sara_music/authi/login.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:sara_music/globalss.dart';
+
 
 class Profile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    
     return ProfileState();
   }
 }
 
 class ProfileState extends State<Profile> {
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
-  @override
+  var EDU;
+  var ABOU;
+  var NAME;
+  Future  ChangeEdu() async{
+    
+              
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/Ed"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    setState(() {
+     EDU=res.body;
+    });
+  }
+    
+    return EDU;
+  }
+
+  Future  SETNAME() async{
+    
+              
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    setState(() {
+     NAME=res.body;
+    });
+  }
+    
+    return NAME;
+  }
+
+  Future  ChangeAbo() async{
+    
+              
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/ABOU"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    setState(() {
+     ABOU=res.body;
+    });
+  }
+    
+    return ABOU;
+  }
+
+   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        ChangeEdu();
+        ChangeAbo();
+        SETNAME();
+
+     return Scaffold(
       drawer: MyDrawer(),
       body: SingleChildScrollView(
-        child: Column(
+        child:
+        
+         Column(
+           
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+              
             SizedBox(
               height: 60,
             ),
@@ -50,7 +124,8 @@ class ProfileState extends State<Profile> {
                 ),
                 Container(
                     margin: EdgeInsets.only(top: 15, left: 140),
-                    child: IconButton(
+                    child: 
+                    IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.settings),
                       alignment: Alignment.centerRight,
@@ -68,20 +143,23 @@ class ProfileState extends State<Profile> {
               ),
             ),
             ListTile(
-              title: Center(child: Text('Ehab Sarrawi')),
+              
+              title: 
+               
+              Center(child: Text("${NAME}")),
               subtitle: Center(child: Text('Violin Student ')),
             ),
             ListTile(
               title: Text('About me '),
-              subtitle: Text(
-                  '  Ehab Sarrawi ,I have a love and passion for learning and playing music. '),
+              subtitle: Text("${ABOU}"),
             ),
             SizedBox(
               height: 20,
             ),
             ListTile(
+            
               title: Text('Education'),
-              subtitle: Text('  Bachelor\'s degree in Computer Engineering '),
+              subtitle: Text("${EDU}"),
             ),
             SizedBox(
               height: 20,
@@ -112,4 +190,6 @@ class ProfileState extends State<Profile> {
       ),
     );
   }
+  
+  
 }

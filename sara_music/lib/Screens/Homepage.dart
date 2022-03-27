@@ -9,18 +9,48 @@ import 'package:sara_music/Screens/Details_screen.dart';
 import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Screens/Shop.dart';
 import 'package:sara_music/Screens/Profile.dart';
+import 'package:sara_music/globalss.dart';
+
+import 'package:sara_music/authi/login.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Homepage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+               
+
+
     return HomepageState();
   }
 }
 
 class HomepageState extends State<Homepage> {  
+  TextEditingController Name= TextEditingController();
+ var NAME;
+  Future  SETNAME() async{
+    
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    setState(() {
+     NAME=res.body;
+    });
+  }
+    
+    return NAME;
+  }
   @override
+
   Widget build(BuildContext context) {
+  SETNAME();
     return Scaffold(     
       drawer: MyDrawer(),
       body: Padding(
@@ -28,6 +58,9 @@ class HomepageState extends State<Homepage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+       
+            
+            
             SizedBox(
               height: 40,
             ),
@@ -40,9 +73,10 @@ class HomepageState extends State<Homepage> {
                     height: 30,
                   ),
                   onTap: () {
-                    Scaffold.of(context).openDrawer();
+                     Scaffold.of(context).openDrawer();
                   },
                 ),
+                
                 AdvancedAvatar(
                   size: 50,
                   image: AssetImage('images/Logo.png'),
@@ -55,7 +89,7 @@ class HomepageState extends State<Homepage> {
             SizedBox(
               height: 30,
             ),
-            Text("Hi Ehab,",
+            Text("HI ${NAME}",
                 style: GoogleFonts.sansita(
                     fontSize: 32, fontWeight: FontWeight.w600)),
             Text(

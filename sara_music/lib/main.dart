@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sara_music/Screens/Booking.dart';
 import 'package:sara_music/Screens/Categories_Screen.dart';
 import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/Details_screen.dart';
+import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
 import 'package:sara_music/authi/ForgetPassword.dart';
@@ -31,8 +34,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: IntroPage(),
+      home: Login(),
       theme: ThemeData(
+        textTheme: GoogleFonts.sansitaTextTheme(Theme.of(context).textTheme),
           primaryColor: Colors.pink[600],
           buttonColor: Colors.pink[600],
           inputDecorationTheme: InputDecorationTheme(

@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const Task = require('./task')
 const userSchema = new mongoose.Schema({ 
     Phone:{
     type : String,
@@ -91,7 +92,15 @@ const userSchema = new mongoose.Schema({
         required: false,
         trim: true
     }
-  })
+  },
+  {
+    timestamps: true
+})
+  userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
   
 userSchema.methods.generateAuthToken= async function (){
     const user = this
@@ -161,6 +170,11 @@ if(user.isModified('password')){
 }
 next()
   })
+  userSchema.pre('remove', async function (next) {
+    const user = this
+    await Task.deleteMany({ owner: user._id })
+    next()
+})
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
