@@ -57,15 +57,31 @@ class BookingState extends State<Booking> {
             SizedBox(
               height: 60,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 5),
-              child: Text(
-                'Booking',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(color: Colors.black),
-              ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 15, left: 10, right: 10),
+                  child: InkWell(
+                    child: Image.asset(
+                      'images/icons-menu.png',
+                      height: 30,
+                    ),
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 5),
+                  child: Text(
+                    'Booking',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        ?.copyWith(color: Colors.black),
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 20,

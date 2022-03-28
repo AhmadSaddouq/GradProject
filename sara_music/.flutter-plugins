@@ -1,10 +1,13 @@
 # This is a generated file; do not edit or check into version control.
+babstrap_settings_screen=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\babstrap_settings_screen-0.1.1\\
 flutter_native_splash=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_native_splash-2.0.5\\
+flutter_plugin_android_lifecycle=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_plugin_android_lifecycle-1.0.11\\
 flutter_secure_storage=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_secure_storage-5.0.2\\
 flutter_secure_storage_linux=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_secure_storage_linux-1.1.0\\
 flutter_secure_storage_macos=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_secure_storage_macos-1.1.0\\
 flutter_secure_storage_web=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_secure_storage_web-1.0.2\\
 flutter_secure_storage_windows=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_secure_storage_windows-1.1.2\\
+image_picker=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\image_picker-0.6.5+3\\
 libphonenumber=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\libphonenumber-2.0.2\\
 libphonenumber_plugin=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\libphonenumber_plugin-0.2.3\\
 libphonenumber_web=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\libphonenumber_web-0.2.0+1\\

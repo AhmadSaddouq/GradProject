@@ -1,0 +1,2 @@
+com/babacar/babstrap_settings_screen/BuildConfig.java
+ com.babacar.babstrap_settings_screen.BuildConfig

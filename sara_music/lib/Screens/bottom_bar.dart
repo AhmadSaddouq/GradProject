@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sara_music/Screens/Search.dart';
 import 'package:line_icons/line_icons.dart';
@@ -5,6 +6,8 @@ import 'Booking.dart';
 import 'package:sara_music/Screens/Homepage.dart';
 import 'Profile.dart';
 import 'Shop.dart';
+import 'MyDrawer.dart';
+import 'dart:math' as math;
 
 class bottom_bar extends StatefulWidget {
   @override
@@ -46,85 +49,8 @@ class bottom_barState extends State<bottom_bar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.blueAccent,
-                  child: Text(
-                    "ES",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                accountName:
-                    Text("Ehab", style: TextStyle(color: Colors.black)),
-                accountEmail: Text("Ehab@gmail.com",
-                    style: TextStyle(color: Colors.black))),
-            ListTile(
-              contentPadding: EdgeInsets.only(left: 25),
-              horizontalTitleGap: 1,
-              title: Text(
-                "Home page",
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-              leading: Icon(
-                IconData(0xf107, fontFamily: 'MaterialIcons'),
-                color: Colors.black,
-                size: 28,
-              ),
-              onTap: () {},
-              selected: false,
-              selectedColor: Color(0xFFcb1772),
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.only(left: 25),
-              horizontalTitleGap: 1,
-              title: Text(
-                "Help",
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-              leading: Icon(
-                Icons.help_outline,
-                color: Colors.black,
-                size: 28,
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.only(left: 25),
-              horizontalTitleGap: 1,
-              title: Text(
-                "About",
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-              leading: Icon(
-                Icons.error_outline,
-                color: Colors.black,
-                size: 28,
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.only(left: 28),
-              horizontalTitleGap: 1,
-              title: Text(
-                "Log out",
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-              leading: Icon(
-                Icons.logout_outlined,
-                color: Colors.black,
-                size: 28,
-              ),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      resizeToAvoidBottomInset: false,
+      drawer: MyDrawer(),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 0.01,
@@ -137,6 +63,7 @@ class bottom_barState extends State<bottom_bar> {
                 border:
                     Border(top: BorderSide(color: Colors.grey, width: 0.5))),
             child: BottomNavigationBar(
+              selectedFontSize: 13,
               onTap: _selectPage,
               backgroundColor: Theme.of(context).primaryColor,
               unselectedItemColor: Theme.of(context).textSelectionColor,
@@ -144,32 +71,31 @@ class bottom_barState extends State<bottom_bar> {
               currentIndex: _selectedPageIndex,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(LineIcons.home),
                   label: "Home",
+                  icon: Icon(LineIcons.home),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LineIcons.calendarPlus),
-                  label:"Booking",
+                  label: "Booking",
                 ),
                 BottomNavigationBarItem(
-                  activeIcon: null,
-                  icon: Icon(null),
-                   label: "Search",
-                ),
+                    icon: Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(math.pi),
+                        child: Icon(
+                          LineIcons.search,
+                        )),
+                    label: "Search"),
                 BottomNavigationBarItem(
-                  icon: Icon(LineIcons.addToShoppingCart),
-                   label: "Shop",
-                ),
+                    icon: Icon(LineIcons.addToShoppingCart), label: "Shop"),
                 BottomNavigationBarItem(
-                  icon: Icon(LineIcons.user),
-                   label: "Profile",
-                ),
+                    icon: Icon(LineIcons.user), label: "Profile"),
               ],
             ),
           ),
         ),
       ),
-      floatingActionButtonLocation:
+      /*floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -187,7 +113,7 @@ class bottom_barState extends State<bottom_bar> {
                 _selectedPageIndex = 2;
               });
             }),
-      ),
+      ),*/
       body: _pages[_selectedPageIndex]['page'],
     );
   }

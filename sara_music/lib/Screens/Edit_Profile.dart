@@ -9,6 +9,10 @@ import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:sara_music/authi/login.dart';
 
+import 'package:image_picker/image_picker.dart';
+import 'dart:io' as file;
+import 'dart:async';
+import 'Settings_Page.dart';
 
 class Edit_Profile extends StatefulWidget {
   @override
@@ -24,6 +28,13 @@ class Edit_ProfileState extends State<Edit_Profile> {
     TextEditingController Education = TextEditingController();
         TextEditingController Name = TextEditingController();
 
+  late file.File imagepicker;
+  Future getImageFromGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imagepicker = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +80,11 @@ class Edit_ProfileState extends State<Edit_Profile> {
                 Container(
                     margin: EdgeInsets.only(top: 15, left: 130),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                Settings_Page()));
+                      },
                       icon: Icon(Icons.settings),
                       alignment: Alignment.centerRight,
                       iconSize: 30,
@@ -84,7 +99,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () => getImageFromGallery(),
                     child: CircleAvatar(
                       radius: 25,
                       child: Icon(Icons.edit),
@@ -180,10 +195,8 @@ class Edit_ProfileState extends State<Edit_Profile> {
                                 color: Colors.black)),
                       ),
                       RaisedButton(
-                        onPressed: () {
-                          save();
-                        },
-                        color: Colors.pink[600],
+                        onPressed: () {},
+                        color: Colors.pink[100],
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         elevation: 2,
                         shape: RoundedRectangleBorder(

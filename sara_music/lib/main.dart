@@ -8,6 +8,7 @@ import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/Details_screen.dart';
 import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Screens/Profile.dart';
+import 'package:sara_music/Screens/Settings_Page.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
 import 'package:sara_music/authi/ForgetPassword.dart';
 import 'package:sara_music/authi/ResetPassword.dart';
@@ -20,6 +21,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'Teacher/Tbottom_bar.dart';
+
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.black,
@@ -28,15 +31,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: bottom_bar(),
       theme: ThemeData(
-        textTheme: GoogleFonts.sansitaTextTheme(Theme.of(context).textTheme),
+          textTheme: GoogleFonts.sansitaTextTheme(Theme.of(context).textTheme),
           primaryColor: Colors.pink[600],
           buttonColor: Colors.pink[600],
           inputDecorationTheme: InputDecorationTheme(
@@ -64,6 +66,7 @@ class MyApp extends StatelessWidget {
         "Bottom_bar": (context) => bottom_bar(),
         "Categories": (context) => Categories_Screen(),
         "ResetPass": (context) => ResetPassword(),
+        "Settings": (context) => Settings_Page(),
       },
     );
   }

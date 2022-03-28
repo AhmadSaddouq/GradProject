@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sara_music/globalss.dart';
 
+import 'package:sara_music/Screens/Settings_Page.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -124,9 +125,9 @@ class ProfileState extends State<Profile> {
                 ),
                 Container(
                     margin: EdgeInsets.only(top: 15, left: 140),
-                    child: 
-                    IconButton(
-                      onPressed: () {},
+                    child: IconButton(
+                      onPressed: () {Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) =>Settings_Page()));},
                       icon: Icon(Icons.settings),
                       alignment: Alignment.centerRight,
                       iconSize: 30,

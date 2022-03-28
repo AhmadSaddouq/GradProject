@@ -59,9 +59,11 @@ dependencies:
   vs_scrollbar: ^0.2.1
   shape_of_view_null_safe: ^2.0.0
   smooth_star_rating: ^1.1.1
+  babstrap_settings_screen: ^0.1.1
+  image_picker: 
   
 
-  
+
   
   
   
