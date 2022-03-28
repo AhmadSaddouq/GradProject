@@ -195,8 +195,8 @@ class Edit_ProfileState extends State<Edit_Profile> {
                                 color: Colors.black)),
                       ),
                       RaisedButton(
-                        onPressed: () {},
-                        color: Colors.pink[100],
+                        onPressed: () {save();},
+                        color: Colors.pink[600],
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -234,6 +234,22 @@ class Edit_ProfileState extends State<Edit_Profile> {
       width: 300,
     ).show(context);
   }
+
+ void _displayErrorMotionToast4() {
+    MotionToast.error(
+      title: Text(
+        'Error',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Username is already used!!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+
    void _displayErrorMotionToast1() {
     MotionToast.success(
       title: Text(
@@ -263,8 +279,16 @@ class Edit_ProfileState extends State<Edit_Profile> {
 
   }, body: body1);
     
+          Map<String,dynamic> DB = jsonDecode(res.body);
+          print(res.body);
+          if(res.statusCode==400){
+         if(DB['keyValue']['name'] != null){
+          return _displayErrorMotionToast4();
+           }}
+    
+     if(About.text.isNotEmpty&&Education.text.isNotEmpty){
 
-     if(Name.text.isNotEmpty&&About.text.isNotEmpty&&Education.text.isNotEmpty){
+       
 
            if(res.statusCode==200){
                     

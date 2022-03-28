@@ -1,5 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,9 +38,11 @@ class ProfileState extends State<Profile> {
   });
      print(res.statusCode);
   if(res.statusCode==201){
+    if(mounted){
     setState(() {
      EDU=res.body;
     });
+    }
   }
     
     return EDU;
@@ -49,14 +53,16 @@ class ProfileState extends State<Profile> {
               
     var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/name"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer ' + globalss.authToken 
+      'Authorization': 'Bearer ' + globalss.authToken 
 
   });
      print(res.statusCode);
   if(res.statusCode==201){
+    if(mounted){
     setState(() {
      NAME=res.body;
     });
+    }
   }
     
     return NAME;
@@ -72,9 +78,11 @@ class ProfileState extends State<Profile> {
   });
      print(res.statusCode);
   if(res.statusCode==201){
+    if(mounted){
     setState(() {
      ABOU=res.body;
     });
+    }
   }
     
     return ABOU;
@@ -87,7 +95,7 @@ class ProfileState extends State<Profile> {
         SETNAME();
 
      return Scaffold(
-      drawer: MyDrawer(),
+      drawer: DRawer(),
       body: SingleChildScrollView(
         child:
         
@@ -191,6 +199,5 @@ class ProfileState extends State<Profile> {
       ),
     );
   }
-  
-  
+      
 }

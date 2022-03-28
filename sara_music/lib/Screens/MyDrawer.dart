@@ -1,8 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:sara_music/globalss.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-class MyDrawer extends StatelessWidget {
+class DRawer extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+               
+
+
+    return MyDrawer();
+  }
+}
+class MyDrawer extends State<DRawer> {
+   var NAME1;
+   var EMAIL1;
+   var SHORT;
+  Future  SETNAME1() async{
+    
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+ setState(() {
+     NAME1=res.body;
+    });
+    }
+   
+  }
+   
+    return NAME1;
+  }
+   Future  SETEMAIL() async{
+    
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/email"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+ setState(() {
+     EMAIL1=res.body;
+    });
+    }
+   
+  }
+   
+    return EMAIL1;
+  }
+
+   Future  SETSHORT() async{
+    
+    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/short"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+ setState(() {
+
+     SHORT=res.body;
+    });
+    }
+   
+  }
+   
+    return SHORT;
+  }
   @override
   Widget build(BuildContext context) {
+
+        SETNAME1();
+        SETEMAIL();
+        SETSHORT();
+
+
+
+
     return Drawer(
       child: Column(
         children: [
@@ -13,13 +95,13 @@ class MyDrawer extends StatelessWidget {
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.blueAccent,
                 child: Text(
-                  "ES",
+                  "${SHORT}",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               accountName:
-                  Text("Ehab", style: TextStyle(color: Colors.black)),
-              accountEmail: Text("Ehab@gmail.com",
+                  Text("${NAME1}", style: TextStyle(color: Colors.black)),
+              accountEmail: Text("${EMAIL1}",
                   style: TextStyle(color: Colors.black))),
           ListTile(
             contentPadding: EdgeInsets.only(left: 25),

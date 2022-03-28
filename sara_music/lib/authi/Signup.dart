@@ -449,12 +449,14 @@ return ;
         }
         if(!Email.text.contains(RegExp(r'[@]'))||!Email.text.contains('.com')){
           _displayErrorMotionToast1();
+        
                                         return ;
 
 
         }
         if(PhoneN.text.contains(RegExp(r'[A-Za-z]'))||PhoneN.text.contains(RegExp(r'[`!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?~]'))){
           _displayErrorMotionToast3();
+          
                     return ;
 
         }

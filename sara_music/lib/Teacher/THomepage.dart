@@ -22,7 +22,7 @@ class THomepageState extends State<THomepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(     
-      drawer: MyDrawer(),
+      drawer: DRawer(),
       body: Padding(
         padding: EdgeInsets.only(top: 50, left: 20, right: 20),
         child: Column(

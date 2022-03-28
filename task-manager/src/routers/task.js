@@ -69,16 +69,50 @@ router.get('/tasks/name',auth, async (req, res) => {
     }
 })
 
+router.get('/tasks/email',auth, async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.user.id})
+         
+          res.status(201).send(req.user.email)
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.get('/tasks/short',auth, async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.user.id})
+        var email= req.user.name
+        var e = email.toUpperCase().split('')
+          res.status(201).send(e[0]+e[1])
+          
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 router.patch('/tasks/me', auth, async (req, res) => {
     
-      const user = await Task.updateMany({About: req.body.About, Education:req.body.Education})
-      const user1 = await User.updateOne({name:req.body.name})
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['name','About','Education']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    
+        
     try {
+        const task = await Task.findOne({ owner: req.user._id})
+
+        updates.forEach((update) => req.user[update] = req.body[update],
+        
+        )
+        updates.forEach((update) => task[update] = req.body[update],
+        
+        )
+        await task.save()
 
         await req.user.save()
-
-
-        res.send(req.user)
+        res.send(task)
+        
     } catch (e) {
         res.status(400).send(e)
     }
@@ -86,58 +120,58 @@ router.patch('/tasks/me', auth, async (req, res) => {
 
 
 
-router.get('/tasks/:id',auth, async (req, res) => {
-    const _id = req.params.id
+// router.get('/tasks/:id',auth, async (req, res) => {
+//     const _id = req.params.id
 
-    try {
-        const task = await Task.findOne({ _id, owner: req.user._id })
+//     try {
+//         const task = await Task.findOne({ _id, owner: req.user._id })
 
-        if (!task) {
-            return res.status(404).send()
-        }
+//         if (!task) {
+//             return res.status(404).send()
+//         }
 
-        res.send(task)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
+//         res.send(task)
+//     } catch (e) {
+//         res.status(500).send()
+//     }
+// })
 
-router.patch('/tasks/:id', auth, async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['description', 'completed']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+// router.patch('/tasks/:id', auth, async (req, res) => {
+//     const updates = Object.keys(req.body)
+//     const allowedUpdates = ['description', 'completed']
+//     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' })
-    }
+//     if (!isValidOperation) {
+//         return res.status(400).send({ error: 'Invalid updates!' })
+//     }
 
-    try {
-        const task = await Task.findOne({ _id: req.params.id, owner: req.user._id})
+//     try {
+//         const task = await Task.findOne({ _id: req.params.id, owner: req.user._id})
 
-        if (!task) {
-            return res.status(404).send()
-        }
+//         if (!task) {
+//             return res.status(404).send()
+//         }
 
-        updates.forEach((update) => task[update] = req.body[update])
-        await task.save()
-        res.send(task)
-    } catch (e) {
-        res.status(400).send(e)
-    }
-})
+//         updates.forEach((update) => task[update] = req.body[update])
+//         await task.save()
+//         res.send(task)
+//     } catch (e) {
+//         res.status(400).send(e)
+//     }
+// })
 
-router.delete('/tasks/:id', auth, async (req, res) => {
-    try {
-        const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
+// router.delete('/tasks/:id', auth, async (req, res) => {
+//     try {
+//         const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
 
-        if (!task) {
-            res.status(404).send()
-        }
+//         if (!task) {
+//             res.status(404).send()
+//         }
 
-        res.send(task)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
+//         res.send(task)
+//     } catch (e) {
+//         res.status(500).send()
+//     }
+// })
 
 module.exports = router

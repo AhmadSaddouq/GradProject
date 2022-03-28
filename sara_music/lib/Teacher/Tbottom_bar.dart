@@ -45,7 +45,7 @@ class Tbottom_barState extends State<Tbottom_bar> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: MyDrawer(),
+      drawer: DRawer(),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 0.01,

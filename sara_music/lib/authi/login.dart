@@ -264,6 +264,7 @@ TextEditingController Passwoord = TextEditingController();
                     Map<String, dynamic> DB = jsonDecode(res.body);
 
   globalss.authToken= DB['token'];
+  print(globalss.authToken);
       Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => bottom_bar()),

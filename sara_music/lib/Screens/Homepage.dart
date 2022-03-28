@@ -43,9 +43,12 @@ class HomepageState extends State<Homepage> {
   });
      print(res.statusCode);
   if(res.statusCode==201){
+    if(mounted){
     setState(() {
      NAME=res.body;
+     
     });
+    }
   }
     
     return NAME;
@@ -64,7 +67,7 @@ class HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
   SETNAME();
     return Scaffold(
-      drawer: MyDrawer(),
+      drawer: DRawer(),
       body: Padding(
         padding: EdgeInsets.only(top: 50, left: 20, right: 20),
         child: Column(
