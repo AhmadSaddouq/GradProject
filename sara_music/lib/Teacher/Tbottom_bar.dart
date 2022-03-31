@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../Screens/MyDrawer.dart';
-import 'TAppointment.dart';
+import 'TSchedule.dart';
 import 'THomepage.dart';
 import 'TSearch.dart';
 import 'TProfile.dart';
@@ -19,7 +19,7 @@ class Tbottom_barState extends State<Tbottom_bar> {
       'page': THomepage(),
     },
     {
-      'page': TAppointment(),
+      'page': TSchedule(),
     },
     {
       'page': TSearch(),
@@ -72,7 +72,7 @@ class Tbottom_barState extends State<Tbottom_bar> {
                 BottomNavigationBarItem(
                   activeIcon: Icon(FontAwesomeIcons.calendarAlt),
                   icon: Icon(FontAwesomeIcons.calendar),
-                  label: "Appointment",
+                  label: "Schedule",
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(FontAwesomeIcons.search,size: 20,),       

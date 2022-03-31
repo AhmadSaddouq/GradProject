@@ -148,15 +148,29 @@ class MyDrawer extends State<DRawer> {
             onTap: () {},
           ),
           ListTile(
-            contentPadding: EdgeInsets.only(left: 28),
+            contentPadding: EdgeInsets.only(left: 25),
             horizontalTitleGap: 1,
             title: Text(
-              "Log out",
+              "Settings",
               style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             leading: Icon(
-              Icons.logout_outlined,
+              Icons.settings,
               color: Colors.black,
+              size: 28,
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.only(left: 30),
+            horizontalTitleGap: 1,
+            title: Text(
+              "Log out",
+              style: TextStyle(fontSize: 16, color: Colors.red),
+            ),
+            leading: Icon(
+              Icons.logout_outlined,
+              color: Colors.red,
               size: 28,
             ),
             onTap: () {},

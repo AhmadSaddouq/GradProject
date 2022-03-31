@@ -18,7 +18,7 @@ class Settings_PageState extends State<Settings_Page> {
         leading: InkWell(
           child: Image.asset(
             'images/icons-back.png',
-            scale: 1.5,          
+            scale: 1.5,
           ),
           onTap: () {
             Navigator.of(context).pop();
@@ -38,7 +38,6 @@ class Settings_PageState extends State<Settings_Page> {
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: [
-            // user card
             SimpleUserCard(
               userName: "Ehab Sarrawi",
               userProfilePic: AssetImage("images/ehab.jpg"),
@@ -47,41 +46,11 @@ class Settings_PageState extends State<Settings_Page> {
               items: [
                 SettingsItem(
                   onTap: () {},
-                  icons: Icons.pin,
+                  icons: Icons.notifications,
                   iconStyle: IconStyle(),
-                  title: 'Appearance',
-                  subtitle: "Make Ziar'App yours",
-                ),
-                SettingsItem(
-                  onTap: () {},
-                  icons: Icons.fingerprint,
-                  iconStyle: IconStyle(
-                    iconsColor: Colors.white,
-                    withBackground: true,
-                    backgroundColor: Colors.red,
-                  ),
-                  title: 'Privacy',
-                  subtitle: "Lock Ziar'App to improve your privacy",
-                ),
-                SettingsItem(
-                  onTap: () {},
-                  icons: Icons.dark_mode_rounded,
-                  iconStyle: IconStyle(
-                    iconsColor: Colors.white,
-                    withBackground: true,
-                    backgroundColor: Colors.red,
-                  ),
-                  title: 'Dark mode',
-                  subtitle: "Automatic",
-                  trailing: Switch.adaptive(
-                    value: false,
-                    onChanged: (value) {},
-                  ),
-                ),
-              ],
-            ),
-            SettingsGroup(
-              items: [
+                  title: 'Notification',
+                  subtitle: "Set up your notification",
+                ),                                   
                 SettingsItem(
                   onTap: () {},
                   icons: Icons.info_rounded,
@@ -89,11 +58,10 @@ class Settings_PageState extends State<Settings_Page> {
                     backgroundColor: Colors.purple,
                   ),
                   title: 'About',
-                  subtitle: "Learn more about Ziar'App",
+                  subtitle: "Learn more about Do Re Mi Music Center",
                 ),
               ],
             ),
-            // You can add a settings title
             SettingsGroup(
               settingsGroupTitle: "Account",
               items: [
@@ -105,7 +73,7 @@ class Settings_PageState extends State<Settings_Page> {
                 SettingsItem(
                   onTap: () {},
                   icons: Icons.repeat,
-                  title: "Change email",
+                  title: "Change password",
                 ),
                 SettingsItem(
                   onTap: () {},
