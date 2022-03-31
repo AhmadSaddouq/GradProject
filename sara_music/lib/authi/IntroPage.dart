@@ -61,19 +61,19 @@ class IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             'Easily book your class for your favorite instrument to enjoy your favorite music',
         titleColor: Colors.black,
         descripColor: Colors.pink[600],
-        imagePath: 'images/booking.png'),
+        imagePath: 'images/Intro-booking.png'),
     SkOnboardingModel(
         title: 'Pick Up or Delivery',
         description:
             'Easily get your instrument either online or by visting our center to start your journey!',
         titleColor: Colors.black,
         descripColor: Colors.pink[600],
-        imagePath: 'images/music-shop.png'),
+        imagePath: 'images/Shopping.png'),
     SkOnboardingModel(
         title: 'Pay quick and easy',
         description: 'Pay for order using credit or debit card',
         titleColor: Colors.black,
         descripColor: Colors.pink[600],
-        imagePath: 'images/music.png'),
+        imagePath: 'images/musical-learning.png'),
   ];
 }

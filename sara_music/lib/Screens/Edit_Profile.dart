@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sara_music/Screens/Profile.dart';
@@ -273,7 +275,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
   'Education':Education.text,
      });
               
-    var res= await http.patch(Uri.parse("http://192.168.1.41:3000/tasks/me"),headers: {
+    var res= await http.patch(Uri.parse("http://192.168.1.17:3000/tasks/me"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
 

@@ -19,26 +19,43 @@ class ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Password"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-            );
-          },
-        ),
-        backgroundColor: Colors.pink,
-        centerTitle: true,
-      ),
+      
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 50,
+              height: 60,
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 15, left: 10, right: 10),
+                  child: InkWell(
+                    child: Image.asset(
+                      'images/icons-back.png',
+                      height: 30,
+                    ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 5),
+                  child: Text(
+                    'Reset Password',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        ?.copyWith(color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
             ),
             Center(
               child: Image.asset("images/reset-password.png"),

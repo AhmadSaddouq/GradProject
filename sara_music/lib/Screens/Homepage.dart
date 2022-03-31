@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:sara_music/Screens/Teachers.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';
 
@@ -36,7 +37,7 @@ class HomepageState extends State<Homepage> {
  var NAME;
   Future  SETNAME() async{
     
-    var res= await http.get(Uri.parse("http://192.168.1.41:3000/tasks/name"),headers: {
+    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/name"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
@@ -125,7 +126,7 @@ class HomepageState extends State<Homepage> {
                       style: GoogleFonts.sansita(
                           fontSize: 18, color: Colors.blue)),
                   onTap: () {
-                    Navigator.of(context).pushNamed("Categories");
+                    Navigator.push(context, MaterialPageRoute(builder:(BuildContext context) => Teachers()));
                   },
                 )
               ],
@@ -133,51 +134,6 @@ class HomepageState extends State<Homepage> {
             SizedBox(
               height: 10,
             ),
-            /*Container(
-              height: MediaQuery.of(context).size.height - 600,             
-              child: VsScrollbar(
-                controller: _scrollController,
-                showTrackOnHover: true,
-                isAlwaysShown: false,
-                scrollbarFadeDuration: Duration(milliseconds: 500),
-                scrollbarTimeToFade: Duration(milliseconds: 800),
-                style: VsScrollbarStyle(
-                  hoverThickness: 10.0,
-                  radius: Radius.circular(10),
-                  thickness: 5.0,
-                  color: Colors.purple.shade900,
-                ),
-                child: ListView.builder(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection:
-                        _verticalList ? Axis.vertical : Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) {
-                      Color? color = Colors.pink[600];                    
-                      return InkWell(                       
-                        child: Container(
-                                                     
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                
-                                
-                                
-                              ],
-                            ),
-                            height: 50,
-                            width: MediaQuery.of(context).size.width - 300,
-                            decoration: BoxDecoration(
-                                color: Color(0xffb4dbd8),
-                                borderRadius: BorderRadius.circular(20)),
-                            margin: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 20)),
-                      );
-                    }),
-              ),
-            ),*/
             SizedBox(
               height: 199,
               child: ListView.separated(
@@ -185,7 +141,7 @@ class HomepageState extends State<Homepage> {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 24),
-                itemCount: teacher.length,
+                itemCount: 3,
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(indent: 16),
                 itemBuilder: (BuildContext context, int index) => Container(
@@ -320,7 +276,7 @@ class HomepageState extends State<Homepage> {
               ],
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Expanded(
               child: StaggeredGridView.countBuilder(

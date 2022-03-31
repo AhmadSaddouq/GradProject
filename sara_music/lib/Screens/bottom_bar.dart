@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sara_music/Screens/Search.dart';
 import 'package:line_icons/line_icons.dart';
 import 'Booking.dart';
@@ -64,6 +65,7 @@ class bottom_barState extends State<bottom_bar> {
                     Border(top: BorderSide(color: Colors.grey, width: 0.5))),
             child: BottomNavigationBar(
               selectedFontSize: 13,
+              iconSize: 23,
               onTap: _selectPage,
               backgroundColor: Theme.of(context).primaryColor,
               unselectedItemColor: Theme.of(context).textSelectionColor,
@@ -72,48 +74,27 @@ class bottom_barState extends State<bottom_bar> {
               items: [
                 BottomNavigationBarItem(
                   label: "Home",
-                  icon: Icon(LineIcons.home),
+                  icon: Icon(FontAwesomeIcons.home),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(LineIcons.calendarPlus),
+                  icon: Icon(FontAwesomeIcons.calendar),
+                  activeIcon: Icon(FontAwesomeIcons.calendarPlus),
                   label: "Booking",
                 ),
                 BottomNavigationBarItem(
-                    icon: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.rotationY(math.pi),
-                        child: Icon(
-                          LineIcons.search,
-                        )),
+                    icon: Icon(FontAwesomeIcons.search,size: 18,),
+                    activeIcon: Icon(FontAwesomeIcons.search),
                     label: "Search"),
                 BottomNavigationBarItem(
-                    icon: Icon(LineIcons.addToShoppingCart), label: "Shop"),
+                    icon: Icon(FontAwesomeIcons.shoppingCart), label: "Shop"),
                 BottomNavigationBarItem(
-                    icon: Icon(LineIcons.user), label: "Profile"),
+                    icon: Icon(LineIcons.user), label: "Profile",activeIcon: Icon(FontAwesomeIcons.userAlt)),
+                    
               ],
             ),
           ),
         ),
       ),
-      /*floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FloatingActionButton(
-            hoverElevation: 10,
-            hoverColor: Colors.pink.shade600,
-            splashColor: Colors.grey,
-            elevation: 4,
-            child: Icon(
-              Icons.search,
-            ),
-            tooltip: 'Search',
-            onPressed: () {
-              setState(() {
-                _selectedPageIndex = 2;
-              });
-            }),
-      ),*/
       body: _pages[_selectedPageIndex]['page'],
     );
   }

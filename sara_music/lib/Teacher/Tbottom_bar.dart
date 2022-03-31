@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'dart:math' as math;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../Screens/MyDrawer.dart';
 import 'TAppointment.dart';
 import 'THomepage.dart';
@@ -59,6 +58,7 @@ class Tbottom_barState extends State<Tbottom_bar> {
                     Border(top: BorderSide(color: Colors.grey, width: 0.5))),
             child: BottomNavigationBar(
               selectedFontSize: 13,
+              iconSize: 23,
               onTap: _selectPage,
               backgroundColor: Theme.of(context).primaryColor,
               unselectedItemColor: Theme.of(context).textSelectionColor,
@@ -67,22 +67,21 @@ class Tbottom_barState extends State<Tbottom_bar> {
               items: [
                 BottomNavigationBarItem(
                   label: "Home",
-                  icon: Icon(LineIcons.home),
+                  icon: Icon(FontAwesomeIcons.home),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(LineIcons.calendarPlus),
+                  activeIcon: Icon(FontAwesomeIcons.calendarAlt),
+                  icon: Icon(FontAwesomeIcons.calendar),
                   label: "Appointment",
                 ),
                 BottomNavigationBarItem(
-                    icon: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.rotationY(math.pi),
-                        child: Icon(
-                          LineIcons.search,
-                        )),
+                    icon: Icon(FontAwesomeIcons.search,size: 20,),       
+                    activeIcon: Icon(FontAwesomeIcons.search,),            
                     label: "Search"),
                 BottomNavigationBarItem(
-                    icon: Icon(LineIcons.user), label: "Profile"),
+                  icon: Icon(FontAwesomeIcons.user),
+                    activeIcon: Icon(FontAwesomeIcons.userAlt), 
+                    label: "Profile"),
               ],
             ),
           ),

@@ -30,6 +30,7 @@ class SignupState extends State<Signup> {
    
   Widget CustomRadioButton(String text, int index, TextEditingController Gendeer) {
     return OutlineButton(
+      hoverColor: Colors.pink,
       onPressed: () {
         Gendeer.text = text;
         setState(() {
@@ -46,12 +47,12 @@ class SignupState extends State<Signup> {
       child: Text(
         text,
         style: TextStyle(
-          color: (value == index) ? Colors.blue : Colors.black,
+          color: (value == index) ? Colors.pink[600] : Colors.black,
         ),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       borderSide:
-          BorderSide(color: (value == index) ? Colors.blue : Colors.black),
+          BorderSide(color: (value == index) ? Colors.pink.shade600 : Colors.black),
     );
   }
 

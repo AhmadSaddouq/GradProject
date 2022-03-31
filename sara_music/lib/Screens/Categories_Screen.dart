@@ -37,7 +37,7 @@ class Categories_ScreenState extends State<Categories_Screen> {
                   width: 85,
                 ),
                 Text("Categories",
-                    style: GoogleFonts.montserrat(
+                    style: GoogleFonts.sansita(
                         fontSize: 24, fontWeight: FontWeight.w600)),
               ],
             ),

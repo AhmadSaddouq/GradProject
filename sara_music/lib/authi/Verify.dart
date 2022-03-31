@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_entry_text_field/pin_entry_text_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:motion_toast/motion_toast.dart';
@@ -35,69 +36,110 @@ class VerifyState extends State<Verify>{
      
     
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Pin Entry Example"),
-      ),
-      body: Column(
-        children: [
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-             
-                  TextFormField(
-                    
-                     controller: Pin,
-                      
-                                        
-                    // onSubmit: (String Pin1){
-                        
-                    //     Pin1 = Pin.text;
-  
-                   
-
-                    //   // showDialog(
-                    //   //     context: context,
-                    //   //     builder: (context){
-                    //   //       // return AlertDialog(
-                    //   //       //   title: Text("Pin"),
-                    //   //       //   content: Text(Pin.toString()),
-                    //   //       // );
-                    //   //     }
-                    //   // ); //end showDialog()
-
-                    // }, // end onSubmit
+      
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 60,),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 15, left: 10, right: 10),
+                  child: InkWell(
+                    child: Image.asset(
+                      'images/icons-back.png',
+                      height: 30,
+                    ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
                   ),
-                ],
-              ), // end PinEntryTextField()
-            ), // end Padding()
-          ),
-           SafeArea(
-               child: Center(child: 
-                  GestureDetector(
-                     onTap: () { _increaseCounter();
-                       login(_counter);
-                      }, 
-                     child: Text('Confirm'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 15, bottom: 5),
+                  child: Text(
+                    'Verify account',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        ?.copyWith(color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: Image.asset("images/Verify.png"),
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+               
+                    TextFormField(
+                      
+                       controller: Pin,
+                        
+                                          
+                      // onSubmit: (String Pin1){
+                          
+                      //     Pin1 = Pin.text;
+        
+                     
+      
+                      //   // showDialog(
+                      //   //     context: context,
+                      //   //     builder: (context){
+                      //   //       // return AlertDialog(
+                      //   //       //   title: Text("Pin"),
+                      //   //       //   content: Text(Pin.toString()),
+                      //   //       // );
+                      //   //     }
+                      //   // ); //end showDialog()
+      
+                      // }, // end onSubmit
+                    ),
+                  ],
+                ), // end PinEntryTextField()
+              ), // end Padding()
+            ),
+             SafeArea(
+                 child: Container(
+                   height: 40,
+                   width: 140,
+                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.pink[600]),
+                   child: Center(
+                     
+                     child: 
+                      GestureDetector(
+                         onTap: () { _increaseCounter();
+                           login(_counter);
+                          }, 
+                         child: Text('Confirm',style: GoogleFonts.sansita(color: Colors.white,fontSize: 18),),
+                     ),
+                ),
                  ),
-              ),
-           ),
-          // ElevatedButton(
-            
-          //   onPressed: (){
-          //     for(I; I< 4;I++){
-                 
-          //     login(I);
-          //     print(I);
-          //     return ;
+             ),
+            // ElevatedButton(
               
-          //     }
-          //   },  
-          //   child: Text("Confirm")
-            
-          //   ),
-        ],
+            //   onPressed: (){
+            //     for(I; I< 4;I++){
+                   
+            //     login(I);
+            //     print(I);
+            //     return ;
+                
+            //     }
+            //   },  
+            //   child: Text("Confirm")
+              
+            //   ),
+          ],
+        ),
       ),
        // end Container()
     );

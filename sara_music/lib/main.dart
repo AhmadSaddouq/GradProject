@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +45,7 @@ class MyApp extends StatelessWidget {
           buttonColor: Colors.pink[600],
           inputDecorationTheme: InputDecorationTheme(
               filled: true,
-              fillColor: Color(0xfff2f9fe),
+              fillColor: Color.fromARGB(255, 231, 241, 241),
               labelStyle: TextStyle(color: Colors.grey.shade800),
               iconColor: Colors.pink.shade600,
               enabledBorder: OutlineInputBorder(

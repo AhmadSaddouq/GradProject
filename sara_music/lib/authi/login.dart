@@ -248,7 +248,7 @@ TextEditingController Passwoord = TextEditingController();
   'password':Passwoord.text
      });
               
-    var res= await http.post(Uri.parse("http://192.168.1.41:3000/users/log"),headers: {
+    var res= await http.post(Uri.parse("http://192.168.1.17:3000/users/log"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
   },body: body1);
 
