@@ -4,7 +4,14 @@ import 'package:sara_music/Screens/Profile.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as file;
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:sara_music/Teacher/Tbottom_bar.dart';
+import 'package:sara_music/globalss.dart';
+
 
 import '../Screens/Settings_Page.dart';
 
@@ -17,6 +24,9 @@ class TEdit_Profile extends StatefulWidget {
 }
 
 class TEdit_ProfileState extends State<TEdit_Profile> {
+      TextEditingController About = TextEditingController();
+    TextEditingController Education = TextEditingController();
+        TextEditingController Name = TextEditingController();
   late file.File imagepicker;
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -112,7 +122,10 @@ class TEdit_ProfileState extends State<TEdit_Profile> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: Name,
+                            
                             decoration: InputDecoration(
+                              
                               labelText: "Username",
                               enabledBorder: UnderlineInputBorder(
                                 borderSide:
@@ -128,6 +141,7 @@ class TEdit_ProfileState extends State<TEdit_Profile> {
                             height: 15,
                           ),
                           TextFormField(
+                            controller: About,
                             decoration: InputDecoration(
                               labelText: "About",
                               enabledBorder: UnderlineInputBorder(
@@ -148,6 +162,7 @@ class TEdit_ProfileState extends State<TEdit_Profile> {
                             height: 15,
                           ),
                           TextFormField(
+                            controller: Education,
                             decoration: InputDecoration(
                               labelText: "Education",
                               enabledBorder: UnderlineInputBorder(
@@ -182,7 +197,7 @@ class TEdit_ProfileState extends State<TEdit_Profile> {
                                 color: Colors.black)),
                       ),
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {save();},
                         color: Color.fromARGB(255, 46, 23, 172),
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         elevation: 2,
@@ -206,4 +221,95 @@ class TEdit_ProfileState extends State<TEdit_Profile> {
       ),
     );
   }
+ void _displayErrorMotionToast3() {
+    MotionToast.error(
+      title: Text(
+        'Error',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Please Fill Up All Fields !'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+
+ void _displayErrorMotionToast4() {
+    MotionToast.error(
+      title: Text(
+        'Error',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Username is already used!!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+
+   void _displayErrorMotionToast1() {
+    MotionToast.success(
+      title: Text(
+        'Success',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Profile Updated!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+  Future<void> save() async{
+   
+
+      var body1 = jsonEncode({
+    'name': Name.text,    
+  'About': About.text,
+  'Education':Education.text,
+     });
+              
+    var res= await http.patch(Uri.parse(globalss.IP+"/Ttasks/me"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + globalss.authToken 
+
+  }, body: body1);
+    
+          Map<String,dynamic> DB = jsonDecode(res.body);
+          print(res.body);
+         
+    
+     if(Name.text.isNotEmpty&&About.text.isNotEmpty&&Education.text.isNotEmpty){
+
+        if(res.statusCode==400){
+ 
+
+           return _displayErrorMotionToast4();
+           
+           }
+
+           if(res.statusCode==200){
+                    
+    Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Tbottom_bar()),
+            );
+              return _displayErrorMotionToast1();
+     }
+     else{
+       print(res.body);
+     }
+ 
+    }
+    else{
+        return _displayErrorMotionToast3();
+    }
+ 
+  }
+
 }

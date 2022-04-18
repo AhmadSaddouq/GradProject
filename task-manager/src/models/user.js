@@ -3,6 +3,9 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const Task = require('./task')
+// const TTask = require('./Ttask')
+
+const Teacher = require('./teacher')
 const userSchema = new mongoose.Schema({ 
     Phone:{
     type : String,
@@ -17,6 +20,7 @@ const userSchema = new mongoose.Schema({
   
     }
     },
+
     Gender:{
         type: String,
         required: true,
@@ -76,6 +80,11 @@ const userSchema = new mongoose.Schema({
         trim:true
   
       },
+      owner1: {
+        type: mongoose.Schema.Types.String,
+        required: false,
+        ref: 'Teacher'
+    },
       Tries: {
        type : Number
 
@@ -91,16 +100,24 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
         trim: true
-    }
+    },
+   
   },
   {
     timestamps: true
 })
+
   userSchema.virtual('tasks', {
     ref: 'Task',
     localField: '_id',
     foreignField: 'owner'
 })
+// userSchema.virtual('StudentTasks1', {
+//     ref: 'Task',
+//     localField: '_id',
+//     foreignField: 'TeacherName'
+// })
+
   
 userSchema.methods.generateAuthToken= async function (){
     const user = this
@@ -160,6 +177,17 @@ userSchema.statics.findUser = async (name, password)=>{
  }
  return user 
   }
+  userSchema.statics.findIfD = async (name)=>{
+    const Teacher = require('./teacher')
+
+    const user = await Teacher.findOne({name:name})
+    if(user){
+        return false
+    }
+  return true
+   
+    
+    }
 
 //hash the password
   userSchema.pre('save', async function(next){
@@ -170,11 +198,13 @@ if(user.isModified('password')){
 }
 next()
   })
+  
   userSchema.pre('remove', async function (next) {
     const user = this
     await Task.deleteMany({ owner: user._id })
     next()
 })
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

@@ -46,7 +46,6 @@ router.post('/users/pinF',async (req,res)=>{
            res.status(404).send()
         }
         else{
-
     
             user.Tries = 4
             user.tokens = []
@@ -208,14 +207,47 @@ router.post('/users/Welcome',  auth, async (req, res)=>{
 
 
 //-------------------
+router.get('/usera', async(req,res)=>{
+try{
+    const temp = "AHMAD"
+    const count = temp.length
+    if(count>4){
+        res.status(400).send('heyWait')
+    }
+    res.send(count.toString());
+}catch(e){
+    res.status(500).send()
+}
+
+})
 router.post('/users',  async (req,res)=>{
     try{
          const user = new User(req.body)
-       
+          const temp = req.body.name
+          const count = temp.length
+          const temp1 = req.body.Phone
+          const count1 = temp1.toString()
+          const c = count1.length
+          const temp2 = req.body.password
+          const count3 = temp2.length
+          if(count<=4){
+              return res.status(400).send("UserMin")
+          }
+          if(c<=9){
+            return res.status(400).send("PhoneN")
+   
+          }
           if (req.body.password!=req.body.ConfPass) {
               
-              throw new Error('Invalid Password"')
-          }
+              
+            throw new Error('Invalid Password"')
+         
+            
+            }
+            if(count3<=6){
+                return res.status(400).send("PASS")
+  
+            }
 
 user.Pin = Math.floor(1000 + Math.random() * 9000)
 user.Tries = 4;

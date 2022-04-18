@@ -4,6 +4,7 @@ import 'package:sara_music/Screens/Categories_Screen.dart';
 import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/Homepage.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
+import 'package:sara_music/Teacher/Tbottom_bar.dart';
 import 'package:sara_music/authi/ForgetPassword.dart';
 import 'package:sara_music/authi/IntroPage.dart';
 import 'package:sara_music/authi/Signup.dart';
@@ -248,18 +249,32 @@ TextEditingController Passwoord = TextEditingController();
   'password':Passwoord.text
      });
               
-    var res= await http.post(Uri.parse("http://192.168.1.17:3000/users/log"),headers: {
+    var res= await http.post(Uri.parse(globalss.IP+"/users/log"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
   },body: body1);
 
-    
+        var res1= await http.post(Uri.parse(globalss.IP+"/teachers/log"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+  },body: body1);
 
 
   print(res.statusCode);
-
+     print(res1.statusCode);
       
     if(Passwoord.text.isNotEmpty&&UserN.text.isNotEmpty){
+           if(res1.statusCode==200){
+     Map<String, dynamic> DB1 = jsonDecode(res1.body);
+                                 
+  globalss.authToken= DB1['token'];
+  print(globalss.authToken);
+  Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Tbottom_bar()),
+            );
+              return _displayErrorMotionToast1();
 
+           }
+           
            if(res.statusCode==200){
                     Map<String, dynamic> DB = jsonDecode(res.body);
 

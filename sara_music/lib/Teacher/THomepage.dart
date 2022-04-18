@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sara_music/globalss.dart';
+
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +12,8 @@ import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Screens/Shop.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 class THomepage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -19,8 +22,36 @@ class THomepage extends StatefulWidget {
 }
 
 class THomepageState extends State<THomepage> {  
+   TextEditingController Name= TextEditingController();
+ var NAME;
+late Future S;
+  Future  SETNAME() async{
+    
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+    setState(() {
+     NAME=res.body;
+     
+    });
+    }
+  }
+    
+    return await NAME;
+  }
   @override
+  void initState(){
+    super.initState();
+          S =SETNAME();
+
+  }
   Widget build(BuildContext context) {
+
     return Scaffold(     
       drawer: DRawer(),
       body: Padding(
@@ -55,7 +86,7 @@ class THomepageState extends State<THomepage> {
             SizedBox(
               height: 30,
             ),
-            Text("Hi Ehab,",
+            Text("Hi ${NAME}",
                 style: GoogleFonts.sansita(
                     fontSize: 32, fontWeight: FontWeight.w600)),
             Text(

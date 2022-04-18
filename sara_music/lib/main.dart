@@ -9,7 +9,7 @@ import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:sara_music/Screens/Settings_Page.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
-import 'package:sara_music/Teacher/TAppointment.dart';
+// import 'package:sara_music/Teacher/TAppointment.dart';
 import 'package:sara_music/Teacher/THomepage.dart';
 import 'package:sara_music/Teacher/TProfile.dart';
 import 'package:sara_music/authi/ForgetPassword.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Tbottom_bar(),
+      home: IntroPage(),
       theme: ThemeData(
           textTheme: GoogleFonts.sansitaTextTheme(Theme.of(context).textTheme),
           primaryColor: Colors.pink[600],

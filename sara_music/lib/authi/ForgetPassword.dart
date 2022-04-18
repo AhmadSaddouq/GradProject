@@ -152,7 +152,7 @@ class ForgetPasswordState extends State<ForgetPassword> {
     var body1 = jsonEncode({'email': Email.text});
 
     var res =
-        await http.patch(Uri.parse("http://172.19.26.67:3000/users/forget"),
+        await http.patch(Uri.parse(globalss.IP+"/users/forget"),
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
             },

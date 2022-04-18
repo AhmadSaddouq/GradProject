@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -34,17 +36,83 @@ class Homepage extends StatefulWidget {
   
 class HomepageState extends State<Homepage> {
   TextEditingController Name= TextEditingController();
- var NAME;
-  Future  SETNAME() async{
+  late Future N;
+    late Future S;
+  late Future C;
+  late Future I;
+
+  var NAME="0";
+   List teacher=[];
+   List Instruments = [];
+        var NAME1='0';
+   var arr;
+   var INS='0';
+   var NAME2='0';
+   var arr2;
+
+ var CountTeacher="0";
+ Future  SETNAME1() async{
     
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/name"),headers: {
+    try{
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/TeachersList"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
   });
-     print(res.statusCode);
-  if(res.statusCode==201){
+      if(mounted){
+
+  if(res.statusCode==200){
+ setState(() {
+     NAME1=res.body;
+     
+    });
+    }
+   
+  }
+    var NAME5 = NAME1.toString();
+    arr = NAME5.split(",");
+    if(CountTeacher!=""){
+    for(int i = 0; i<int.parse(CountTeacher);i++){
+      teacher.add(arr[i]);
+    }
+    }
+    return await [teacher];
+    } catch(e){
+      print(e);
+    }
+  }
+  Future  CountT() async{
+    try{
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/count"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+if(mounted){
+  if(res.statusCode==200){
+    
+ setState(() {
+     CountTeacher=res.body;
+    });
+    }
+   
+  }
+    return await [int.parse(CountTeacher)] ;
+    }
+    catch(e){
+      print(e);
+    }
+  }
+  Future  SETNAME() async{
+    try{
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });      
     if(mounted){
+  if(res.statusCode==201){
     setState(() {
      NAME=res.body;
      
@@ -52,21 +120,55 @@ class HomepageState extends State<Homepage> {
     }
   }
     
-    return NAME;
+    return await [NAME];
+    } catch(e){
+      print(e);
+    }
   }
-  List teacher = [
-    "Ehab Sarrawi",
-    "Mahmoud Saddouq",
-    "Ahmad Sadouq",
-    "Khaled Saddouq",
-    "Mohammod Saddouq",
-  ];
+
+   Future  INST() async{
+    try{
+  var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/INST"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+             
+
+  });
+      if(mounted){
+  if(res.statusCode==200){
+ setState(() {
+     NAME2=res.body;
+     
+    });
+    }
+   
+  }
+  
+    var NAME3 = NAME2.toString();
+    arr2 = NAME3.split(",");
+    if(CountTeacher!=""){
+  for(int j = 0; j<int.parse(CountTeacher);j++){
+      Instruments.add(arr2[j]);
+    }
+        }   
+         return await [Instruments];
+    } catch(e){
+      print(e);
+    }
+  }
+
   ScrollController _scrollController = ScrollController();
   bool _verticalList = false;
   @override
+void initState(){
+  super.initState();
+        C= CountT();
 
+ N = SETNAME();
+  S= SETNAME1();
+ I= INST();
+}
   Widget build(BuildContext context) {
-  SETNAME();
+
     return Scaffold(
       drawer: DRawer(),
       body: Padding(
@@ -141,7 +243,7 @@ class HomepageState extends State<Homepage> {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 24),
-                itemCount: 3,
+                itemCount: int.parse(CountTeacher),
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(indent: 16),
                 itemBuilder: (BuildContext context, int index) => Container(
@@ -182,8 +284,8 @@ class HomepageState extends State<Homepage> {
                               ),
                             ),
                             Text(
-                              categories[index].name,
-                              style: TextStyle(
+                              "${Instruments[index]}",
+                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
@@ -288,12 +390,11 @@ class HomepageState extends State<Homepage> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      if (categories[index].name == "Guitar") {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Details_Screen()));
-                      }
+                      
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),
@@ -335,6 +436,7 @@ class HomepageState extends State<Homepage> {
         ),
       ),
     );
+  
   }
 }
 

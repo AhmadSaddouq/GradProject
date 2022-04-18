@@ -275,7 +275,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
   'Education':Education.text,
      });
               
-    var res= await http.patch(Uri.parse("http://192.168.1.17:3000/tasks/me"),headers: {
+    var res= await http.patch(Uri.parse(globalss.IP+"/tasks/me"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
 
@@ -283,14 +283,15 @@ class Edit_ProfileState extends State<Edit_Profile> {
     
           Map<String,dynamic> DB = jsonDecode(res.body);
           print(res.body);
-          if(res.statusCode==400){
-         if(DB['keyValue']['name'] != null){
-          return _displayErrorMotionToast4();
-           }}
-    
-     if(About.text.isNotEmpty&&Education.text.isNotEmpty){
+        
+     if(Name.text.isNotEmpty&&About.text.isNotEmpty&&Education.text.isNotEmpty){
 
-       
+        if(res.statusCode==400){
+ 
+
+           return _displayErrorMotionToast4();
+           
+           }
 
            if(res.statusCode==200){
                     

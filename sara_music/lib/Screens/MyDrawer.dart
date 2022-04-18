@@ -18,7 +18,7 @@ class MyDrawer extends State<DRawer> {
    var SHORT;
   Future  SETNAME1() async{
     
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/name"),headers: {
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/name"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
@@ -37,7 +37,7 @@ class MyDrawer extends State<DRawer> {
   }
    Future  SETEMAIL() async{
     
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/email"),headers: {
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/email"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
@@ -57,7 +57,7 @@ class MyDrawer extends State<DRawer> {
 
    Future  SETSHORT() async{
     
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/short"),headers: {
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/short"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 

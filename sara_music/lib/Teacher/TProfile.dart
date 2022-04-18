@@ -5,6 +5,9 @@ import 'package:sara_music/Screens/Edit_Profile.dart';
 import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Screens/Settings_Page.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:sara_music/globalss.dart';
 import 'TEdit_Profile.dart';
 
 class TProfile extends StatefulWidget {
@@ -15,9 +18,74 @@ class TProfile extends StatefulWidget {
 }
 
 class TProfileState extends State<TProfile> {
+  var EDU;
+  var ABOU;
+  var NAME;
+  Future  ChangeEdu() async{
+    
+              
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/Ed"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+    setState(() {
+     EDU=res.body;
+    });
+    }
+  }
+    
+    return EDU;
+  }
+
+  Future  SETNAME() async{
+    
+              
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+    setState(() {
+     NAME=res.body;
+    });
+    }
+  }
+    
+    return NAME;
+  }
+
+  Future  ChangeAbo() async{
+    
+              
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/ABOU"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+     print(res.statusCode);
+  if(res.statusCode==201){
+    if(mounted){
+    setState(() {
+     ABOU=res.body;
+    });
+    }
+  }
+    
+    return ABOU;
+  }
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+      ChangeEdu();
+        ChangeAbo();
+        SETNAME();
     return Scaffold(
       drawer: DRawer(),
       body: SingleChildScrollView(
@@ -72,20 +140,20 @@ class TProfileState extends State<TProfile> {
               ),
             ),
             ListTile(
-              title: Center(child: Text('Ehab Sarrawi')),
+              title: Center(child: Text("${NAME}")),
               subtitle: Center(child: Text('Violin Student ')),
             ),
             ListTile(
               title: Text('About me '),
-              subtitle: Text(
-                  '  Ehab Sarrawi ,I have a love and passion for learning and playing music. '),
+              subtitle: Text("${ABOU}"),
             ),
             SizedBox(
               height: 20,
             ),
             ListTile(
               title: Text('Education'),
-              subtitle: Text('  Bachelor\'s degree in Computer Engineering '),
+                subtitle: Text("${EDU}"),
+
             ),
             SizedBox(
               height: 20,

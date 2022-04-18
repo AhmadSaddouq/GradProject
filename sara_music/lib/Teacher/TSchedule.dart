@@ -13,8 +13,15 @@
 //     return Scaffold();
 //   }
 // }
-import 'package:flutter/material.dart';
+import 'dart:ffi';
 
+import 'package:flutter/material.dart';
+import 'package:intl/date_symbols.dart';
+import 'package:sara_music/globalss.dart';
+
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class TSchedule extends StatefulWidget {
   
@@ -24,82 +31,579 @@ class TSchedule extends StatefulWidget {
   }
 }
 
+
+
 enum FilterStatus { Upcoming, Complete, Cancel }
 
-List<Map> schedules = [
-  {
-    'img': 'images/ehab.jpg',
-    'StudentName': 'Ramy Tubileh',
-    'instrument': 'Violin',
-    'reservedDate': 'Monday, Aug 29',
-    'reservedTime': '11:00 - 12:00',
-    'status': FilterStatus.Upcoming
-  },
-  {
-    'img': 'images/ehab.jpg',
-    'StudentName': 'Adel Halaweh',
-    'instrument': 'Violin',
-    'reservedDate': 'Monday, Sep 29',
-    'reservedTime': '11:00 - 12:00',
-    'status': FilterStatus.Upcoming
-  },
-  {
-    'img': 'images/ehab.jpg',
-    'StudentName': 'Yasser Fathi',
-    'instrument': 'Violin',
-    'reservedDate': 'Monday, Jul 29',
-    'reservedTime': '11:00 - 12:00',
-    'status': FilterStatus.Upcoming
-  },
-  {
-    'img': 'images/ehab.jpg',
-    'StudentName': 'Amr AboAmr',
-    'instrument': 'Violin',
-    'reservedDate': 'Monday, Jul 29',
-    'reservedTime': '11:00 - 12:00',
-    'status': FilterStatus.Complete
-  },
-  {
-    'img': 'images/ehab.jpg',
-    'StudentName': 'Mustafa Wajdi',
-    'instrument': 'Violin',
-    'reservedDate': 'Monday, Feb 29',
-    'reservedTime': '11:00 - 12:00',
-    'status': FilterStatus.Cancel
-  },
-  {
-    'img': 'images/ehab.jpg',
-    'StudentName': 'Mohammad Kukhun',
-    'instrument': 'Violin',
-    'reservedDate': 'Monday, Jul 29',
-    'reservedTime': '11:00 - 12:00',
-    'status': FilterStatus.Cancel
-  },
-];
 
 class TScheduleState extends State<TSchedule> {
+
   FilterStatus status = FilterStatus.Upcoming;
   Alignment _alignment = Alignment.centerLeft;
+  late bool _isButtonDisabled;
+  late Future NAM;
+  late Future DAT;
+  late Future TIM;
+  late Future COU;
+  late Future CCSS;
+  late Future ALLD;
+  late Future CO;
+  var count12="";
+  List DATES = [];
+  late Future A;
+  late Future B;
+  List Times = [];
+  List NAMES = [];
+  int q=0;
+  var s= "";
+  var d;
+  var names = "";
+  var dates = "";
+  var times = "";
+  var NA;
+  var TA;
+  var DA;
+  List<Map> schedules = [];
 
-late bool _isButtonDisabled;
+  var ALL1="";
+  var countS = "";
+  int pressed = 0;
+  var StatusTT = "";
+  var c = "";
+  var ars;
+  var counttt="";
+  
+  var a = "";
+  var a1;
+  var b = "";
+  var b1;
+Future SENDTOCANCEL(var get)async{
+try{
 
+var body1 = jsonEncode({
+  "Name": get["StudentName"],
+  "Time" : get['reservedTime'],
+  "Date": get['reservedDate']
+});
+
+   var res= await http.post(Uri.parse(globalss.IP+"/Ttasks/CANCEL"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  }, body: body1);
+  print(res.body);
+if(res.statusCode==200){
+
+}
+} catch(e){
+  print(e);
+}
+}
+
+//--NumberOfStudents
+Future STUCOUNT() async {
+  try{
+
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/COUNTS"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==200){
+   setState(() {
+   countS = res.body;
+
+   });
+  }
+ }
+  
+
+return await [int.parse(countS)];
+  } catch(e){
+    print(e);
+  }
+
+}
+//--
+
+Future STUC() async {
+  try{
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/COUNTSC"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==200){
+   setState(() {
+   counttt = res.body;
+
+   });
+  }
+ }
+
+return await [int.parse(counttt)];
+  } catch(e){
+    print(e);
+  }
+
+}
+//---StudentsNAMES
+Future StudentsList() async {
+// STUCOUNT();
+try{
+
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/ListN"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==201){
+   setState(() {
+   names = res.body;
+
+   });
+  }
+ }
+ 
+    var names1 =  names.toString();
+    NA =  names1.split(",");
+    if(countS!=""){
+    for(int i = 0; i<int.parse(countS);i++){
+      if(NA[i]==""){
+        continue;
+      }
+      NAMES.add( NA[i]);
+    }
+
+return await [NAMES];
+    } 
+} catch(e){
+  print(e);
+}
+}
+//--StudentsTime
+Future TimesList() async {
+try{
+DateTime selectdate = DateTime.now();
+
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/ListS"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+if(countS!=0){
+  for(int k = 0 ;k<int.parse(countS);k++){
+  var datess = DATES[k].toString();
+var month = datess.toString();
+var arrmonth = month.split("-");
+var days1 = arrmonth.toString();
+var arrdays = days1.split(" "); 
+
+ if(int.parse(arrmonth[1])>=selectdate.toLocal().month.toInt()){
+ if(int.parse(arrdays[2])>=selectdate.toLocal().day.toInt()){
+   
+ 
+ if(mounted){
+  if(res.statusCode==201){
+   setState(() {
+   times = res.body;
+
+   });
+  }
+ }
+
+    var times1 =  await times.toString();
+
+    TA =  times1.split(",");
+    Times.add(TA[k]);
+    
+      schedules.add({
+           'img': 'images/ehab.jpg',
+    'StudentName': NAMES[k],
+    'instrument': ALL1,
+    'reservedDate': DATES[k],
+    'reservedTime': Times[k],
+    'status': FilterStatus.Upcoming
+  
+      });
+      
+}
+else{
+if(mounted){
+  if(res.statusCode==201){
+   setState(() {
+   times = res.body;
+
+   });
+  }
+ }
+
+    var times1 =  times.toString();
+    TA =  times1.split(",");
+      Times.add(TA[k]);
+    
+      schedules.add({
+           'img': 'images/ehab.jpg',
+    'StudentName': NAMES[k],
+    'instrument': ALL1,
+    'reservedDate': DATES[k],
+    'reservedTime': Times[k],
+    'status': FilterStatus.Complete
+  
+      });
+      Completed(NAMES[k]);
+      
+}
+
+}
+
+
+else{
+if(mounted){
+  if(res.statusCode==201){
+   setState(() {
+   times = res.body;
+
+   });
+  }
+ }
+
+    var times1 =  times.toString();
+    TA =  times1.split(",");
+      Times.add(TA[k]);
+    
+      schedules.add({
+           'img': 'images/ehab.jpg',
+    'StudentName': NAMES[k],
+    'instrument': ALL1,
+    'reservedDate': DATES[k],
+    'reservedTime': Times[k],
+    'status': FilterStatus.Complete
+  
+      });
+   
+      // var NAMESQ = NAMES[k];
+      // var ALL1Q = ALL1;
+      // var DATESQ = DATES[k];
+      // var TIMESQ = Times[k];
+      
+
+  // DeleteAfterComplete(NAMESQ,ALL1Q,DATESQ,TIMESQ);
+
+      
+}
+
+
+  
+}
+}
+  return await [Times,schedules];
+}catch(e){
+  print(e);
+}
+
+
+
+}
+
+
+//---
+
+
+Future DatesList() async {
+// STUCOUNT();
+try{
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/ListD"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==201){
+   setState(() {
+   dates = res.body;
+
+   });
+  }
+ }
+ 
+    var dates1 =  dates.toString();
+    DA =  dates1.split(",");
+    if(countS!=""){
+    for(int i = 0; i<int.parse(countS);i++){
+      if(DA[i]==""){
+        continue;
+      }
+      DATES.add(DA[i]);
+    }
+ 
+return await [DATES];
+    }
+    }catch(e){
+      print(e);
+    }
+}
+
+//---
+
+
+//--FetchAllData
+Future ALL() async {
+  try{
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/ALL"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==200){
+  Map<String,dynamic> DB = jsonDecode(res.body);
+   setState(() {
+   ALL1 = DB['instrument'];
+
+   });
+  }
+ }
+ 
+
+return await [ALL1];
+  }catch(e){
+    print(e);
+  }
+
+}
+
+
+//--
+
+Future ccs() async {
+  try{
+ var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/CCS"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==200){
+   setState(() {
+   c = res.body;
+
+   });
+
+  }
+ }
+ 
+    var cc1 =  c.toString();
+    ars =  cc1.split(",");
+    if(counttt!=""){
+    for(int i = 0; i<int.parse(counttt);i++){
+      if(ars[i]!=""){
+        print(ars[i]);
+      schedules.add({
+            'img': 'images/ehab.jpg',
+    'StudentName': ars[i],
+    'instrument': "",
+    'reservedDate': "",
+    'reservedTime': "",
+    'status': FilterStatus.Cancel
+
+      });
+    }
+    else{
+      continue;
+    }
+    }
+    }
+ 
+
+return await [schedules];}
+catch(e){
+  print(e);
+}
+
+}
+
+Future Completed(var name) async{
+try{
+var body1 = jsonEncode({
+  "Name": name.toString()
+});
+
+   var res= await http.post(Uri.parse(globalss.IP+"/Ttasks/COMPS"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  }, body: body1);
+ if(res.body==200){
+
+ }
+} catch(e){
+  print(e);
+}
+}
+
+Future CompList() async{
+  try{
+   var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/CCSS"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+   setState(() {
+   a = res.body;
+
+   });
+
+  }
+ }
+ 
+    var aaa1 =  a.toString();
+    a1 =  aaa1.split(",");
+    if(count12!=""){
+    for(int i = 0; i<int.parse(count12);i++){
+      if(a1[i]!=""){
+        print(a1[i]);
+      schedules.add({
+            'img': 'images/ehab.jpg',
+    'StudentName': a1[i],
+    'instrument': "",
+    'reservedDate': "",
+    'reservedTime': "",
+    'status': FilterStatus.Complete
+
+      });
+    }
+    else{
+      continue;
+    }
+    }
+    }
+ 
+
+return await [schedules];
+  }catch(e){
+    print(e);
+  }
+
+}
+Future CountComp() async{
+  try{
+
+   var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/COUNTSCC"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+ if(mounted){
+  if(res.statusCode==200){
+   setState(() {
+   count12 = res.body;
+
+   });
+  }
+ }
+
+return await [int.parse(count12)];
+  }catch(e){
+    print(e);
+  }
+}
   @override
   void initState() {
+      super.initState();
+
     _isButtonDisabled = false;
+        COU = STUCOUNT();
+    NAM = StudentsList();
+    DAT = DatesList();
+    ALLD = ALL();
+   TIM = TimesList();
+   CO = STUC();
+   CCSS = ccs();
+   A = CountComp();
+  B = CompList();
+
   }
+// List<Map> schedules = [
+//   {
+//     'img': 'images/ehab.jpg',
+//     'StudentName': 'Ramy Tubileh',
+//     'instrument': 'Violin',
+//     'reservedDate': 'Monday, Aug 29',
+//     'reservedTime': '11:00 - 12:00',
+//     'status': FilterStatus.Upcoming
+//   },
+//   {
+//     'img': 'images/ehab.jpg',
+//     'StudentName': 'Adel Halaweh',
+//     'instrument': 'Violin',
+//     'reservedDate': 'Monday, Sep 29',
+//     'reservedTime': '11:00 - 12:00',
+//     'status': FilterStatus.Upcoming
+//   },
+//   {
+//     'img': 'images/ehab.jpg',
+//     'StudentName': 'Yasser Fathi',
+//     'instrument': 'Violin',
+//     'reservedDate': 'Monday, Jul 29',
+//     'reservedTime': '11:00 - 12:00',
+//     'status': FilterStatus.Upcoming
+//   },
+//   // {
+//   //   'img': 'images/ehab.jpg',
+//   //   'StudentName': 'Amr AboAmr',
+//   //   'instrument': 'Violin',
+//   //   'reservedDate': 'Monday, Jul 29',
+//   //   'reservedTime': '11:00 - 12:00',
+//   //   'status': FilterStatus.Complete
+//   // },
+//   // {
+//   //   'img': 'images/ehab.jpg',
+//   //   'StudentName': 'Mustafa Wajdi',
+//   //   'instrument': 'Violin',
+//   //   'reservedDate': 'Monday, Feb 29',
+//   //   'reservedTime': '11:00 - 12:00',
+//   //   'status': FilterStatus.Cancel
+//   // },
+//   // {
+//   //   'img': 'images/ehab.jpg',
+//   //   'StudentName': 'Mohammad Kukhun',
+//   //   'instrument': 'Violin',
+//   //   'reservedDate': 'Monday, Jul 29',
+//   //   'reservedTime': '11:00 - 12:00',
+//   //   'status': FilterStatus.Cancel
+//   // },
+// ];
+        
 
   @override
   Widget build(BuildContext context) {
+ 
     List<Map> filteredSchedules = schedules.where((var schedule) {
       return schedule['status'] == status;
     }).toList();
 
     return Scaffold(
+      
       body: Padding(
         padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            
             SizedBox(
               height: 40,
             ),
@@ -208,16 +712,21 @@ late bool _isButtonDisabled;
                 itemCount: filteredSchedules.length,
                 itemBuilder: (context, index) {
                   var _schedule = filteredSchedules[index];
+                
                   bool isLastElement = filteredSchedules.length + 1 == index;
                   return Card(
+                    
                     margin: !isLastElement
                         ? EdgeInsets.only(bottom: 20)
                         : EdgeInsets.zero,
                     child: Padding(
                       padding: EdgeInsets.all(15),
                       child: Column(
+                        
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                             
+
                           Row(
                             children: [
                               CircleAvatar(
@@ -231,6 +740,7 @@ late bool _isButtonDisabled;
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
+                                    
                                     _schedule['StudentName'],
                                     style: TextStyle(
                                         color: Color(MyColors.header01),
@@ -316,12 +826,27 @@ late bool _isButtonDisabled;
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
+                                    
+                  
                                     Expanded(
+                                      
+                                      
                                       child: OutlinedButton(
+                                        
                                         child: Text('Cancel'),
-                                        onPressed: () {},
+                                        
+                                        onPressed: () { 
+                                          setState(() {
+                                         var get  = schedules[index];
+                                         SENDTOCANCEL(get);
+                                          });
+                                          
+
+                                  
+                                        },
                                       ),
                                     ),
+                                    
                                     SizedBox(
                                       width: 20,
                                     ),
@@ -381,6 +906,10 @@ late bool _isButtonDisabled;
     );
   }
 }
+
+
+
+
 
 class MyColors {
   static int header01 = 0xff151a56;

@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const userRouter = require('./routers/users')
 const taskRouter = require('./routers/task')
+const TeacherRouter = require('./routers/Teachers')
+const TTASK = require('./routers/Ttask')
 
 
 
@@ -13,6 +15,9 @@ const port = process.env.PORT || 3000
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
+app.use(TeacherRouter)
+app.use(TTASK)
+
 app.listen(port, ()=>{
 console.log('Server is up on port '+ port)
 }) 
@@ -25,3 +30,12 @@ console.log('Server is up on port '+ port)
 // myFunction()
 const Task = require('./models/task')
 const User = require('./models/user')
+const TTask = require('./models/Ttask')
+const Teacher = require('./models/teacher')
+// const main = async ()=>{
+//     const task = await Task.findOne({name:"Ahma1d"})
+//     await task.populate('owner2')
+//         console.log(task.owner2)
+// }
+
+// main()

@@ -31,7 +31,7 @@ class ProfileState extends State<Profile> {
   Future  ChangeEdu() async{
     
               
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/Ed"),headers: {
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/Ed"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
@@ -51,7 +51,7 @@ class ProfileState extends State<Profile> {
   Future  SETNAME() async{
     
               
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/name"),headers: {
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/name"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
 
@@ -71,7 +71,7 @@ class ProfileState extends State<Profile> {
   Future  ChangeAbo() async{
     
               
-    var res= await http.get(Uri.parse("http://192.168.1.17:3000/tasks/ABOU"),headers: {
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/ABOU"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
 

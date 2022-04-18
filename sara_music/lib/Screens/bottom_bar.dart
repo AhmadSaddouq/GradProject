@@ -5,6 +5,8 @@ import 'package:sara_music/Screens/Search.dart';
 import 'package:line_icons/line_icons.dart';
 import 'Booking.dart';
 import 'package:sara_music/Screens/Homepage.dart';
+import 'package:sara_music/globalss.dart';
+
 import 'Profile.dart';
 import 'Shop.dart';
 import 'MyDrawer.dart';
@@ -43,7 +45,9 @@ class bottom_barState extends State<bottom_bar> {
 
   void _selectPage(int index) {
     setState(() {
+    
       _selectedPageIndex = index;
+    
     });
   }
 
@@ -72,11 +76,13 @@ class bottom_barState extends State<bottom_bar> {
               selectedItemColor: Colors.pink.shade400,
               currentIndex: _selectedPageIndex,
               items: [
+                
                 BottomNavigationBarItem(
                   label: "Home",
                   icon: Icon(FontAwesomeIcons.home),
                 ),
                 BottomNavigationBarItem(
+                  
                   icon: Icon(FontAwesomeIcons.calendar),
                   activeIcon: Icon(FontAwesomeIcons.calendarPlus),
                   label: "Booking",
@@ -96,6 +102,9 @@ class bottom_barState extends State<bottom_bar> {
         ),
       ),
       body: _pages[_selectedPageIndex]['page'],
+      
+      
+      
     );
   }
 }

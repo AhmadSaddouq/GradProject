@@ -244,7 +244,7 @@ class VerifyState extends State<Verify>{
 
 
        if(globalss.SignPage==1){       
-    var res= await http.post(Uri.parse("http://192.168.1.41:3000/users/pin"),headers: {
+    var res= await http.post(Uri.parse(globalss.IP+"/users/pin"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
   },body: body1);
@@ -279,7 +279,7 @@ else{
        }
 
        if(globalss.VerifyPage==2){
-              var res1= await http.post(Uri.parse("http://192.168.1.41:3000/users/pinF"),headers: {
+              var res1= await http.post(Uri.parse(globalss.IP+"/users/pinF"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
   },body: body2);
     

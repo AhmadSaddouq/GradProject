@@ -280,6 +280,8 @@ TextEditingController Gendeer = TextEditingController();
       width: 300,
     ).show(context);
   }
+
+  
     void _displayErrorMotionToast1() {
     MotionToast.error(
       title: Text(
@@ -420,6 +422,20 @@ TextEditingController Gendeer = TextEditingController();
       width: 300,
     ).show(context);
   }
+    void _displayErrorMotionToast13() {
+    MotionToast.error(
+      title: Text(
+        'Error',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Phone-Number must be above or equal to 10 numbers'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
     
     Future<void> login() async{
    
@@ -434,7 +450,7 @@ TextEditingController Gendeer = TextEditingController();
     'Gender': Gendeer.text
      });
               
-    var res= await http.post(Uri.parse("http://192.168.1.41:3000/users"),headers: {
+    var res= await http.post(Uri.parse(globalss.IP+"/users"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
   } ,body: body1);
 
@@ -445,59 +461,74 @@ TextEditingController Gendeer = TextEditingController();
     if(Gendeer.text.isNotEmpty&& PhoneN.text.isNotEmpty&&User.text.isNotEmpty && Email.text.isNotEmpty && dateinput.text.isNotEmpty && Password.text.isNotEmpty&&CPassword.text.isNotEmpty){
       
         if(!(Password.text==CPassword.text)){
-          _displayErrorMotionToast2();
-return ;
+          return _displayErrorMotionToast2();
+
         }
-        if(!Email.text.contains(RegExp(r'[@]'))||!Email.text.contains('.com')){
-          _displayErrorMotionToast1();
+        else if(!(Email.text.contains(RegExp(r'[@]'))&&Email.text.contains('.com'))){
+           return _displayErrorMotionToast1();
         
-                                        return ;
+                                       
 
 
         }
-        if(PhoneN.text.contains(RegExp(r'[A-Za-z]'))||PhoneN.text.contains(RegExp(r'[`!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?~]'))){
-          _displayErrorMotionToast3();
+        else if(PhoneN.text.contains(RegExp(r'[A-Za-z]'))){
+         return _displayErrorMotionToast3();
           
-                    return ;
+                    
 
         }
+        else    if(PhoneN.text.contains(RegExp(r'[`!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?~]'))){
+       
+                return _displayErrorMotionToast3();
+
+        }
+        
        
 
-       Map<String, dynamic> DB = jsonDecode(res.body);
            
-       if(res.statusCode==400){
-        //  if(DB['errors']['name']!=null){
-        //   return _displayErrorMotionToast7();
-
-        //  }
-             if(DB['_message'] != null){
-          return _displayErrorMotionToast9();
+         if(res.body=="UserMin"){
+          return _displayErrorMotionToast7();
+          
+         }
+           if(res.body=="PhoneN"){
+          return _displayErrorMotionToast13();
            }
-             if(DB['_message'] != null){
+            
+              if(res.body=="PASS"){
           return _displayErrorMotionToast10();
            }
-         if(DB['keyValue']['name'] != null){
+       if(res.statusCode==400){
+                Map<String, dynamic> DB = jsonDecode(res.body);
+
+           
+          
+          if(DB['keyValue']['name'] != null){
           return _displayErrorMotionToast4();
            }
-            if(DB['keyValue']['Phone'] != null){
+             if(DB['keyValue']['Phone'] != null){
           return _displayErrorMotionToast5();
            }
-            if(DB['keyValue']['email'] != null){
+             if(DB['keyValue']['email'] != null){
           return _displayErrorMotionToast6();
            }
         
            
        }
-       
+              
       print("Code:${res.statusCode}");
       if (res.statusCode == 201) {
+               Map<String, dynamic> DB = jsonDecode(res.body);
+
         globalss.SignPage = 1;
         globalss.authToken = DB['token'];
- var res1= await http.post(Uri.parse("http://192.168.1.41:3000/tasks"),headers: {
+ var res1= await http.post(Uri.parse(globalss.IP+"/tasks"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + globalss.authToken 
 
-  } );
+ 
+ 
+ 
+ } );
   print(res1.statusCode);
         String responseString = res.body;
         print("Response String: " + responseString);
@@ -505,10 +536,11 @@ return ;
                    Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Verify()),
+            
             );
             _displayErrorMotionToast8();
 
-      }
+      }     
  
     }
  else{
