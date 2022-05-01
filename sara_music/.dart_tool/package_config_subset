@@ -1,7 +1,16 @@
 sara_music
 2.15
+<<<<<<< HEAD
 file:///C:/Users/Pavilion/AndroidStudioProjects/GradProject/sara_music/
 file:///C:/Users/Pavilion/AndroidStudioProjects/GradProject/sara_music/lib/
+=======
+file:///C:/Users/Ihab/StudioProjects/GradProject/sara_music/
+file:///C:/Users/Ihab/StudioProjects/GradProject/sara_music/lib/
+animate_do
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/animate_do-2.1.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/animate_do-2.1.0/lib/
+>>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
 animation_list
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/animation_list-2.1.0/
@@ -30,6 +39,10 @@ calendar_timeline
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/calendar_timeline-1.0.4/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/calendar_timeline-1.0.4/lib/
+carousel_slider
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.0.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.0.0/lib/
 characters
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0/
@@ -46,6 +59,10 @@ collection
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib/
+colorize_text_avatar
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/colorize_text_avatar-1.0.2/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/colorize_text_avatar-1.0.2/lib/
 crypto
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/
@@ -54,6 +71,10 @@ cupertino_icons
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/lib/
+date_picker_timeline
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/date_picker_timeline-1.2.3/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/date_picker_timeline-1.2.3/lib/
 equatable
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.3/
@@ -70,10 +91,18 @@ file
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/lib/
+fl_chart
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fl_chart-0.50.1/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fl_chart-0.50.1/lib/
 flutter_advanced_avatar
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_advanced_avatar-1.0.0+1/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_advanced_avatar-1.0.0+1/lib/
+flutter_icons
+2.0
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_icons-1.1.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_icons-1.1.0/lib/
 flutter_launcher_icons
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.9.2/
@@ -204,8 +233,17 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/lib/
 motion_toast
 2.12
+<<<<<<< HEAD
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.6/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.6/lib/
+=======
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.3/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.3/lib/
+nested
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/lib/
+>>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
 page_transition
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/page_transition-2.0.5/
@@ -274,6 +312,10 @@ process
 2.14
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.4/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.4/lib/
+provider
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.2/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.2/lib/
 scrollable_positioned_list
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/scrollable_positioned_list-0.2.3/
@@ -282,10 +324,18 @@ shape_of_view_null_safe
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shape_of_view_null_safe-2.0.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/shape_of_view_null_safe-2.0.0/lib/
+simple_gesture_detector
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.2.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.2.0/lib/
 sk_onboarding_screen
 2.1
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sk_onboarding_screen-1.0.1/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/sk_onboarding_screen-1.0.1/lib/
+slide_popup_dialog
+2.1
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/slide_popup_dialog-0.0.2/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/slide_popup_dialog-0.0.2/lib/
 smooth_page_indicator
 2.5
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/smooth_page_indicator-0.1.5/
@@ -310,6 +360,10 @@ string_scanner
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib/
+table_calendar
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-3.0.5/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-3.0.5/lib/
 term_glyph
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0/
@@ -318,6 +372,10 @@ test_api
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.8/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.8/lib/
+time_range
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/time_range-1.0.2/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/time_range-1.0.2/lib/
 toggle_bar
 2.1
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/toggle_bar-1.0.0/

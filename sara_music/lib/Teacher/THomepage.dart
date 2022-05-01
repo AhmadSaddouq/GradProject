@@ -9,7 +9,7 @@ import 'package:sara_music/Screens/Booking.dart';
 import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/Details_screen.dart';
 import 'package:sara_music/Screens/MyDrawer.dart';
-import 'package:sara_music/Screens/Shop.dart';
+import 'package:sara_music/Shop/Shop.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'dart:convert';

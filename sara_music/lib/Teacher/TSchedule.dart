@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import 'package:flutter/material.dart';
 
 // class TAppointment extends StatefulWidget {
@@ -22,9 +23,15 @@ import 'package:sara_music/globalss.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+=======
+import 'package:flutter/material.dart';
+import 'package:sara_music/Shop/colors.dart';
+import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
+import 'package:time_range/time_range.dart';
+import 'package:date_picker_timeline/date_picker_timeline.dart';
+>>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
 
 class TSchedule extends StatefulWidget {
-  
   @override
   State<StatefulWidget> createState() {
     return TScheduleState();
@@ -37,6 +44,14 @@ enum FilterStatus { Upcoming, Complete, Cancel }
 
 
 class TScheduleState extends State<TSchedule> {
+<<<<<<< HEAD
+=======
+  final _defaultTimeRange = TimeRangeResult(
+    TimeOfDay(hour: 9, minute: 00),
+    TimeOfDay(hour: 10, minute: 00),
+  );
+  TimeRangeResult? _timeRange;
+>>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
 
   FilterStatus status = FilterStatus.Upcoming;
   Alignment _alignment = Alignment.centerLeft;
@@ -301,6 +316,7 @@ if(mounted){
 }
 
 
+<<<<<<< HEAD
   
 }
 }
@@ -525,6 +541,16 @@ return await [int.parse(count12)];
   void initState() {
       super.initState();
 
+=======
+  late bool _isButtonDisabled;
+  DatePickerController _controller = DatePickerController();
+
+  DateTime _selectedValue = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+    _timeRange = _defaultTimeRange;
+>>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
     _isButtonDisabled = false;
         COU = STUCOUNT();
     NAM = StudentsList();
@@ -853,7 +879,9 @@ return await [int.parse(count12)];
                                     Expanded(
                                       child: ElevatedButton(
                                         child: Text('Reschedule'),
-                                        onPressed: () => {},
+                                        onPressed: () {
+                                          _showDialog();
+                                        },
                                       ),
                                     )
                                   ],
@@ -862,23 +890,39 @@ return await [int.parse(count12)];
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    _schedule["status"] == FilterStatus.Complete?
-                                    Expanded(
-                                      child: OutlinedButton.icon(
-                                        label: Text('Successed',style: TextStyle(color: Colors.green),),
-                                          icon: Icon(Icons.check_circle,color: Colors.green,),
-                                        onPressed: () {
-                                          _isButtonDisabled;
-                                        },
-                                      ),
-                                    )
-                                    :Expanded(child: OutlinedButton.icon(
-                                      label: Text('Canceled',), 
-                                      icon: Icon(Icons.cancel,color: Colors.red,),                                       
-                                        onPressed: () {
-                                          _isButtonDisabled;
-                                        },
-                                      ),),                                   
+                                    _schedule["status"] == FilterStatus.Complete
+                                        ? Expanded(
+                                            child: OutlinedButton.icon(
+                                              label: Text(
+                                                'Successed',
+                                                style: TextStyle(
+                                                    color: Colors.green),
+                                              ),
+                                              icon: Icon(
+                                                Icons.check_circle,
+                                                color: Colors.green,
+                                              ),
+                                              onPressed: () {
+                                                _isButtonDisabled;
+                                              },
+                                            ),
+                                          )
+                                        : Expanded(
+                                            child: OutlinedButton.icon(
+                                              label: Text(
+                                                'Canceled',
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ),
+                                              icon: Icon(
+                                                Icons.cancel,
+                                                color: Colors.red,
+                                              ),
+                                              onPressed: () {
+                                                _isButtonDisabled;
+                                              },
+                                            ),
+                                          ),
                                     SizedBox(
                                       width: 20,
                                     ),
@@ -890,7 +934,6 @@ return await [int.parse(count12)];
                                         onPressed: () => {},
                                       ),
                                     ),
-                                    
                                   ],
                                 )
                         ],
@@ -905,6 +948,118 @@ return await [int.parse(count12)];
       ),
     );
   }
+
+  static const double leftPadding = 50;
+  void _showDialog() {
+    slideDialog.showSlideDialog(
+      context: context,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: leftPadding),
+              child: Text(
+                'Select New Date',
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontWeight: FontWeight.bold, color: Color(MyColors.dark)),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              child: DatePicker(
+                DateTime.now(),
+                width: 60,
+                height: 80,
+                controller: _controller,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: Color(MyColors.primary),
+                selectedTextColor: Colors.white,
+                inactiveDates: [],
+                onDateChange: (date) {
+                  // New date selected
+                  setState(() {
+                    _selectedValue = date;
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: leftPadding),
+              child: Text(
+                'Select New Time',
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontWeight: FontWeight.bold, color: Color(MyColors.dark)),
+              ),
+            ),
+            SizedBox(height: 20),
+            TimeRange(
+              fromTitle: Text(
+                'FROM',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(MyColors.dark),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              toTitle: Text(
+                'TO',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(MyColors.dark),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              titlePadding: leftPadding,
+              textStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Color(MyColors.dark),
+              ),
+              activeTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: white,
+              ),
+              borderColor: Color(MyColors.grey02),
+              activeBorderColor: Color(MyColors.grey02),
+              backgroundColor: Colors.transparent,
+              activeBackgroundColor: Color(MyColors.primary),
+              firstTime: TimeOfDay(hour: 9, minute: 00),
+              lastTime: TimeOfDay(hour: 18, minute: 00),
+              initialRange: _timeRange,
+              timeStep: 60,
+              timeBlock: 60,
+              onRangeCompleted: (range) => setState(() => _timeRange = range),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+                child: ElevatedButton(
+                  
+              onPressed: () {},
+              child: Text("Reschedule"),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 46, 23, 172),
+                padding: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                textStyle: TextStyle(fontSize: 16)
+              ),
+            ))
+          ],
+        ),
+      ),
+      barrierColor: Colors.white.withOpacity(0.7),
+      pillColor: Color(MyColors.primary),
+      backgroundColor: Color.fromARGB(255, 231, 242, 241),
+    );
+  }
 }
 
 
@@ -914,15 +1069,8 @@ return await [int.parse(count12)];
 class MyColors {
   static int header01 = 0xff151a56;
   static int primary = 0xff575de3;
-  static int purple01 = 0xff918fa5;
-  static int purple02 = 0xff6b6e97;
-  static int yellow01 = 0xffeaa63b;
-  static int yellow02 = 0xfff29b2b;
   static int bg = 0xfff5f3fe;
-  static int bg01 = 0xff6f75e1;
-  static int bg02 = 0xffc3c5f8;
   static int bg03 = 0xffe8eafe;
-  static int text01 = 0xffbec2fc;
-  static int grey01 = 0xffe9ebf0;
   static int grey02 = 0xff9796af;
+  static int dark = 0xFF333A47;
 }

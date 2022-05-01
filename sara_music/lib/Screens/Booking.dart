@@ -272,8 +272,12 @@ if(mounted){
               ),
               Row(
                 children: [
+<<<<<<< HEAD
             
         
+=======
+                  SizedBox(width: 10,),
+>>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
                   Container(
                     margin: EdgeInsets.only(top: 15, left: 10, right: 10),
                     child: InkWell(

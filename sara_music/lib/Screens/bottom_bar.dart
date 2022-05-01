@@ -8,7 +8,7 @@ import 'package:sara_music/Screens/Homepage.dart';
 import 'package:sara_music/globalss.dart';
 
 import 'Profile.dart';
-import 'Shop.dart';
+import '../Shop/Shop.dart';
 import 'MyDrawer.dart';
 import 'dart:math' as math;
 

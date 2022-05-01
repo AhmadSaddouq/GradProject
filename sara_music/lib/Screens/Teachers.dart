@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
+import 'package:sara_music/Teacher/TDetails.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class Teachers extends StatefulWidget {
@@ -47,7 +48,7 @@ class TeachersState extends State<Teachers> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 5),
                   child: Text(
-                    'Reset Password',
+                    'Teachers',
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -69,114 +70,121 @@ class TeachersState extends State<Teachers> {
                 itemCount: teacher.length,
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(indent: 16),
-                itemBuilder: (BuildContext context, int index) => Container(
-                  width: 283,
-                  height: 199,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 231, 241, 241),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 77,
-                          height: 54,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 0, 84, 153),
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(32)),
+                itemBuilder: (BuildContext context, int index) => InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => TDetails()));
+                  },
+                  child: Container(
+                    width: 283,
+                    height: 199,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 231, 241, 241),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 77,
+                            height: 54,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 0, 84, 153),
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(32)),
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 100,
-                        left: 20,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${teacher[index]}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
+                        Positioned(
+                          top: 100,
+                          left: 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${teacher[index]}",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            Text(
-                              categories[index].name,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
+                              Text(
+                                categories[index].name,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 2.5,
-                                ),
-                                Text(
-                                  "4.5",
-                                  style: GoogleFonts.sansita(
-                                      color: Color.fromARGB(255, 58, 57, 57)),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                SmoothStarRating(
-                                  size: 20,
-                                  rating: 5,
-                                  defaultIconData: Icons.star,
-                                  starCount: 1,
-                                  color: Colors.yellow,
-                                  borderColor: Colors.yellow,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          width: 77,
-                          height: 54,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 0, 84, 153),
-                            borderRadius:
-                                BorderRadius.only(topLeft: Radius.circular(32)),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 2.5,
+                                  ),
+                                  Text(
+                                    "4.5",
+                                    style: GoogleFonts.sansita(
+                                        color: Color.fromARGB(255, 58, 57, 57)),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  SmoothStarRating(
+                                    size: 20,
+                                    rating: 5,
+                                    defaultIconData: Icons.star,
+                                    starCount: 1,
+                                    color: Colors.yellow,
+                                    borderColor: Colors.yellow,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      Positioned(
-                        right: 10,
-                        bottom: 80,
-                        top: 0,
-                        child: SizedBox(
-                          width: 100,
-                          height: 140,
-                          child: Hero(
-                            tag: "${teacher[index]}",
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black,
-                              radius: 80,
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            width: 77,
+                            height: 54,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 0, 84, 153),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(32)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 10,
+                          bottom: 80,
+                          top: 0,
+                          child: SizedBox(
+                            width: 100,
+                            height: 140,
+                            child: Hero(
+                              tag: "${teacher[index]}",
                               child: CircleAvatar(
-                                radius: 48,
-                                backgroundImage: AssetImage('images/ehab.jpg'),
+                                backgroundColor: Colors.black,
+                                radius: 80,
+                                child: CircleAvatar(
+                                  radius: 48,
+                                  backgroundImage:
+                                      AssetImage('images/ehab.jpg'),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
