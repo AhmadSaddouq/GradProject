@@ -1,0 +1,7 @@
+{
+    "java.import.gradle.offline.enabled": false,
+    "java.import.gradle.enabled": true,
+    "java.import.gradle.wrapper.enabled": true,
+    "java.project.outputPath": "",
+    "java.configuration.updateBuildConfiguration": "automatic"
+}

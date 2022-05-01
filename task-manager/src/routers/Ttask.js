@@ -21,7 +21,7 @@ router.post('/taskss', auth1, async (req, res) => {
     try {
         task.Education = "Hey, Tell us About Your Qualifications."
         task.About = "Hi, Tell Us About You :)"
-        task.instrument = "Violin"
+        task.instrument = "Guitar"
         await task.save()
         res.status(201).send(task)
     } catch (e) {
@@ -117,6 +117,17 @@ router.get('/Ttasks/STATUSTT',auth1, async (req, res) => {
         res.status(500).send()
     }
 })
+router.post('/Ttasks/GetAbout', async(req, res)=>{
+
+    try{
+       const about = await TTask.findOne({NName:req.body.NName})
+       res.status(200).send(about.About)
+
+
+    }catch(e){
+        res.status(500).send(e)
+    }
+})
 
 router.post('/Ttasks/CANCEL',auth1, async (req, res) => {
     try {
@@ -128,37 +139,46 @@ router.post('/Ttasks/CANCEL',auth1, async (req, res) => {
         const Dateee= await Task.findOne({Name:req.body.Name})
         const dat = Dateee.Date
         const Timee = Dateee.Time
-        for(var i = 0;i<ccc;i++){
-            if(teacher.Students[i]==Dateee.Name){
-        const cancelt = await TTask.findOneAndUpdate({Students:teacher.Students[i]
+        var TempJ;
+        for(var j=0;j<ccc;j++){
+            if(req.body.Name==teacher.Students[j]){
+                      
+               TempJ=j;
+               break;
+            }
+        }
+        console.log(TempJ);
+        const cancelt = await TTask.findOneAndUpdate({owner:req.teacher._id},
+            {
+                $push:{
+                    CanceledS:req.body.Name,
+                    ratingAvgCC:Dateee.rating
+                }
+            }
+            
+            )
+        cancelt.DateS.splice(TempJ,1)
+        cancelt.TimeS.splice(TempJ,1)
+        cancelt.ratings.splice(TempJ,1)
         
-        },
-        {
-            $pull:{
-             Students : req.body.Name,
-             TimeS :  req.body.Time,
-             DateS: req.body.Date
-            },
-            $push:{
-                CanceledS : req.body.Name
-            },
-        })
-    }
-    break
-    
-    }
-    
+        cancelt.ratingAvg.splice(TempJ,1)
+ 
+        cancelt.Students.splice(TempJ,1)
+
+       
+        
    
          Dateee.Date = "";
          Dateee.Time = "";
          Dateee.instrument = "";
+         Dateee.rating=""
          user.owner1 = "";
          Dateee.owner2="";
          await user.save()
       await Dateee.save()
      await teacher.save()
       await cancelt.save()
-      res.status(200).send(teacher)
+      res.status(200).send(cancelt)
           
         
     } catch (e) {
@@ -437,6 +457,7 @@ router.patch('/Ttasks/me', auth1, async (req, res) => {
         updates.forEach((update) => task[update] = req.body[update],
         
         )
+        task.NName=req.body.name
         await task.save()
 
         await req.teacher.save()
@@ -526,31 +547,33 @@ router.post('/Ttasks/COMPS',auth1, async (req, res) => {
         const user = await User.findOne({ owner1: req.teacher.id})
           
         const Dateee= await Task.findOne({Name:req.body.Name})
-      
-        for(var i = 0;i<ccc;i++){
-            if(teacher.Students[i]==Dateee.Name){
-        const cancelt = await TTask.findOneAndUpdate({Students:teacher.Students[i]
-        
-        },
-        {
-            $pull:{
-             Students : req.body.Name,
-             TimeS :  req.body.Time,
-             DateS: req.body.Date
-            },
-            $push:{
-                CompS : req.body.Name
-            },
-        })
-    }
-    break
-    
-    }
+        var TempJ;
+        for(var j=0;j<ccc;j++){
+            if(req.body.Name==teacher.Students[j]){
+                      
+               TempJ=j;
+               break;
+            }
+        }
+        console.log(TempJ);
+        const cancelt = await TTask.findOneAndUpdate({owner:req.teacher._id},
+            {
+                $push:{
+                    CompS:req.body.Name
+                }
+            }
+            
+            )
+        cancelt.DateS.splice(TempJ,1)
+        cancelt.TimeS.splice(TempJ,1)
+        cancelt.ratings.splice(TempJ,1)
+        cancelt.Students.splice(TempJ,1)
     
    
          Dateee.Date = "";
          Dateee.Time = "";
          Dateee.instrument = "";
+         Dateee.rating="";
          user.owner1 = "";
          Dateee.owner2="";
          await user.save()
@@ -617,5 +640,194 @@ router.get('/Ttasks/COUNTSCC',auth1, async (req, res) => {
         res.status(500).send()
     }
 })
+router.get('/Ttasks/CountAvg',async (req, res) => {
+    try {
+
+        const teacher = await TTask.find()
+        var i;
+        var j;
+        var k;
+        var array=0
+        var array1=[];
+        var sum3=0;
+        for(i=0;i<teacher.length;i++){
+            if(teacher[i].ratingAvg.length==0){
+                if(teacher[i].ratingAvgCC.length==0){
+                }
+
+            }
+            
+            array1[i]=0
+
+           
+        }
+    
+        for(i=0;i<teacher.length;i++){
+            if(teacher[i].ratingAvg.length!=0){
+                if(teacher[i].ratingAvgCC==0){
+                    for(j=0;j<teacher[i].ratingAvg.length;j++){
+                     array+=teacher[i].ratingAvg[j]
+                    
+                    }
+                        array1[i]=array
+                        array=0;
+                    
+                }
+                else if(teacher[i].ratingAvgCC.length!=0){
+                    if(teacher[i].ratingAvg.length>teacher[i].ratingAvgCC.length){
+                        for(k=0;k<teacher[i].ratingAvg.length;k++){
+                            if(teacher[i].ratingAvgCC[k]==0||teacher[i].ratingAvgCC[k]==""||teacher[i].ratingAvgCC[k]==null){
+                                array+=teacher[i].ratingAvg[k]+0
+                                array1[i]=array
+
+
+
+                            }
+                            else{
+                            array+=teacher[i].ratingAvg[k]+teacher[i].ratingAvgCC[k]
+                            }
+                        }
+                        array1[i]=array
+
+                        array=0
+                    }
+                    else if(teacher[i].ratingAvg.length<teacher[i].ratingAvgCC.length){
+                        for(k=0;k<teacher[i].ratingAvgCC.length;k++){
+                            if(teacher[i].ratingAvg[k]==0||teacher[i].ratingAvg[k]==""||teacher[i].ratingAvg[k]==null){
+                                array+=teacher[i].ratingAvgCC[k]
+                                array1[i]=array
+                            }
+                            else{
+                            array+=teacher[i].ratingAvg[k]+teacher[i].ratingAvgCC[k]
+                            }
+                        }
+                        array1[i]=array
+                        array=0
+
+                    }
+                    else{
+                        for(k=0;k<teacher[i].ratingAvgCC.length;k++){
+                            array+=teacher[i].ratingAvg[k]+teacher[i].ratingAvgCC[k]
+                        }
+                        array1[i]=array
+                        array=0
+                    }
+                }
+            }
+            else if(teacher[i].ratingAvg.length==0){
+                if(teacher[i].ratingAvgCC.length!=0){
+                for(j=0;j<teacher[i].ratingAvgCC.length;j++){
+                    array+=teacher[i].ratingAvgCC[j]
+                   
+                   }
+
+                       array1[i]=array
+                       array=0;
+                      
+
+            }
+        }
+        }
+        
+        var c
+        var c1=0
+        var Cancel=0
+        var Complete = 0
+        var sum=0;
+        var sum1=0;
+        var sum2=0;
+        var flag=0;
+        var FinalArray =[]
+        for(c1=0;c1<teacher.length;c1++){
+           sum=teacher[c1].ratingAvgCC.length
+           sum1=teacher[c1].ratingAvg.length
+           sum2=sum+sum1
+             FinalArray[c1]=array1[c1]/sum2
+
+        
+        
+        }
+         var Array1 = []
+         var w;
+         for(w=0;w<FinalArray.length;w++){
+
+            Array1[w]=FinalArray[w].toFixed(1)
+         }
+
+      
+    res.status(200).send(Array1.toString())
+    
+          
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+
+//
+
+router.post('/Ttasks/RESCHD',auth1, async (req, res) => {
+    try {
+        const user1= await Teacher.findOne({name:req.teacher.name}) 
+        const user2 = await Task.findOne({owner2:user1._id})
+        const ttassk = await TTask.findOne({owner:req.teacher._id})
+             const count = ttassk.Students.length
+               var TempJ=0;
+             for(var j=0;j<count;j++){
+                 if(req.body.Name==ttassk.Students[j]){
+                           
+                    TempJ=j;
+                    break;
+                 }
+             }
+         var i;
+         var j;
+         var k;
+         var q;
+         for(i=0;i<count;i++){
+             if(req.body.Date==ttassk.DateS[i]||req.body.Date==user2.Date){
+             for( j = 0;j<count;j++){
+                     
+
+                    if(req.body.Time==ttassk.TimeS[j]||req.body.Time==user2.Time){
+                        res.status(404).send("This Date is Already booked!")
+                        
+                    }        
+            }
+            user2.Date=req.body.Date
+            user2.Time=req.body.Time
+            ttassk.DateS[TempJ] = req.body.Date
+            ttassk.TimeS[TempJ]=req.body.Time
+            await ttassk.save()
+            await user2.save()
+            res.status(200).send("Date-is-Updated")
+        }
+    
+        }
+
+
+       user2.Date=req.body.Date
+            user2.Time=req.body.Time
+            ttassk.DateS[TempJ] = req.body.Date
+            ttassk.TimeS[TempJ]=req.body.Time
+            await ttassk.save()
+            await user2.save()
+            res.status(200).send("Date-is-Updated")
+        
+            
+            res.status(200).send(ttassk.About)
+
+        //  res.status(200).send(count.toString())
+
+          
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+
+//
 
 module.exports = router

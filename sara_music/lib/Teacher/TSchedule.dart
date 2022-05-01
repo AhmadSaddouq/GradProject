@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // import 'package:flutter/material.dart';
 
 // class TAppointment extends StatefulWidget {
@@ -14,22 +13,27 @@
 //     return Scaffold();
 //   }
 // }
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbols.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
+import 'package:sara_music/Teacher/Tbottom_bar.dart';
 import 'package:sara_music/globalss.dart';
-
-
+import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 import 'package:http/http.dart' as http;
-=======
 import 'package:flutter/material.dart';
 import 'package:sara_music/Shop/colors.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 import 'package:time_range/time_range.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
+import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
+
 
 class TSchedule extends StatefulWidget {
   @override
@@ -44,15 +48,19 @@ enum FilterStatus { Upcoming, Complete, Cancel }
 
 
 class TScheduleState extends State<TSchedule> {
-<<<<<<< HEAD
-=======
   final _defaultTimeRange = TimeRangeResult(
     TimeOfDay(hour: 9, minute: 00),
     TimeOfDay(hour: 10, minute: 00),
   );
   TimeRangeResult? _timeRange;
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
+   var result = "";
+      var result1 = "";
+      var Temp;
+      late Future w;
+  List<Map> schedules = [];
 
+var get1;
+late List<Map> filteredSchedules;
   FilterStatus status = FilterStatus.Upcoming;
   Alignment _alignment = Alignment.centerLeft;
   late bool _isButtonDisabled;
@@ -63,6 +71,7 @@ class TScheduleState extends State<TSchedule> {
   late Future CCSS;
   late Future ALLD;
   late Future CO;
+  late Future RES2;
   var count12="";
   List DATES = [];
   late Future A;
@@ -78,7 +87,6 @@ class TScheduleState extends State<TSchedule> {
   var NA;
   var TA;
   var DA;
-  List<Map> schedules = [];
 
   var ALL1="";
   var countS = "";
@@ -92,6 +100,53 @@ class TScheduleState extends State<TSchedule> {
   var a1;
   var b = "";
   var b1;
+
+  void _displayErrorMotionToast() {
+       
+    MotionToast.success(
+      title: Text(
+        "Success",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Date Is Updated!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+  void _displayErrorMotionToast1() {
+       
+    MotionToast.error(
+      title: Text(
+        "Error",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Sorry, this Date is already Booked!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+
+ void _displayErrorMotionToast2() {
+       
+    MotionToast.success(
+      title: Text(
+        "Success",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('The Appointment is Canceled'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  } 
 Future SENDTOCANCEL(var get)async{
 try{
 
@@ -101,14 +156,15 @@ var body1 = jsonEncode({
   "Date": get['reservedDate']
 });
 
+
    var res= await http.post(Uri.parse(globalss.IP+"/Ttasks/CANCEL"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
   }, body: body1);
-  print(res.body);
 if(res.statusCode==200){
 
+_displayErrorMotionToast2();
 }
 } catch(e){
   print(e);
@@ -135,10 +191,12 @@ Future STUCOUNT() async {
  }
   
 
-return await [int.parse(countS)];
   } catch(e){
     print(e);
   }
+
+  return await [int.parse(countS)];
+
 
 }
 //--
@@ -160,10 +218,10 @@ Future STUC() async {
   }
  }
 
-return await [int.parse(counttt)];
   } catch(e){
     print(e);
   }
+return await [int.parse(counttt)];
 
 }
 //---StudentsNAMES
@@ -196,17 +254,18 @@ try{
       NAMES.add( NA[i]);
     }
 
-return await [NAMES];
     } 
 } catch(e){
   print(e);
 }
+return await [NAMES];
+
 }
+
 //--StudentsTime
 Future TimesList() async {
 try{
 DateTime selectdate = DateTime.now();
-
  var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/ListS"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
@@ -221,8 +280,10 @@ var arrmonth = month.split("-");
 var days1 = arrmonth.toString();
 var arrdays = days1.split(" "); 
 
- if(int.parse(arrmonth[1])>=selectdate.toLocal().month.toInt()){
- if(int.parse(arrdays[2])>=selectdate.toLocal().day.toInt()){
+var m=int.parse(arrmonth[1]);
+var d=int.parse(arrdays[2]);
+ if(m>=selectdate.toLocal().month.toInt()){  
+ if(d>=selectdate.toLocal().day.toInt()){
    
  
  if(mounted){
@@ -250,6 +311,32 @@ var arrdays = days1.split(" ");
       });
       
 }
+else if(m>selectdate.toLocal().month.toInt()){
+ if(mounted){
+  if(res.statusCode==201){
+   setState(() {
+   times = res.body;
+
+   });
+  }
+ }
+
+    var times1 =  await times.toString();
+
+    TA =  times1.split(",");
+    Times.add(TA[k]);
+    
+      schedules.add({
+           'img': 'images/ehab.jpg',
+    'StudentName': NAMES[k],
+    'instrument': ALL1,
+    'reservedDate': DATES[k],
+    'reservedTime': Times[k],
+    'status': FilterStatus.Upcoming
+  
+      });  
+}
+
 else{
 if(mounted){
   if(res.statusCode==201){
@@ -316,14 +403,13 @@ if(mounted){
 }
 
 
-<<<<<<< HEAD
   
 }
 }
-  return await [Times,schedules];
 }catch(e){
   print(e);
 }
+  return await [Times,schedules];
 
 
 
@@ -361,11 +447,12 @@ try{
       DATES.add(DA[i]);
     }
  
-return await [DATES];
     }
     }catch(e){
       print(e);
     }
+    return await [DATES];
+
 }
 
 //---
@@ -391,10 +478,10 @@ Future ALL() async {
  }
  
 
-return await [ALL1];
   }catch(e){
     print(e);
   }
+return await [ALL1];
 
 }
 
@@ -424,7 +511,6 @@ Future ccs() async {
     if(counttt!=""){
     for(int i = 0; i<int.parse(counttt);i++){
       if(ars[i]!=""){
-        print(ars[i]);
       schedules.add({
             'img': 'images/ehab.jpg',
     'StudentName': ars[i],
@@ -442,10 +528,11 @@ Future ccs() async {
     }
  
 
-return await [schedules];}
+}
 catch(e){
   print(e);
 }
+return await [schedules];
 
 }
 
@@ -490,7 +577,6 @@ if(mounted){
     if(count12!=""){
     for(int i = 0; i<int.parse(count12);i++){
       if(a1[i]!=""){
-        print(a1[i]);
       schedules.add({
             'img': 'images/ehab.jpg',
     'StudentName': a1[i],
@@ -508,10 +594,10 @@ if(mounted){
     }
  
 
-return await [schedules];
   }catch(e){
     print(e);
   }
+return await [schedules];
 
 }
 Future CountComp() async{
@@ -532,35 +618,65 @@ Future CountComp() async{
   }
  }
 
-return await [int.parse(count12)];
   }catch(e){
     print(e);
   }
-}
-  @override
-  void initState() {
-      super.initState();
+  return await [int.parse(count12)];
 
-=======
-  late bool _isButtonDisabled;
-  DatePickerController _controller = DatePickerController();
+}
+
+Future RESCHED (List<String> A1, var get1) async
+{
+
+try{
+  var qq = A1[1]+"-"+A1[2] + " "+ A1[3].toLowerCase();
+var body1 = jsonEncode({
+  "Name": get1["StudentName"],
+  "Time" : qq,
+  "Date": A1[0]
+});
+
+   var res= await http.post(Uri.parse(globalss.IP+"/Ttasks/RESCHD"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  }, body: body1);
+
+if(res.statusCode==200){
+
+  _displayErrorMotionToast();
+
+}
+else{
+    _displayErrorMotionToast1();
+
+}
+} catch(e){
+  print(e);
+}
+}
+
+
+DatePickerController _controller = DatePickerController();
+  late bool isLoading = false;
 
   DateTime _selectedValue = DateTime.now();
   @override
   void initState() {
     super.initState();
     _timeRange = _defaultTimeRange;
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
-    _isButtonDisabled = false;
+      late bool _isButtonDisabled;
+  
         COU = STUCOUNT();
     NAM = StudentsList();
     DAT = DatesList();
     ALLD = ALL();
-   TIM = TimesList();
    CO = STUC();
    CCSS = ccs();
    A = CountComp();
   B = CompList();
+     TIM = TimesList();
+
 
   }
 // List<Map> schedules = [
@@ -618,12 +734,14 @@ return await [int.parse(count12)];
   @override
   Widget build(BuildContext context) {
  
-    List<Map> filteredSchedules = schedules.where((var schedule) {
+     filteredSchedules = schedules.where((var schedule) {
       return schedule['status'] == status;
     }).toList();
+       
+  
 
     return Scaffold(
-      
+
       body: Padding(
         padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
         child: Column(
@@ -635,6 +753,7 @@ return await [int.parse(count12)];
             ),
             Row(
               children: [
+                
                 Container(
                   margin: EdgeInsets.only(top: 15, left: 10, right: 10),
                   child: InkWell(
@@ -734,8 +853,23 @@ return await [int.parse(count12)];
               height: 20,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredSchedules.length,
+              child:
+                Waitforme()
+               )
+          ],
+        ),
+      ),
+    );
+    
+  }
+    Widget Waitforme() {
+  
+  return FutureBuilder( initialData: schedules ,future: TIM, builder:((context, snapshot)  {
+      return snapshot.data==null||schedules.length<=0?  Center(child: CircularProgressIndicator()):
+   ListView.builder(
+     
+     shrinkWrap: true,
+                itemCount: filteredSchedules.length ,
                 itemBuilder: (context, index) {
                   var _schedule = filteredSchedules[index];
                 
@@ -861,14 +995,21 @@ return await [int.parse(count12)];
                                         
                                         child: Text('Cancel'),
                                         
-                                        onPressed: () { 
+                                        onPressed: () async {
+
                                           setState(() {
+
                                          var get  = schedules[index];
+
                                          SENDTOCANCEL(get);
                                           });
                                           
+                        
+                      
+                 
+                                                // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => Tbottom_bar()));
 
-                                  
+
                                         },
                                       ),
                                     ),
@@ -880,6 +1021,8 @@ return await [int.parse(count12)];
                                       child: ElevatedButton(
                                         child: Text('Reschedule'),
                                         onPressed: () {
+                                       get1  = schedules[index];
+                                        
                                           _showDialog();
                                         },
                                       ),
@@ -941,13 +1084,11 @@ return await [int.parse(count12)];
                     ),
                   );
                 },
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+              );
+
+  }));
+}
+
 
   static const double leftPadding = 50;
   void _showDialog() {
@@ -985,6 +1126,7 @@ return await [int.parse(count12)];
                   // New date selected
                   setState(() {
                     _selectedValue = date;
+                     Temp = _selectedValue.toString();
                   });
                 },
               ),
@@ -1036,7 +1178,15 @@ return await [int.parse(count12)];
               initialRange: _timeRange,
               timeStep: 60,
               timeBlock: 60,
-              onRangeCompleted: (range) => setState(() => _timeRange = range),
+              onRangeCompleted: (range) => setState(() => 
+              _timeRange = range
+
+               
+
+                          
+              ),
+              
+
             ),
             SizedBox(
               height: 30,
@@ -1044,7 +1194,25 @@ return await [int.parse(count12)];
             Center(
                 child: ElevatedButton(
                   
-              onPressed: () {},
+              onPressed: () {
+              result= _timeRange!.start.format(context);
+          result1= _timeRange!.end.format(context);
+          var Q1 = result.split(":");
+           var E=result1.split(":");
+
+             var  E1 = result1.split(" ");
+
+                  List<String> A1 = [];
+                  A1.add(Temp);
+                  A1.add(Q1[0]);
+                  A1.add(E[0]);
+                  A1.add(E1[1]);
+          //  Navigator.of(context).push(new MaterialPageRoute(builder: (context) => TSchedule())).whenComplete(TimesList);
+
+                RESCHED(A1,get1);
+
+
+              },
               child: Text("Reschedule"),
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 46, 23, 172),
@@ -1059,7 +1227,9 @@ return await [int.parse(count12)];
       pillColor: Color(MyColors.primary),
       backgroundColor: Color.fromARGB(255, 231, 242, 241),
     );
+  
   }
+  
 }
 
 
@@ -1074,3 +1244,4 @@ class MyColors {
   static int grey02 = 0xff9796af;
   static int dark = 0xFF333A47;
 }
+

@@ -1,16 +1,11 @@
 sara_music
 2.15
-<<<<<<< HEAD
 file:///C:/Users/Pavilion/AndroidStudioProjects/GradProject/sara_music/
 file:///C:/Users/Pavilion/AndroidStudioProjects/GradProject/sara_music/lib/
-=======
-file:///C:/Users/Ihab/StudioProjects/GradProject/sara_music/
-file:///C:/Users/Ihab/StudioProjects/GradProject/sara_music/lib/
 animate_do
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/animate_do-2.1.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/animate_do-2.1.0/lib/
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
 animation_list
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/animation_list-2.1.0/
@@ -29,8 +24,12 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.8.2/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.8.2/lib/
 babstrap_settings_screen
 2.12
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/babstrap_settings_screen-0.1.1/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/babstrap_settings_screen-0.1.1/lib/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/babstrap_settings_screen-0.1.3/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/babstrap_settings_screen-0.1.3/lib/
+blurry_modal_progress_hud
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/blurry_modal_progress_hud-1.0.3/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/blurry_modal_progress_hud-1.0.3/lib/
 boolean_selector
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/
@@ -41,8 +40,8 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/calendar_timeline-1.0.
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/calendar_timeline-1.0.4/lib/
 carousel_slider
 2.12
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.0.0/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.0.0/lib/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.1.1/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.1.1/lib/
 characters
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0/
@@ -64,9 +63,9 @@ colorize_text_avatar
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/colorize_text_avatar-1.0.2/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/colorize_text_avatar-1.0.2/lib/
 crypto
-2.12
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/lib/
+2.14
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.2/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.2/lib/
 cupertino_icons
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/
@@ -79,6 +78,10 @@ equatable
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.3/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.3/lib/
+eventify
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/eventify-1.0.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/eventify-1.0.0/lib/
 fake_async
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/
@@ -96,9 +99,9 @@ fl_chart
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fl_chart-0.50.1/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fl_chart-0.50.1/lib/
 flutter_advanced_avatar
-2.12
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_advanced_avatar-1.0.0+1/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_advanced_avatar-1.0.0+1/lib/
+2.16
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_advanced_avatar-1.1.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_advanced_avatar-1.1.0/lib/
 flutter_icons
 2.0
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_icons-1.1.0/
@@ -109,8 +112,8 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.9.2/lib/
 flutter_native_splash
 2.15
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_native_splash-2.1.5/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_native_splash-2.1.5/lib/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_native_splash-2.1.6/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_native_splash-2.1.6/lib/
 flutter_plugin_android_lifecycle
 2.1
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.11/
@@ -139,6 +142,10 @@ flutter_secure_storage_windows
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage_windows-1.1.2/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage_windows-1.1.2/lib/
+flutter_spinkit
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/lib/
 flutter_staggered_grid_view
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_staggered_grid_view-0.4.1/
@@ -147,6 +154,10 @@ flutter_svg
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.0.3/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.0.3/lib/
+fluttertoast
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.9/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.9/lib/
 font_awesome_flutter
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/font_awesome_flutter-9.2.0/
@@ -233,17 +244,12 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/lib/
 motion_toast
 2.12
-<<<<<<< HEAD
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.6/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.6/lib/
-=======
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.3/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/motion_toast-2.1.3/lib/
 nested
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/lib/
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
 page_transition
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/page_transition-2.0.5/
@@ -266,8 +272,8 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/lib/
 path_provider_android
 2.14
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.12/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.12/lib/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.13/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.13/lib/
 path_provider_ios
 2.14
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.8/
@@ -316,6 +322,10 @@ provider
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.2/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.2/lib/
+razorpay_flutter
+2.12
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/razorpay_flutter-1.3.0/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/razorpay_flutter-1.3.0/lib/
 scrollable_positioned_list
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/scrollable_positioned_list-0.2.3/
@@ -398,8 +408,8 @@ file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/vs_scrollbar-0.2.1/
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/vs_scrollbar-0.2.1/lib/
 win32
 2.15
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.5.1/
-file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.5.1/lib/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.5.2/
+file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.5.2/lib/
 xdg_directories
 2.12
 file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.2.0+1/

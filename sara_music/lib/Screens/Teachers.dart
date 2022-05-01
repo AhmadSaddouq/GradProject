@@ -4,6 +4,9 @@ import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
 import 'package:sara_music/Teacher/TDetails.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:sara_music/globalss.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Teachers extends StatefulWidget {
   @override
@@ -13,13 +16,216 @@ class Teachers extends StatefulWidget {
 }
 
 class TeachersState extends State<Teachers> {
-  List teacher = [
-    "Ehab Sarrawi",
-    "Mahmoud Saddouq",
-    "Ahmad Sadouq",
-    "Khaled Saddouq",
-    "Mohammod Saddouq",
-  ];
+ TextEditingController Name= TextEditingController();
+  late Future N;
+    late Future S;
+  late Future C;
+  late Future I;
+
+  var NAME="0";
+   List teacher=[];
+   List Instruments = [];
+        var NAME1='0';
+   var arr;
+   var INS='0';
+   var NAME2='0';
+   var arr2;
+List Rates=[];
+ var Average="";
+   var ArrayA;
+   late Future Aver;
+
+ var CountTeacher="0";
+ Future  SETNAME1() async{
+    
+    try{
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/TeachersList"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+      if(mounted){
+
+  if(res.statusCode==200){
+ setState(() {
+     NAME1=res.body;
+     
+    });
+    }
+   
+  }
+    var NAME5 = NAME1.toString();
+    if(NAME5.length==0){
+      return await [teacher];
+    }
+    arr = NAME5.split(",");
+   if(arr.toString().length==0){
+     return await [teacher];
+   }
+    if(CountTeacher!=""){
+    for(int i = 0; i<int.parse(CountTeacher);i++){
+      teacher.add(arr[i]);
+    }
+    }
+   
+    } catch(e){
+      print(e);
+    }
+     if(teacher.length==0){
+      return await [teacher];
+    }
+        return await [teacher];
+
+  }
+
+    Future GetAverage() async{
+    try{
+   var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/CountAvg"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+      if(mounted){
+
+  if(res.statusCode==200){
+ setState(() {
+     Average=res.body;
+     
+    });
+    }
+   
+  }
+    var Average1 = Average.toString();
+    if(Average1.length==0){
+      return await [Rates];
+    }
+    ArrayA = Average1.split(",");
+   if(ArrayA.toString().length==0){
+     return await [Rates];
+   }
+    if(CountTeacher!=""){
+    for(int i = 0; i<int.parse(CountTeacher);i++){
+    Rates.add(ArrayA[i]);
+    }
+    }
+   
+    } catch(e){
+      print(e);
+    }
+     if(Rates.length==0){
+      return await [Rates];
+    }
+        return await [Rates];
+
+  }
+  Future  CountT() async{
+    try{
+    var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/count"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+
+if(mounted){
+  if(res.statusCode==200){
+    
+ setState(() {
+     CountTeacher=res.body;
+    });
+    }
+   
+  }
+    }
+    catch(e){
+      print(e);
+    }
+    if(CountTeacher==0){
+        return await [int.parse(CountTeacher)] ;
+    }
+        return await [int.parse(CountTeacher)] ;
+
+  }
+  Future  SETNAME() async{
+    try{
+    var res= await http.get(Uri.parse(globalss.IP+"/tasks/name"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });      
+    if(mounted){
+  if(res.statusCode==201){
+    setState(() {
+     NAME=res.body;
+     
+    });
+    }
+  }
+    
+    } catch(e){
+      print(e);
+    }
+    if(NAME.isEmpty){
+      return await [NAME];
+    }
+        return await [NAME];
+
+  }
+
+   Future  INST() async{
+    try{
+  var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/INST"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+             
+
+  });
+      if(mounted){
+  if(res.statusCode==200){
+ setState(() {
+     NAME2=res.body;
+     
+    });
+    }
+   
+  }
+  
+    var NAME3 = NAME2.toString();
+    if(NAME3.length==0){
+      return await [Instruments];
+    }
+    arr2 = NAME3.split(",");
+    if(arr2.toString().length==0){
+      return await [Instruments];
+    }
+    if(CountTeacher!=""){
+  for(int j = 0; j<int.parse(CountTeacher);j++){
+      Instruments.add(arr2[j]);
+    }
+        }
+        if(Instruments.length==0){
+          return await [Instruments];
+        }   
+    } catch(e){
+      print(e);
+    }
+     if(Instruments.length==0){
+          return await [Instruments];
+        } 
+             return await [Instruments];
+
+  }
+
+  ScrollController _scrollController = ScrollController();
+  bool _verticalList = false;
+  @override
+void initState(){
+  super.initState();
+   C= CountT();
+
+ N = SETNAME();
+  S= SETNAME1();
+ I= INST();
+ Aver= GetAverage();
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,16 +268,31 @@ class TeachersState extends State<Teachers> {
             ),
             SizedBox(
               height: 580,
-              child: ListView.separated(
+              child: Waitforme()
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget Waitforme() {
+  
+  return FutureBuilder(future: C, builder:((context, snapshot)  {
+      return snapshot.data==null||teacher.length<=0||int.parse(CountTeacher)<=0||Rates.length<=0||Instruments.length<=0?  Center(child: CircularProgressIndicator()):
+      ListView.separated(
                 primary: false,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.symmetric(horizontal: 24),
-                itemCount: teacher.length,
+                itemCount: int.parse(CountTeacher),
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(indent: 16),
                 itemBuilder: (BuildContext context, int index) => InkWell(
                   onTap: () {
+                     globalss.TeacherName = "${teacher[index]}";
+
+                     globalss.Teacherins= "${Instruments[index]}";
+
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => TDetails()));
                   },
@@ -104,16 +325,21 @@ class TeachersState extends State<Teachers> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              if(teacher.length>0)
                               Text(
-                                "${teacher[index]}",
+                          "${teacher[index]}",
+
+                                
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
+                              if(Instruments.length>0)
                               Text(
-                                categories[index].name,
+                            "${Instruments[index]}",
+                              
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 22,
@@ -128,8 +354,9 @@ class TeachersState extends State<Teachers> {
                                   SizedBox(
                                     width: 2.5,
                                   ),
+                                  if(Rates.length>0)
                                   Text(
-                                    "4.5",
+                                    "${Rates[index]}",
                                     style: GoogleFonts.sansita(
                                         color: Color.fromARGB(255, 58, 57, 57)),
                                   ),
@@ -187,11 +414,10 @@ class TeachersState extends State<Teachers> {
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+              );
+      
+   
+
+  }));
+}
 }

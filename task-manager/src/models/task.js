@@ -37,6 +37,11 @@ const taskSchema = new mongoose.Schema({
         required: false,
         ref: 'Teacher'
     },
+    rating:{
+        type:Number,
+        required:false,
+        trim:true
+    },
    
     Date:{
         type:String,
@@ -47,6 +52,7 @@ const taskSchema = new mongoose.Schema({
 
 }, {
     timestamps: true
+    
 })
 // taskSchema.statics.FindEd = async (id)=>{
 //     const user =await Task.findOne({_id:id})

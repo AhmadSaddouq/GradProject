@@ -8,7 +8,6 @@ const TeacherRouter = require('./routers/Teachers')
 const TTASK = require('./routers/Ttask')
 
 
-
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -17,6 +16,7 @@ app.use(userRouter)
 app.use(taskRouter)
 app.use(TeacherRouter)
 app.use(TTASK)
+
 
 app.listen(port, ()=>{
 console.log('Server is up on port '+ port)
@@ -33,9 +33,12 @@ const User = require('./models/user')
 const TTask = require('./models/Ttask')
 const Teacher = require('./models/teacher')
 // const main = async ()=>{
-//     const task = await Task.findOne({name:"Ahma1d"})
-//     await task.populate('owner2')
-//         console.log(task.owner2)
+//     const task = await User.findOne({name:"AhmadSadouq1"})
+
+//     await task.populate('owner1')
+        
+//     console.log(task.owner1.name)
+
 // }
 
 // main()

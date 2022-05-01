@@ -48,12 +48,12 @@
         "source": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\build\\app\\intermediates\\res\\merged\\debug\\drawable-xhdpi_branding.png.flat",
-        "source": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\android\\app\\src\\main\\res\\drawable-xhdpi\\branding.png"
-    },
-    {
         "merged": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\build\\app\\intermediates\\res\\merged\\debug\\drawable-hdpi_branding.png.flat",
         "source": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\android\\app\\src\\main\\res\\drawable-hdpi\\branding.png"
+    },
+    {
+        "merged": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\build\\app\\intermediates\\res\\merged\\debug\\drawable-xhdpi_branding.png.flat",
+        "source": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\android\\app\\src\\main\\res\\drawable-xhdpi\\branding.png"
     },
     {
         "merged": "C:\\Users\\Pavilion\\AndroidStudioProjects\\GradProject\\sara_music\\build\\app\\intermediates\\res\\merged\\debug\\drawable-mdpi_branding.png.flat",

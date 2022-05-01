@@ -114,14 +114,14 @@ const userSchema1 = new mongoose.Schema({
 userSchema1.virtual('UserTask', {
       
     ref: 'User',
-    localField:'name',
+    localField:'_id',
     foreignField: 'owner1'
 })
 
 userSchema1.virtual('UserTaskk', {
       
     ref: 'Task',
-    localField:'Name',
+    localField:'_id',
     foreignField: 'owner2'
 })
 userSchema1.statics.findIfD = async (name)=>{

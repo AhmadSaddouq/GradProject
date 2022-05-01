@@ -42,6 +42,21 @@ const taskSchema1 = new mongoose.Schema({
         required:false,
         trim:false
     },
+    ratings:{
+        type:Array,
+        required:false,
+        trim:true
+    },
+    ratingAvg:{
+        type:Array,
+        required:false,
+        trim:true
+    },
+    ratingAvgCC:{
+        type:Array,
+        required:false,
+        trim:true
+    },
 
     DateS:{
         type :Array,

@@ -60,7 +60,7 @@ var teacher1 = 0;
    
 
    Future SD()async{
-
+try{
   var res= await http.get(Uri.parse(globalss.IP+"/tasks/SD"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
                   'Authorization': 'Bearer ' + globalss.authToken 
@@ -72,11 +72,14 @@ if(mounted){
     DDate = res.body;
   }
 }
+}catch(e){
+  print(e);
+}
   return await [DDate];
 
    }
     Future ST()async{
-
+try{
   var res= await http.get(Uri.parse(globalss.IP+"/tasks/ST"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
                   'Authorization': 'Bearer ' + globalss.authToken 
@@ -89,11 +92,14 @@ if(mounted){
   }
      
    }
+   }catch(e){
+     print(e);
+   }
      return await [TTime];
 
     }
     Future STN()async{
-
+     try{
   var res= await http.get(Uri.parse(globalss.IP+"/tasks/STN"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
    'Authorization': 'Bearer ' + globalss.authToken 
@@ -105,12 +111,15 @@ if(mounted){
       TNAME = res.body;
     }
   }
+     }catch(e){
+       print(e);
+     }
   return await [TNAME];
 
      
    }
  Future  CountT()  async {
-
+try{
   var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/count"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
 
@@ -125,9 +134,13 @@ if(mounted){
     });
 
     }
+    
   
    
   }
+}catch(e){
+  print(e);
+}
 
     return await [int.parse(CountTeacher)] ;
 
@@ -136,6 +149,7 @@ if(mounted){
   }
 
     Future TEACHINS() async{
+      try{
  var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/INST"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
@@ -161,6 +175,9 @@ if(mounted){
       Instruments.add( arr2[i]);
     }
     }
+      }catch(e){
+        print(e);
+      }
     return await [Instruments] ;
 
 
@@ -171,7 +188,7 @@ if(mounted){
    
   
   Future SETNAME1() async{
-  CountT();
+    try{
  var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/TeachersList"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
@@ -196,6 +213,9 @@ if(mounted){
     for(int i = 0; i<int.parse(CountTeacher);i++){
       teacher.add( arr[i]);
     }
+    }
+    }catch(e){
+      print(e);
     }
     return await teacher ;
 
@@ -250,7 +270,6 @@ if(mounted){
     super.initState();
    username1 = CountT();
   TeachInst = TEACHINS();
-
     username = SETNAME1();
     n = SD();
     n1 = ST();
@@ -272,12 +291,7 @@ if(mounted){
               ),
               Row(
                 children: [
-<<<<<<< HEAD
-            
-        
-=======
                   SizedBox(width: 10,),
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
                   Container(
                     margin: EdgeInsets.only(top: 15, left: 10, right: 10),
                     child: InkWell(
@@ -428,7 +442,7 @@ if(mounted){
                             children: [
                               CustomRadioButton("9-10 am", 1,Time),
                               CustomRadioButton("10-11 am", 2,Time),
-                              CustomRadioButton("11-12 am", 3,Time),
+                              CustomRadioButton("11-12 pm", 3,Time),
                               CustomRadioButton("12-1 pm", 4,Time),
                               CustomRadioButton("1-2 pm", 5,Time),
                               CustomRadioButton("2-3 pm", 6,Time),
@@ -465,107 +479,7 @@ if(mounted){
                               thickness: 5.0,
                               color: Colors.purple.shade900,
                             ),
-                            child: ListView.builder(
-                                controller: _scrollController,
-                                shrinkWrap: true,
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: _verticalList
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                itemCount: int.parse(CountTeacher),
-                                itemBuilder: (BuildContext context, int index) {
-                                    
-                                  Color? color = Colors.pink[600];
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        instrument = index;
-                                        Tname.text = teacher[index];
-                                        Instrument.text = Instruments[index];
-                                      });
-                                    },
-                                    child: Container(
-                                      
-                                        alignment: Alignment.center,
-                                        child: Column(
-                                          
-                                          
-                                          children: [
-                                                
-
-                                              
-                                            Text(
-                                            "${Instruments[index]}",
-                                              
-                                              style: TextStyle(
-                                                                                      
-
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
-                                                color: instrument == index
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                                height: 1,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            InkWell(
-                                              child: AdvancedAvatar(
-                                                size: 40,
-                                                image: AssetImage(
-                                                    'images/Logo.png'),
-                                                foregroundDecoration:
-                                                    BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                          
-          Text(     
-                                      "${teacher[index]}",             
-                                    
-                                                       
-
-                                              
-                                                 
-                                               textAlign: TextAlign.center,
-                                               style: TextStyle(
-                                                
-                                                 fontSize: 13,
-                                                 color: instrument == index
-                                                     ? Colors.white
-                                                     : Colors.black,
-                                                 height: 1,
-                                               )
-                                               ,
-                                             )
-      
-                                              
-
-                                           
-                                            
-                                        
-                                          ],
-                                        ),
-                                        height: 50,
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                300,
-                                        decoration: BoxDecoration(
-                                            color: instrument == index
-                                                ? color
-                                                : Color.fromARGB(255, 231, 241, 241),
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10, bottom: 20)),
-                                  );
-                                }),
+                            child: Waitforme()
                           ),
                         ),
                         Container(
@@ -852,5 +766,114 @@ if(mounted){
    }
    
     }
+Widget Waitforme() {
+  
+  return FutureBuilder(future: username1, builder:((context, snapshot)  {
 
+      return snapshot.data==null||teacher.length<=0||Instruments.length<=0||int.parse(CountTeacher)<=0?  Center(child: CircularProgressIndicator()):
+      ListView.builder(
+                                controller: _scrollController,
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: _verticalList
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                itemCount: int.parse(CountTeacher),
+                                itemBuilder: (BuildContext context, int index) {
+                                    
+                                  Color? color = Colors.pink[600];
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        instrument = index;
+                                        Tname.text = teacher[index];
+                                        Instrument.text = Instruments[index];
+                                      });
+                                    },
+                                    child: Container(
+                                      
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          
+                                          
+                                          children: [
+                                                
+
+                                              
+                                            Text(
+                                            "${Instruments[index]}",
+                                              
+                                              style: TextStyle(
+                                                                                      
+
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: instrument == index
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                height: 1,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            InkWell(
+                                              child: AdvancedAvatar(
+                                                size: 40,
+                                                image: AssetImage(
+                                                    'images/Logo.png'),
+                                                foregroundDecoration:
+                                                    BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                          
+          Text(     
+                                      "${teacher[index]}",             
+                                    
+                                                       
+
+                                              
+                                                 
+                                               textAlign: TextAlign.center,
+                                               style: TextStyle(
+                                                
+                                                 fontSize: 13,
+                                                 color: instrument == index
+                                                     ? Colors.white
+                                                     : Colors.black,
+                                                 height: 1,
+                                               )
+                                               ,
+                                             )
+      
+                                              
+
+                                           
+                                            
+                                        
+                                          ],
+                                        ),
+                                        height: 50,
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                300,
+                                        decoration: BoxDecoration(
+                                            color: instrument == index
+                                                ? color
+                                                : Color.fromARGB(255, 231, 241, 241),
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 10, bottom: 20)),
+                                  );
+                                });
+      
+
+  }));
+}
 }

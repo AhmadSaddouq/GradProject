@@ -325,6 +325,62 @@ router.get('/tasks/TS',auth, async (req, res) => {
     }
 })
 
+router.post('/tasks/SaveRating',auth, async (req, res) => {
+    try {
+        const userTask = await User.findOne({name:req.body.Name})
+        const StudentsTeacher = await Task.findOne({Name:req.body.Name})
+        if(StudentsTeacher.owner2==""||StudentsTeacher.owner2==null){
+            res.status(400).send("YouCant")
+        }
+        await StudentsTeacher.populate('owner2')
+        const StudentsTeacher1 = await Teacher.findOne({name:req.body.name})
+
+        if(StudentsTeacher.owner2._id.toString()!=StudentsTeacher1._id.toString()){
+            res.status(400).send("YouCant")
+        }
+        else{
+        const Taskk = await Task.findOne({owner:userTask._id})
+             await userTask.populate('owner1')
+
+
+        Taskk.rating = req.body.rating
+
+        const FindTheStudent = await TTask.findOne({NName:userTask.owner1.name})
+        const count = FindTheStudent.Students.length
+        const count1 = FindTheStudent.ratingAvg.length
+        var Temp;
+        var i;
+
+        for(i=0;i<count;i++){
+            if(FindTheStudent.Students[i]==req.body.Name){
+                Temp=i;
+                break;
+            }
+          
+        }
+        if(Temp==-1){
+            FindTheStudent.ratings.splice(FindTheStudent.Students.length-1, 0, Taskk.rating);
+            FindTheStudent.ratingAvg.splice(FindTheStudent.Students.length-1, 0, Taskk.rating);
+  
+            
+               
+    }
+    else if(Temp>=0){
+        
+         
+          FindTheStudent.ratings.splice(Temp,1,Taskk.rating)
+          FindTheStudent.ratingAvg.splice(Temp, 1, Taskk.rating);
+                   
+            await Taskk.save()
+            await FindTheStudent.save()
+          res.status(200).send(FindTheStudent.NName)
+    }
+}
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
 
 router.get('/tasks/short',auth, async (req, res) => {

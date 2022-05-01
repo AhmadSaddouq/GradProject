@@ -24,10 +24,13 @@ import 'package:sara_music/Admin/screens/home/home_screen.dart';
 import 'Admin/core/init/provider_list.dart';
 import 'Teacher/Tbottom_bar.dart';
 
+
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.black,
   ));
+  
+
   runApp(const MyApp());
 }
 Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: IntroPage(),
       theme: ThemeData(
           textTheme: GoogleFonts.sansitaTextTheme(Theme.of(context).textTheme),
           primaryColor: Colors.pink[600],

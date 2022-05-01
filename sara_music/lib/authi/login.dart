@@ -258,15 +258,11 @@ TextEditingController Passwoord = TextEditingController();
   },body: body1);
 
 
-  print(res.statusCode);
-     print(res1.statusCode);
-      
     if(Passwoord.text.isNotEmpty&&UserN.text.isNotEmpty){
            if(res1.statusCode==200){
      Map<String, dynamic> DB1 = jsonDecode(res1.body);
                                  
   globalss.authToken= DB1['token'];
-  print(globalss.authToken);
   Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Tbottom_bar()),
@@ -275,11 +271,12 @@ TextEditingController Passwoord = TextEditingController();
 
            }
            
-           if(res.statusCode==200){
+          else if(res.statusCode==200){
                     Map<String, dynamic> DB = jsonDecode(res.body);
 
   globalss.authToken= DB['token'];
-  print(globalss.authToken);
+
+  globalss.StudentName=UserN.text;
       Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => bottom_bar()),

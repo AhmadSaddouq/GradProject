@@ -42,7 +42,14 @@ packages:
       name: babstrap_settings_screen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1"
+    version: "0.1.3"
+  blurry_modal_progress_hud:
+    dependency: "direct main"
+    description:
+      name: blurry_modal_progress_hud
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -63,7 +70,7 @@ packages:
       name: carousel_slider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.1"
   characters:
     dependency: transitive
     description:
@@ -105,7 +112,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -127,6 +134,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  eventify:
+    dependency: transitive
+    description:
+      name: eventify
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -166,7 +180,7 @@ packages:
       name: flutter_advanced_avatar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0+1"
+    version: "1.1.0"
   flutter_icons:
     dependency: "direct main"
     description:
@@ -187,7 +201,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -237,6 +251,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -261,6 +282,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: transitive
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.0.9"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -414,10 +442,7 @@ packages:
       name: motion_toast
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.6"
-=======
-    version: "2.1.3"
   nested:
     dependency: transitive
     description:
@@ -425,7 +450,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
->>>>>>> efa5fbede75cb57b3a0c19e0d31aba98f76d659c
   page_transition:
     dependency: "direct main"
     description:
@@ -467,7 +491,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.12"
+    version: "2.0.13"
   path_provider_ios:
     dependency: transitive
     description:
@@ -552,6 +576,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.2"
+  razorpay_flutter:
+    dependency: "direct main"
+    description:
+      name: razorpay_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
   scrollable_positioned_list:
     dependency: transitive
     description:
@@ -703,7 +734,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.1"
+    version: "2.5.2"
   xdg_directories:
     dependency: transitive
     description:
@@ -726,5 +757,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.15.1 <3.0.0"
-  flutter: ">=2.8.0"
+  dart: ">=2.16.0 <3.0.0"
+  flutter: ">=2.8.1"

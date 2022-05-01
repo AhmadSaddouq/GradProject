@@ -12,10 +12,10 @@ import 'package:sara_music/Screens/MyDrawer.dart';
 import 'package:sara_music/Shop/Shop.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:sara_music/globalss.dart';
-
-import 'package:sara_music/authi/login.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sara_music/authi/login.dart';
+
 
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -40,16 +40,19 @@ class HomepageState extends State<Homepage> {
     late Future S;
   late Future C;
   late Future I;
-
+List Rates=[];
   var NAME="0";
    List teacher=[];
+   bool test =false;
    List Instruments = [];
         var NAME1='0';
    var arr;
    var INS='0';
    var NAME2='0';
    var arr2;
-
+   var Average="";
+   var ArrayA;
+late Future Review;
  var CountTeacher="0";
  Future  SETNAME1() async{
     
@@ -70,16 +73,28 @@ class HomepageState extends State<Homepage> {
    
   }
     var NAME5 = NAME1.toString();
+    if(NAME5.length==0){
+      return await [teacher];
+    }
     arr = NAME5.split(",");
+   if(arr.toString().length==0){
+     return await [teacher];
+   }
     if(CountTeacher!=""){
     for(int i = 0; i<int.parse(CountTeacher);i++){
       teacher.add(arr[i]);
     }
     }
-    return await [teacher];
+   
     } catch(e){
       print(e);
     }
+     if(teacher.length==0){
+       
+      return await [teacher];
+    }
+        return await [teacher];
+
   }
   Future  CountT() async{
     try{
@@ -98,11 +113,15 @@ if(mounted){
     }
    
   }
-    return await [int.parse(CountTeacher)] ;
     }
     catch(e){
       print(e);
     }
+    if(CountTeacher==0){
+        return await [int.parse(CountTeacher)] ;
+    }
+        return await [int.parse(CountTeacher)] ;
+
   }
   Future  SETNAME() async{
     try{
@@ -120,10 +139,14 @@ if(mounted){
     }
   }
     
-    return await [NAME];
     } catch(e){
       print(e);
     }
+    if(NAME.isEmpty){
+      return await [NAME];
+    }
+        return await [NAME];
+
   }
 
    Future  INST() async{
@@ -144,16 +167,69 @@ if(mounted){
   }
   
     var NAME3 = NAME2.toString();
+    if(NAME3.length==0){
+      return await [Instruments];
+    }
     arr2 = NAME3.split(",");
+    if(arr2.toString().length==0){
+      return await [Instruments];
+    }
     if(CountTeacher!=""){
   for(int j = 0; j<int.parse(CountTeacher);j++){
       Instruments.add(arr2[j]);
     }
+        }
+        if(Instruments.length==0){
+          return await [Instruments];
         }   
-         return await [Instruments];
     } catch(e){
       print(e);
     }
+     if(Instruments.length==0){
+          return await [Instruments];
+        } 
+             return await [Instruments];
+
+  }
+
+   Future GetAverage() async{
+    try{
+   var res= await http.get(Uri.parse(globalss.IP+"/Ttasks/CountAvg"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+      if(mounted){
+
+  if(res.statusCode==200){
+ setState(() {
+     Average=res.body;
+     
+    });
+    }
+   
+  }
+    var Average1 = Average.toString();
+    if(Average1.length==0){
+      return await [Rates];
+    }
+    ArrayA = Average1.split(",");
+   if(ArrayA.toString().length==0){
+     return await [Rates];
+   }
+    if(CountTeacher!=""){
+    for(int i = 0; i<int.parse(CountTeacher);i++){
+    Rates.add(ArrayA[i]);
+    }
+    }
+   
+    } catch(e){
+      print(e);
+    }
+     if(Rates.length==0){
+      return await [Rates];
+    }
+        return await [Rates];
+
   }
 
   ScrollController _scrollController = ScrollController();
@@ -161,11 +237,12 @@ if(mounted){
   @override
 void initState(){
   super.initState();
-        C= CountT();
+   C= CountT();
 
  N = SETNAME();
   S= SETNAME1();
  I= INST();
+ Review=GetAverage();
 }
   Widget build(BuildContext context) {
 
@@ -238,125 +315,7 @@ void initState(){
             ),
             SizedBox(
               height: 199,
-              child: ListView.separated(
-                primary: false,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                itemCount: int.parse(CountTeacher),
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(indent: 16),
-                itemBuilder: (BuildContext context, int index) => Container(
-                  width: 283,
-                  height: 199,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 231, 241, 241),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 77,
-                          height: 54,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 0, 84, 153),
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(32)),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 100,
-                        left: 20,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${teacher[index]}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Text(
-                              "${Instruments[index]}",
-                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(                             
-                            children: [
-                              SizedBox(width: 2.5,),
-                              Text(
-                                "4.5",
-                                style: GoogleFonts.sansita(
-                                    color: Color.fromARGB(255, 58, 57, 57)),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              SmoothStarRating(
-                                size: 20,
-                                rating: 5,
-                                defaultIconData: Icons.star,
-                                starCount: 1,
-                                color: Colors.yellow,
-                                borderColor: Colors.yellow,
-                              ),
-                              
-                              
-                            ],
-                          ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          width: 77,
-                          height: 54,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 0, 84, 153),
-                            borderRadius:
-                                BorderRadius.only(topLeft: Radius.circular(32)),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 10,
-                        bottom: 80,
-                        top: 0,
-                        child: SizedBox(
-                          width: 100,
-                          height: 140,
-                          child: Hero(
-                            tag: "${teacher[index]}",
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black,
-                              radius: 80,
-                              child: CircleAvatar(
-                                radius: 48,
-                                backgroundImage: AssetImage('images/ehab.jpg'),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child:Waitforme()
             ),
             SizedBox(
               height: 10,
@@ -438,7 +397,141 @@ void initState(){
     );
   
   }
+  Widget Waitforme() {
+  
+  return FutureBuilder(future: C, builder:((context, snapshot)  {
+      return snapshot.data==null||teacher.length<=0||Instruments.length<=0||int.parse(CountTeacher)<=0||NAME.length<=0?  Center(child: CircularProgressIndicator()):
+      
+       ListView.separated(
+                primary: false,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                itemCount: int.parse(CountTeacher),
+                separatorBuilder: (BuildContext context, int index) =>
+                    Divider(indent: 16),
+                itemBuilder: (BuildContext context, int index) => Container(
+                  width: 283,
+                  height: 199,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 231, 241, 241),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 77,
+                          height: 54,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 0, 84, 153),
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(32)),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 100,
+                        left: 20,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if(teacher.length>0)
+                            Text(
+                              "${teacher[index]}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            if(Instruments.length>0)
+                            Text(
+                              "${Instruments[index]}",
+                               style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(                             
+                            children: [
+                              SizedBox(width: 2.5,),
+                             if(Rates.length>0)
+                              Text(
+                                "${Rates[index]}",
+                                style: GoogleFonts.sansita(
+                                    color: Color.fromARGB(255, 58, 57, 57)),
+                              ),
+                            
+                              SizedBox(
+                                width: 5,
+                              ),
+                              SmoothStarRating(
+                                size: 20,
+                                rating: 5,
+                                defaultIconData: Icons.star,
+                                starCount: 1,
+                                color: Colors.yellow,
+                                borderColor: Colors.yellow,
+                              ),
+                              
+                              
+                            ],
+                          ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          width: 77,
+                          height: 54,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 0, 84, 153),
+                            borderRadius:
+                                BorderRadius.only(topLeft: Radius.circular(32)),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom: 80,
+                        top: 0,
+                        child: SizedBox(
+                          width: 100,
+                          height: 140,
+                          child: Hero(
+                            tag: "${teacher[index]}",
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: 80,
+                              child: CircleAvatar(
+                                radius: 48,
+                                backgroundImage: AssetImage('images/ehab.jpg'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+   
+
+  }));
 }
+}
+
+
 
 
 

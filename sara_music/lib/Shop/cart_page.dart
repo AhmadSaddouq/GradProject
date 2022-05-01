@@ -2,18 +2,87 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:sara_music/Screens/Details_screen.dart';
 import 'package:sara_music/Shop/Shop.dart';
 import 'package:sara_music/Shop/product_detail_page.dart';
 import 'product_data.dart';
 import 'colors.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
+import 'package:sara_music/globalss.dart';
+
+
 
 class CartPage extends StatefulWidget {
   @override
+ 
+  
   _CartPageState createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
+    Map<String, dynamic>? paymentIntentData;
+
+
+  late Razorpay _razorpay;
+ static const platform = const MethodChannel("razorpay_flutter");
+
+  void initState() {
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+  }
+
+   void openCheckout() async {
+    var options = {
+
+      'key': "rzp_test_8xyYa69mP2tBT3",
+   'amount': 50000, //in the smallest currency sub-unit.
+  'name': '${globalss.StudentName}',
+  'description': 'Fine T-Shirt',
+  'timeout': 600, // in seconds
+  'prefill': {
+    'contact': '9123456789',
+    'email': 'gaurav.kumar@example.com'
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      // debugPrint('Error: e');
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print('Success Response: $response');
+    // Fluttertoast.showToast(
+    //     msg: "SUCCESS: " + response.paymentId!,
+    //     toastLength: Toast.LENGTH_SHORT); 
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print('Error Response: $response');
+    //  Fluttertoast.showToast(
+    //     msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+    //     toastLength: Toast.LENGTH_SHORT); 
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print('External SDK Response: $response');
+    //  Fluttertoast.showToast(
+    //     msg: "EXTERNAL_WALLET: " + response.walletName!,
+    //     toastLength: Toast.LENGTH_SHORT); 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,7 +238,10 @@ class _CartPageState extends State<CartPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               color: Colors.pink[600],
-              onPressed: () {},
+              onPressed: () {
+              
+            openCheckout();
+              },
               child: Container(
                 height: 50,
                 child: Center(
@@ -186,4 +258,6 @@ class _CartPageState extends State<CartPage> {
       ],
     );
   }
+
+
 }
