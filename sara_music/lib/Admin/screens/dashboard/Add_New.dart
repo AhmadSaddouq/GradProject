@@ -1433,7 +1433,7 @@ request.headers.addAll(headers);
   
   return FutureBuilder( future: Countt, builder:((context, snapshot)  {
 
-      return snapshot.data==null||items.length<=0?  Center(child: CircularProgressIndicator()): 
+      return snapshot.data==null||snapshot.data==""?  Center(child: CircularProgressIndicator()): 
       Container(
                                   width: double.maxFinite,
                                   child: DropdownButtonHideUnderline(

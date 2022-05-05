@@ -30,17 +30,7 @@ class _CartPageState extends State<CartPage> {
   late Razorpay _razorpay;
  static const platform = const MethodChannel("razorpay_flutter");
 
-  void initState() {
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    count1 = CartCount();
-    NAME=CartName();
-    PRICE=CartPrice();
-    IMAGE=CartImage();
-    QUANTITY=CartQuantity();
-  }
+
   @override
   late Future count1;
   late Future NAME;
@@ -64,14 +54,13 @@ class _CartPageState extends State<CartPage> {
   List QuantityCart=[];
     Future RemoveData(var name)async{
 var body1=jsonEncode({
-"Name": globalss.StudentName,
 'CartName':name
 
  });
 
    var res= await http.post(Uri.parse(globalss.IP+"/tasks/RemoveCart"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
-                    'Authorization': 'Bearer ' + globalss.authToken 
+                'Authorization': 'Bearer ' + globalss.authToken 
 
 
   },body: body1);
@@ -87,6 +76,19 @@ var body1=jsonEncode({
 
 
   }
+  Future pay(var Pay) async{
+   var body1 = jsonEncode({
+     'CartName':Pay
+   });
+     var res= await http.post(Uri.parse(globalss.IP+"/tasks/CartDone"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+
+  },body: body1);
+  print(Pay.toString());
+  print(res.statusCode);
+  }
   Future CartCount() async{
 try{
    var res= await http.get(Uri.parse(globalss.IP+"/tasks/getCount"),headers: {
@@ -95,17 +97,15 @@ try{
 
 
   });
-  if(mounted){
   if(res.statusCode==200){
     count=res.body;
-  }
+  
   }
   }catch(e){
     print(e);
   }
-  if(int.parse(count)!=0){
 return  await count;
-  }
+  
 }
 
 //
@@ -117,38 +117,27 @@ return  await count;
             'Authorization': 'Bearer ' + globalss.authToken 
 
   });
-      if(mounted){
 
   if(res.statusCode==200){
- setState(() {
      name=res.body;
      
-    });
     }
    
-  }
+  
     var NAME5 = name.toString();
-    if(NAME5.length==0){
-      return await [NameCart];
-    }
+ 
     arr = NAME5.split(",");
-   if(arr.toString().length==0){
-     return await [NameCart];
-   }
-    if(count!=""){
+   
     for(int i = 0; i<int.parse(count);i++){
       NameCart.add(arr[i]);
     }
-    }
+    
    
     } catch(e){
       print(e);
     }
-     if(NameCart.length==0){
-       
-      return await [NameCart];
-    }
-        return await [NameCart];
+     
+        return await NameCart;
 
   }
 
@@ -166,37 +155,26 @@ return  await count;
             'Authorization': 'Bearer ' + globalss.authToken 
 
   });
-      if(mounted){
 
   if(res.statusCode==200){
- setState(() {
      price=res.body;
      
-    });
     }
    
-  }
+  
     var NAME6 = price.toString();
-    if(NAME6.length==0){
-      return await [PriceCart];
-    }
+
     arr1 = NAME6.split(",");
-   if(arr1.toString().length==0){
-     return await [PriceCart];
-   }
-    if(count!=""){
+  
     for(int i = 0; i<int.parse(count);i++){
       PriceCart.add(arr1[i]);
     }
-    }
+    
    
     } catch(e){
       print(e);
     }
-     if(PriceCart.length==0){
-       
-      return await [PriceCart];
-    }
+
     for(var j =0;j<int.parse(count);j++){
 total+=int.parse(PriceCart[j]);
 
@@ -218,38 +196,27 @@ total+=int.parse(PriceCart[j]);
             'Authorization': 'Bearer ' + globalss.authToken 
 
   });
-      if(mounted){
 
   if(res.statusCode==200){
- setState(() {
      quantity=res.body;
      
-    });
     }
    
-  }
+  
     var NAME7 = quantity.toString();
-    if(NAME7.length==0){
-      return await [QuantityCart];
-    }
+   
     arr2 = NAME7.split(",");
-   if(arr2.toString().length==0){
-     return await [QuantityCart];
-   }
-    if(count!=""){
+
     for(int i = 0; i<int.parse(count);i++){
       QuantityCart.add(arr2[i]);
     }
-    }
+    
    
     } catch(e){
       print(e);
     }
-     if(QuantityCart.length==0){
-       
-      return await [QuantityCart];
-    }
-        return await [QuantityCart];
+    
+        return await QuantityCart;
  }
   
   
@@ -266,43 +233,44 @@ total+=int.parse(PriceCart[j]);
             'Authorization': 'Bearer ' + globalss.authToken 
 
   });
-      if(mounted){
 
   if(res.statusCode==200){
- setState(() {
      image=res.body;
      
-    });
     }
    
-  }
+  
     var NAME8 = image.toString();
-    if(NAME8.length==0){
-      return await [ImageCart];
-    }
+   
     arr3 = NAME8.split(",");
-   if(arr3.toString().length==0){
-     return await [ImageCart];
-   }
-    if(count!=""){
+
     for(int i = 0; i<int.parse(count);i++){
       ImageCart.add(arr3[i]);
-    }
+    
     }
    
     } catch(e){
       print(e);
     }
-     if(ImageCart.length==0){
-       
-      return await [ImageCart];
-    }
-        return await [ImageCart];
+    
+        return await ImageCart;
  }
 
-
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    count1 = CartCount();
+    NAME=CartName();
+    PRICE=CartPrice();
+    IMAGE=CartImage();
+    QUANTITY=CartQuantity();
+  }
 //
   void dispose() {
+    super.dispose();
     _razorpay.clear();
   }
   
@@ -330,6 +298,8 @@ total+=int.parse(PriceCart[j]);
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
+    pay(name);
+
     // Fluttertoast.showToast(
     //     msg: "SUCCESS: " + response.paymentId!,
     //     toastLength: Toast.LENGTH_SHORT); 
@@ -351,13 +321,25 @@ total+=int.parse(PriceCart[j]);
   @override
   
   Widget build(BuildContext context) {
-    
     return Scaffold(
+      
+      
       body: getBody(),
     );
+    
   }
 
   Widget getBody() {
+    return Waitforme1();
+  }
+Widget Waitforme1() {
+  return FutureBuilder(future:Future.wait<dynamic>([count1,IMAGE,NAME,QUANTITY,PRICE]), builder:((context,AsyncSnapshot snapshot)  {
+   if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+         } else if (snapshot.hasError) {
+                          return Center(child: CircularProgressIndicator());
+
+         }
     return ListView(
       children: <Widget>[      
             Row(
@@ -385,7 +367,9 @@ total+=int.parse(PriceCart[j]);
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 5),
-                  child: Text(
+                  child: 
+                  Text(
+
                     'My Cart',
                     style: Theme.of(context)
                         .textTheme
@@ -397,64 +381,7 @@ total+=int.parse(PriceCart[j]);
               ],
             ),  
             SizedBox(height: 50,),    
-      Waitforme1(),
-        SizedBox(
-          height: 50,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 30, right: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Total",
-                style: TextStyle(
-                    fontSize: 22,
-                    color: black.withOpacity(0.5),
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                "${total}",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-              color: Colors.pink[600],
-              onPressed: () {
-              
-            openCheckout();
-              },
-              child: Container(
-                height: 50,
-                child: Center(
-                  child: Text(
-                    "CHECKOUT",
-                    style: TextStyle(
-                        color: white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              )),
-        )
-      ],
-    );
-  }
-Widget Waitforme1() {
-  
-  return FutureBuilder(future:count1, builder:((context, snapshot)  {
-
-      return snapshot.data==0||int.parse(count)<=0||ImageCart.length<=0?  Center(child: CircularProgressIndicator()):
-     Column(
+          Column(
           children:
           List.generate(int.parse(count), (index) {
             return FadeInDown(
@@ -542,8 +469,59 @@ Widget Waitforme1() {
                 ),
               ),
             );
-          }),
-        );
+          })
+          ),
+        SizedBox(
+          height: 50,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                "Total",
+                style: TextStyle(
+                    fontSize: 22,
+                    color: black.withOpacity(0.5),
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                "\$${total}",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: FlatButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              color: Colors.pink[600],
+              onPressed: () {
+              
+            openCheckout();
+              },
+              child: Container(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    "CHECKOUT",
+                    style: TextStyle(
+                        color: white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              )),
+        )
+      ],
+    );
+                
   }));
 }
 

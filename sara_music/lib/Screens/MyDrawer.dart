@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sara_music/authi/login.dart';
 import 'package:sara_music/globalss.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,26 @@ class MyDrawer extends State<DRawer> {
    var NAME1;
    var EMAIL1;
    var SHORT;
+Future  logout() async{
+    
+    var res= await http.post(Uri.parse(globalss.IP+"/users/logout"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+
+  });
+  if(res.statusCode==200){
+    if(mounted){
+     print(res.statusCode);
+
+ Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                               Login ()));
+    }
+   
+  }
+   
+  }
+
   Future  SETNAME1() async{
     
     var res= await http.get(Uri.parse(globalss.IP+"/tasks/name"),headers: {
@@ -173,7 +194,10 @@ class MyDrawer extends State<DRawer> {
               color: Colors.red,
               size: 28,
             ),
-            onTap: () {},
+            onTap: () {
+
+              logout();
+            },
           ),
         ],
       ),

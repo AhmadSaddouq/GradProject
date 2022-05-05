@@ -52,20 +52,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void intState() {
     super.initState();
   }
-  Future RemoveData()async{
-var body1=jsonEncode({
-"Name": globalss.StudentName,
 
-
- });
-
-  }
   Future sendData(int quantity) async{
 
+var P = globalss.InstrumentsPrice.toString();
+var arr= P.split("\$");
 
 var body1=jsonEncode({
 "Name": globalss.StudentName,
-'CartPrice': globalss.InstrumentsPrice,
+'CartPrice':arr[0].toString(),
 'CartName':globalss.InstrumentsName,
 'CartQuantity':quantity.toString(),
 'CartImage':globalss.InstrumentsImage
@@ -78,6 +73,10 @@ var body1=jsonEncode({
   }, body: body1);
 if(mounted){
   if(res.statusCode==200){
+       Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartPage()));
    print(res.body);
     print("Ok");
   }
@@ -146,7 +145,7 @@ if(res.statusCode==400){
                         size: 30,
                       ),
                       onPressed: () {
-                          
+                        Navigator.pop(context);
                       }),
                 ),
               ],
@@ -273,10 +272,7 @@ if(res.statusCode==400){
                           color: Colors.pink[600],
                           onPressed: () {
                             sendData(_currentIntValue);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CartPage()));
+                         
                           },
                           child: Container(
                             height: 50,

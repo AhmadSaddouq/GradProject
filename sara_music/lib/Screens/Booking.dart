@@ -58,7 +58,46 @@ var teacher1 = 0;
    var DDate = "";
    var TTime = "";
    var TNAME = "";
+
+Future DeleteDate() async{
+
+ var res= await http.post(Uri.parse(globalss.IP+"/tasks/DeleteAp"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization': 'Bearer ' + globalss.authToken 
+
+
+  });
+
+  if(res.statusCode==200){
+         Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Booking()),
+            
+            );
+_displayErrorMotionToastDelete();
+  }
+}
+
    
+Future EditDate() async{
+
+ var res= await http.post(Uri.parse(globalss.IP+"/tasks/EditAp"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization': 'Bearer ' + globalss.authToken 
+
+
+  });
+
+  if(res.statusCode==200){
+         Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Booking()),
+            
+            );
+_displayErrorMotionToast();
+  }
+}
+
 
    Future SD()async{
 try{
@@ -503,120 +542,7 @@ try{
                       ],
                     ) else SizedBox(
                       height: 450,
-                      child: ListView.separated(
-                        primary: false,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        itemCount: 1,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Divider(indent: 16),
-                        itemBuilder: (BuildContext context, int index) =>
-                            Container(
-                          width: 283,
-                          height: 160,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 231, 241, 241),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                bottom: 30,
-                                right: 50,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: 80,
-                                        height: 25,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: Colors.pink[600],
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Text(
-                                          "${TTime}",
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                        width: 100,
-                                        height: 25,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: Colors.pink[600],
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Text(
-                                          "${DDate}",
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                        SizedBox(height: 5,),
-                                   
-                                    Text(
-                                    
-                                     "${TNAME}",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                   
-                                    Text(
-                                    
-                                     categories[index].name,
-                                    
-
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 71, 65, 65),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 20,
-                                top: 15,
-                                child: SizedBox(
-                                  width: 80,
-                                  height: 110,
-                                  child: Hero(
-                                    tag: "${teacher[index]}",
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.black,
-                                      radius: 40,
-                                      child: CircleAvatar(
-                                        radius: 35,
-                                        backgroundImage:
-                                            AssetImage('images/ehab.jpg'),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                  bottom: 5,
-                                  right: 15,
-                                  child: InkWell(
-                                    onTap: () => showFullScreenMenu(context),
-                                    child: Image.asset(
-                                        "images/icons-meatball.png",
-                                        height: 30),
-                                  ))
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: Waitforme1(),
                     ),
             ],
           ),
@@ -639,14 +565,40 @@ try{
           icon: Icon(Icons.edit, color: Colors.white),
           text: Text('Edit', style: TextStyle(color: Colors.white)),
           gradient: deepPurpleGradient,
+          onTap: (){
+
+            EditDate();
+          },
         ),
         FSMenuItem(
           icon: Icon(Icons.delete, color: Colors.white),
           text: Text('Delete', style: TextStyle(color: Colors.white)),
+          onTap: (){
+            DeleteDate();
+          },
         ),
       ],
     );
   }
+  
+    void _displayErrorMotionToast() {
+       
+    MotionToast.success(
+      title: Text(
+        "Success",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text("You can edit your booking."),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+
+
+
   
      void _displayErrorMotionToast3() {
        
@@ -719,6 +671,22 @@ try{
         ),
       ),
       description: Text('This Date is already booked, try another one!'),
+      animationType: ANIMATION.fromLeft,
+      position: MOTION_TOAST_POSITION.top,
+      width: 300,
+    ).show(context);
+  }
+
+  void _displayErrorMotionToastDelete() {
+       
+    MotionToast.success(
+      title: Text(
+        "Success",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Text('Your date is deleted and you can choose another one!'),
       animationType: ANIMATION.fromLeft,
       position: MOTION_TOAST_POSITION.top,
       width: 300,
@@ -873,6 +841,129 @@ Widget Waitforme() {
                                             left: 10, right: 10, bottom: 20)),
                                   );
                                 });
+      
+
+  }));
+}
+Widget Waitforme1() {
+  
+  return FutureBuilder(future: username1, builder:((context, snapshot)  {
+
+      return snapshot.data==null||teacher.length<=0||Instruments.length<=0||int.parse(CountTeacher)<=0?  Center(child: CircularProgressIndicator()):
+    ListView.separated(
+                        primary: false,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        itemCount: 1,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(indent: 16),
+                        itemBuilder: (BuildContext context, int index) =>
+                            Container(
+                          width: 283,
+                          height: 160,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 231, 241, 241),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                bottom: 30,
+                                right: 50,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: 80,
+                                        height: 25,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: Colors.pink[600],
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Text(
+                                          "${TTime}",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                        width: 100,
+                                        height: 25,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: Colors.pink[600],
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Text(
+                                          "${DDate}",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        SizedBox(height: 5,),
+                                   
+                                    Text(
+                                    
+                                     "${TNAME}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                   
+                                    Text(
+                                    
+                                     categories[index].name,
+                                    
+
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 71, 65, 65),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                left: 20,
+                                top: 15,
+                                child: SizedBox(
+                                  width: 80,
+                                  height: 110,
+                                  child: Hero(
+                                    tag: "${teacher[index]}",
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      radius: 40,
+                                      child: CircleAvatar(
+                                        radius: 35,
+                                        backgroundImage:
+                                            AssetImage('images/ehab.jpg'),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  bottom: 5,
+                                  right: 15,
+                                  child: InkWell(
+                                    onTap: () => showFullScreenMenu(context),
+                                    child: Image.asset(
+                                        "images/icons-meatball.png",
+                                        height: 30),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      );
       
 
   }));

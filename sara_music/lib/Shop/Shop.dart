@@ -20,26 +20,25 @@ class Shop extends StatefulWidget {
 
 class ShopState extends State<Shop> {
   @override
-var count="0";
+var count="";
 late Future coun;
 
-  Future InstrumentsCount() async{
+  Future <dynamic> InstrumentsCount() async{
 try{
    var res= await http.post(Uri.parse(globalss.IP+"/Instruments/count"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
 
   });
-  if(mounted){
   if(res.statusCode==200){
     count=res.body;
   }
-  }
+  
   }catch(e){
     print(e);
   }
-  if(int.parse(count)!=0){
-return  await count;
-  }
+  
+     
+  return await count;
 }
 ///
 var InstrumentsDes="";
@@ -78,27 +77,25 @@ var InstrumentPrice="";
 var arrp;
 late Future Pr;
 var InstrumentPric=[];
-Future InstrumentPri() async{
+Future <dynamic> InstrumentPri() async{
   var res= await http.post(Uri.parse(globalss.IP+"/Instruments/price"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
 
   });
-if(mounted){
   if(res.statusCode==200){
      InstrumentPrice = res.body;
   }
      
-    }
+    
      var InstrumentPricee = InstrumentPrice.toString();
       arrp=InstrumentPricee.split(",");
-      if(int.parse(count)!=0){
       for(int i = 0; i<int.parse(count);i++){
      InstrumentPric.add(arrp[i]);
 
 }
       
-      }
-return await [InstrumentPric];
+      
+return await InstrumentPric;
 }
 
 
@@ -108,68 +105,64 @@ var InstrumentNa="";
 var arrC;
 var InstrumentsName=[];
 late Future Na;
-Future InstrumentName() async{
+Future <dynamic>InstrumentName() async{
   try{
   var res= await http.post(Uri.parse(globalss.IP+"/Instruments/getName"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
 
   });
-if(mounted){
   if(res.statusCode==200){
      InstrumentNa = res.body;
-  }
+  
      
     }
      var INSN = InstrumentNa.toString();
       arrC=INSN.split(",");
-      if(int.parse(count)!=0){
       for(int i = 0; i<int.parse(count);i++){
       InstrumentsName.add(arrC[i]);
 
 }
-      }
+      
       }catch(e){
         print(e);
       }
-return await [InstrumentsName];
+return await InstrumentsName;
 }
 var Imagess="";
 var InstrumentsImage=[];
 var arrImage;
 late Future Im;
-Future InstruemntImage() async{
+Future <dynamic>InstruemntImage() async{
   try{
   var res= await http.post(Uri.parse(globalss.IP+"/Instruments/getImage"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
 
   });
-  if(mounted){
     if(res.statusCode==200){
       Imagess=res.body;
     }
-  }
+  
   var ii = Imagess.toString();
   arrImage = ii.split(",");
-  if(int.parse(count)!=0){
 
     for(int i = 0; i<int.parse(count);i++){
       InstrumentsImage.add(arrImage[i]);
 
 }
-  }
+  
   }catch(e){
     print(e);
   }
-return await [InstrumentsImage];
+return await InstrumentsImage;
 }
 void initState(){
+  
   super.initState();
-    coun=InstrumentsCount();
-
-  Na=InstrumentName();
-  Im=InstruemntImage();
+  
+  coun=InstrumentsCount();
     Pr=InstrumentPri();
-
+ Na=InstrumentName();
+   Im=InstruemntImage();
   // Ind=InstrumentDes();
 }
   Widget build(BuildContext context) {
@@ -218,11 +211,16 @@ void initState(){
   }
     Widget Waitforme() {
   
-  return FutureBuilder( future: coun, builder:((context, snapshot)  {
-
-      return snapshot.data==null||int.parse(count)<=0||InstrumentsImage.length<=0?  Center(child: CircularProgressIndicator()): 
-     
-   Column(children: List.generate(int.parse(count), (index){
+   
+   
+  return FutureBuilder(future: Future.wait<dynamic>([coun, Im,Pr,Na]), builder:((context, AsyncSnapshot snapshot)  {
+    if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+         } else if (snapshot.hasError) {
+              print(snapshot.error.toString());
+         }
+         
+  return Column(children: List.generate(int.parse(count), (index){
           return FadeInDown(
             duration: Duration(milliseconds: 350 * index),
                       child: Padding(
@@ -295,8 +293,8 @@ void initState(){
         ),
           );
         }));
-
-  }));
+      
+    }));
 }
     
 }

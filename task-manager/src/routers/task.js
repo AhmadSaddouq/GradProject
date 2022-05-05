@@ -13,6 +13,7 @@ const Instruments = require('../models/ShoppingInstruments')
 const multer = require('multer')
 const sharp = require('sharp')
 const { integer } = require('sharp/lib/is')
+const { compareSync } = require('bcrypt')
 
 
 const router = new express.Router()
@@ -157,7 +158,18 @@ router.patch('/tasks/TheTeacher',auth,async (req, res) => {
     
         
     try {
-        const IFHasTeacher = await Task.findOne({Name : req.user.name})
+        const IFHasTeacher = await Task.findOne({Name: req.user.name})
+        const COUNT = await TTask.findOne({NName: req.body.name})
+
+        if(COUNT.Students.length>0){
+            for(var i =0 ; i<COUNT.Students.length;i++){
+                if(COUNT.Students[i]==req.user.name){
+                    console.log("ThisStudentIsAlreadySigned")
+                   return res.status(400).send("AlreadySigned");
+    
+                }
+            }
+        }
         if(!IFHasTeacher.Time==""){
             if(!IFHasTeacher.Date==""){
             return res.status(400).send("NO");
@@ -166,23 +178,14 @@ router.patch('/tasks/TheTeacher',auth,async (req, res) => {
         return res.status(400).send("NO");
         
         }
-        const COUNT = await TTask.findOne({NName: req.body.name})
        
-        if(COUNT.Students.length>9){
+        if(COUNT.Students.length>5){
  
             return res.status(400).send("Max");
 
         }
        
-      if(COUNT.Students.length>0){
-        for(var i =0 ; i<COUNT.Students.length;i++){
-            if(COUNT.Students[i]==req.user.name){
-                console.log("ThisStudentIsAlreadySigned")
-               return res.status(400).send("AlreadySigned");
-
-            }
-        }
-    }
+ 
     if(COUNT.DateS.length>0){
         if(COUNT.TimeS.length>0){
         if(COUNT.NName == req.body.name && COUNT.instrument == req.body.instrument){
@@ -431,19 +434,23 @@ router.post('/tasks/data', auth ,async (req, res) => {
           var n3=0;
           var n4=0;
           var n5;
+
        if(req.body.CartQuantity==0){
             res.status(400).send("NO")
         }
 var n6=0;
-var n7;
+var n7=0;
              var check = parseInt(Shop[temp].Quantity) - parseInt(req.body.CartQuantity)
 
              if(check<0){
-                 console.log(check)
-                 return res.status(400).send("Youcant")
+                
+                res.status(400).send("Youcant")
+                return
              }
-           if(Shop[temp].Quantity<req.body.CartQuantity){
+           if(parseInt(Shop[temp].Quantity)<parseInt(req.body.CartQuantity)){
+       
                res.status(400).send("Over")
+               return
            }
            for(j=0;j<count1;j++){
             if(req.body.CartName==user.CartName[j]){
@@ -458,12 +465,23 @@ var n7;
               Shop[temp].Quantity-=req.body.CartQuantity
               await Shop[temp].save()
               await user.save()
-                 return res.status(200).send("Hi")
+             res.status(200).send()
+
+             return
+
+
             }
+            
+            
           }
+
+
            if(Shop[temp].Quantity==0){
-            res.status(400).send("Over1")
+         res.status(400).send("Over1")
+         return
+
         }
+
         
 
 
@@ -500,14 +518,20 @@ var n7;
             await user.save()
             await Shop[temp].save()
             await PushData.save()
-            res.status(200).send(Shop[temp])
+            res.status(200).send()
+            return
+
 
 
         
             }
+
         
     } catch (e) {
-        res.status(500).send()
+
+        res.status(400).send()
+        return
+
     }
 })
 router.patch('/tasks/me', auth, async (req, res) => {
@@ -623,17 +647,154 @@ router.get('/tasks/getCount',auth, async (req, res) => {
 })
 
 
+router.post('/tasks/DeleteAp',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner:req.user.id})
+        const user1 = await Task.findOne({ owner: req.user.id})
+        const user2 = await Task.findOne({owner:req.user.id})
+        await user2.populate('owner')
+        await user1.populate('owner2')
+
+        const teacher = await TTask.findOne({NName:user1.owner2.name})
+        user.Date="";
+        user.Time="";
+        user.instrument="";
+        user.owner2="";
+        user2.owner.owner1="";
+        var i;
+        var temp = 0;
+        for(i=0;i<teacher.Students.length;i++){
+            if(teacher.Students[i]==user.Name){
+             temp = i;
+            }
+        }
+        teacher.DateS.splice(temp,1)
+        teacher.Students.splice(temp,1)
+        teacher.TimeS.splice(temp,1)
+
+        await user.save()
+        await teacher.save() 
+        await user2.save()
+    res.status(200).send([user,teacher,user2])
+   
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 router.post('/tasks/RemoveCart',auth, async (req, res) => {
     try {
         const user = await Task.findOne({owner: req.user.id})
+        const count = user.CartName.length
         let index1 = await user.CartName.indexOf(req.body.CartName)
-        console.log(index1)
+        const instru = await Instruments.find({})
+        const count1 = instru.length
+        var j1;
+        var j2;
+        var j3;
+        var inc=0;
+        var inc1=0;
+     
+        for(j1=0;j1<count;j1++){
+            for(j2=0;j2<count1;j2++){
+             if(instru[j2].name==user.CartName[j1]){
+                 
+                 inc = parseInt(user.CartQuantity[j1])
+                 inc1=parseInt(instru[j2].Quantity)
+
+                 inc1+=inc
+                instru[j2].Quantity=inc1.toString()
+                console.log(instru[j2].Quantity)
+                await instru[j2].save()
+
+       
+                }
+
+            }
+         
+
+        }
         user.CartName.splice(index1,1)
         user.CartPrice.splice(index1,1)
         user.CartImage.splice(index1,1)
         user.CartQuantity.splice(index1,1)
         await user.save()
+
         res.status(200).send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.post('/tasks/EditAp',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner:req.user.id})
+        const user1 = await Task.findOne({ owner: req.user.id})
+        const user2 = await Task.findOne({owner:req.user.id})
+        await user2.populate('owner')
+        await user1.populate('owner2')
+
+        const teacher = await TTask.findOne({NName:user1.owner2.name})
+        user.Date="";
+        user.Time="";
+        user.instrument="";
+        user.owner2="";
+        user2.owner.owner1="";
+        var i;
+        var temp = 0;
+        for(i=0;i<teacher.Students.length;i++){
+            if(teacher.Students[i]==user.Name){
+             temp = i;
+            }
+        }
+        teacher.DateS.splice(temp,1)
+        teacher.Students.splice(temp,1)
+        teacher.TimeS.splice(temp,1)
+
+        await user.save()
+        await teacher.save() 
+        await user2.save()
+    res.status(200).send([user,teacher,user2])
+   
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+router.post('/tasks/CartDone',auth, async (req, res) => {
+    try {
+       const user = await Task.findOne({owner:req.user.id})
+        const count3 =user.CartName.length
+           var arr = req.body.CartName.toString()
+           var Array = arr.split(",")
+           const count = Array.length
+           var i;
+           var j;
+          
+           user.CartName.splice(0)
+           user.CartImage.splice(0)
+           user.CartPrice.splice(0)
+           user.CartQuantity.splice(0)
+           for(j=0;j<Array.length;j++){
+               const task = await Task.findOneAndUpdate({owner:req.user.id
+            
+            },
+            {
+                $push:{
+                    CartOwns:Array[j]
+                }
+            }
+                )
+                if(j==Array.length-1){
+                    await user.save()
+                    await task.save()
+
+                }
+            }
+           
+
+    res.status(200).send(user)
+   
     } catch (e) {
         res.status(500).send()
     }

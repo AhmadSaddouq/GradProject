@@ -38,6 +38,11 @@ var taskSchema = new mongoose.Schema({
         required:false,
         trim: true
     },
+    CartOwns:{
+        type:Array,
+        required:false,
+        trim:true
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

@@ -497,10 +497,13 @@ S= SETNAME1();
   }
   Widget Waitforme() {
   
-  return FutureBuilder(future: C, builder:((context, snapshot)  {
-      return snapshot.data==null||teacher.length<=0||Instruments.length<=0||int.parse(CountTeacher)<=0||NAME.length<=0?  Center(child: CircularProgressIndicator()):
-      
-       ListView.separated(
+  return FutureBuilder(future: Future.wait([C,N,S,I,Review]), builder:((context, snapshot)  {
+    if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+         } else if (snapshot.hasError) {
+              print(snapshot.error.toString());
+         }      
+     return  ListView.separated(
                 primary: false,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -629,10 +632,14 @@ S= SETNAME1();
 }
  Widget Waitforme1() {
   
-  return FutureBuilder(future:ImageCourses, builder:((context, snapshot)  {
+  return FutureBuilder(future:Future.wait([CountCoursee,ImageCourses,ImageCourses]), builder:((context, snapshot)  {
 
-      return snapshot.data==null||CourseImage.length==0||int.parse(count)<=0||CourseName.length==0?  Center(child: CircularProgressIndicator()): 
-   Expanded(
+    if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+         } else if (snapshot.hasError) {
+              print(snapshot.error.toString());
+         }
+         return   Expanded(
               child: StaggeredGridView.countBuilder(
                 padding: EdgeInsets.all(0),
                 crossAxisCount: 2,
