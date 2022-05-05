@@ -698,6 +698,7 @@ router.post('/tasks/RemoveCart',auth, async (req, res) => {
         for(j1=0;j1<count;j1++){
             for(j2=0;j2<count1;j2++){
              if(instru[j2].name==user.CartName[j1]){
+                
                  
                  inc = parseInt(user.CartQuantity[j1])
                  inc1=parseInt(instru[j2].Quantity)
