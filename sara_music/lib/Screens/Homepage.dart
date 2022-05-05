@@ -37,23 +37,168 @@ class Homepage extends StatefulWidget {
 class HomepageState extends State<Homepage> {
   TextEditingController Name= TextEditingController();
   late Future N;
+  late Future Desc;
     late Future S;
   late Future C;
   late Future I;
+  List CourseDes=[];
+  var coursesDes="";
+  var arrd;
 List Rates=[];
+late Future CountCoursee;
+late Future NameCourses;
+late Future ImageCourses;
+late Future Pricee;
   var NAME="0";
    List teacher=[];
    bool test =false;
    List Instruments = [];
         var NAME1='0';
+        List CourseName=[];
+        List CourseImage=[];
+        List CoursePrice=[];
    var arr;
    var INS='0';
+   var coursespri="";
+   var arrp;
    var NAME2='0';
    var arr2;
    var Average="";
    var ArrayA;
+   var count = "";
+   var courses="";
+   var Imagess="";
+   var arrI;
 late Future Review;
  var CountTeacher="0";
+var arrC;
+ var imageProvider=[];
+Future CoursesCount() async{
+try{
+   var res= await http.post(Uri.parse(globalss.IP+"/Courses/count"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+  if(mounted){
+  if(res.statusCode==200){
+    count=res.body;
+  }
+  }
+  }catch(e){
+    print(e);
+  }
+  if(int.parse(count)!=0){
+return  await count;
+  }
+}
+///
+
+Future CoursesDes() async{
+  try{
+  var res= await http.post(Uri.parse(globalss.IP+"/Courses/Des"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+     coursesDes = res.body;
+  }
+     
+    }
+     var courseDes1 = coursesDes.toString();
+      arrd=courseDes1.split(",");
+      for(int i = 0; i<int.parse(count);i++){
+      CourseDes.add(arrd[i]);
+
+}
+  }catch(e){
+    print(e);
+  }
+      
+return await [CourseDes];
+}
+
+
+///
+
+
+Future CoursesPri() async{
+  var res= await http.post(Uri.parse(globalss.IP+"/Courses/price"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+     coursespri = res.body;
+  }
+     
+    }
+     var courseprice = coursespri.toString();
+      arrp=courseprice.split(",");
+      if(int.parse(count)!=0){
+      for(int i = 0; i<int.parse(count);i++){
+      CoursePrice.add(arrp[i]);
+
+}
+      }
+return await [CoursePrice];
+}
+
+
+////
+Future CoursesName() async{
+  try{
+  var res= await http.post(Uri.parse(globalss.IP+"/Courses/getName"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+     courses = res.body;
+  }
+     
+    }
+     var course1 = courses.toString();
+      arrC=course1.split(",");
+      if(int.parse(count)!=0){
+      for(int i = 0; i<int.parse(count);i++){
+      CourseName.add(arrC[i]);
+
+}
+      }
+      }catch(e){
+        print(e);
+      }
+return await [CourseName];
+}
+
+Future CoursesImage() async{
+  try{
+  var res= await http.post(Uri.parse(globalss.IP+"/Courses/getImage"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+  if(mounted){
+    if(res.statusCode==200){
+      Imagess=res.body;
+
+    }
+  }
+  var ii = Imagess.toString();
+  arrI = ii.split(",");
+  if(int.parse(count)!=0){
+
+  
+    for(int i = 0; i<int.parse(count);i++){
+      CourseImage.add(arrI[i]);
+
+}
+  }
+  }catch(e){
+    print(e);
+  }
+return await [CourseImage];
+}
  Future  SETNAME1() async{
     
     try{
@@ -117,10 +262,10 @@ if(mounted){
     catch(e){
       print(e);
     }
-    if(CountTeacher==0){
-        return await [int.parse(CountTeacher)] ;
-    }
-        return await [int.parse(CountTeacher)] ;
+      
+      if(int.parse(CountTeacher)!=0){
+        return await CountTeacher ;
+      }
 
   }
   Future  SETNAME() async{
@@ -237,12 +382,16 @@ if(mounted){
   @override
 void initState(){
   super.initState();
-   C= CountT();
-
+C= CountT();
  N = SETNAME();
-  S= SETNAME1();
+S= SETNAME1();
  I= INST();
+ CountCoursee=CoursesCount();
  Review=GetAverage();
+ NameCourses=CoursesName();
+ ImageCourses=CoursesImage();
+ Desc=CoursesDes();
+ Pricee = CoursesPri();
 }
   Widget build(BuildContext context) {
 
@@ -339,58 +488,7 @@ void initState(){
             SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: StaggeredGridView.countBuilder(
-                padding: EdgeInsets.all(0),
-                crossAxisCount: 2,
-                itemCount: 4,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Details_Screen()));
-                      
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      height: index.isEven ? 250 : 280,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        image: DecorationImage(
-                          image: AssetImage(categories[index].image),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            categories[index].name,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                              height: 1,
-                            ),
-                          ),
-                          Text(
-                            '${categories[index].numOfCourses} Courses',
-                            style: TextStyle(
-                              color: Color(0xFF0D1333).withOpacity(.5),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                staggeredTileBuilder: (index) => StaggeredTile.fit(1),
-              ),
-            ),
+            Waitforme1()
           ],
         ),
       ),
@@ -526,6 +624,73 @@ void initState(){
                 ),
               );
    
+
+  }));
+}
+ Widget Waitforme1() {
+  
+  return FutureBuilder(future:ImageCourses, builder:((context, snapshot)  {
+
+      return snapshot.data==null||CourseImage.length==0||int.parse(count)<=0||CourseName.length==0?  Center(child: CircularProgressIndicator()): 
+   Expanded(
+              child: StaggeredGridView.countBuilder(
+                padding: EdgeInsets.all(0),
+                crossAxisCount: 2,
+                itemCount: int.parse(count),
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      globalss.courseimage=CourseImage[index];
+                      globalss.courseprice="${CoursePrice[index]}";
+                      globalss.coursedescription="${CourseDes[index]}";
+                     globalss.Coursname= "${CourseName[index]}";
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Details_Screen()));
+                      
+                    },
+                    
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      height: index.isEven ? 250 : 280,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        
+                        image: DecorationImage(
+                          image: MemoryImage(base64Decode("${CourseImage[index]}"))
+,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "${CourseName[index]}",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              height: 1,
+                            ),
+                          ),
+                          Text(
+                            '${categories[index].numOfCourses} Courses',
+                            style: TextStyle(
+                              color: Color(0xFF0D1333).withOpacity(.5),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                staggeredTileBuilder: (index) => StaggeredTile.fit(1),
+              ),
+            );
 
   }));
 }

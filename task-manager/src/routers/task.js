@@ -8,10 +8,19 @@ const User = require('../models/user')
 const Teacher = require('../models/teacher')
 const TTask = require('../models/Ttask')
 const { translateAliases } = require('../models/task')
+const Instruments = require('../models/ShoppingInstruments')
 
+const multer = require('multer')
+const sharp = require('sharp')
+const { integer } = require('sharp/lib/is')
 
 
 const router = new express.Router()
+const upload = multer({
+    limits: {
+        fileSize: 1000000
+    },
+})
 
 router.post('/tasks', auth, async (req, res) => {
 
@@ -395,6 +404,112 @@ router.get('/tasks/short',auth, async (req, res) => {
         res.status(500).send()
     }
 })
+
+
+router.post('/tasks/data', auth ,async (req, res) => {
+    try {
+        const user = await Task.findOne({owner:req.user.id})
+        const Shop = await Instruments.find({})
+        const count = Shop.length
+        const count1 = user.CartName.length
+        var j;
+          
+        var i;
+        var temp=0;
+        const CartQuantity1=0;
+
+          
+        for(i=0;i<count;i++){
+             if(Shop[i].name==req.body.CartName){
+                 
+                temp=i;
+             }
+
+        }
+          var n1="";
+          var n2="";
+          var n3=0;
+          var n4=0;
+          var n5;
+       if(req.body.CartQuantity==0){
+            res.status(400).send("NO")
+        }
+var n6=0;
+var n7;
+             var check = parseInt(Shop[temp].Quantity) - parseInt(req.body.CartQuantity)
+
+             if(check<0){
+                 console.log(check)
+                 return res.status(400).send("Youcant")
+             }
+           if(Shop[temp].Quantity<req.body.CartQuantity){
+               res.status(400).send("Over")
+           }
+           for(j=0;j<count1;j++){
+            if(req.body.CartName==user.CartName[j]){
+               n1=parseInt(user.CartQuantity[j])
+               n2=parseInt(req.body.CartQuantity)
+               n5=parseInt(Shop[temp].Price)
+               n7=parseInt(user.CartPrice[j])
+               n3= n1+n2
+               n6 = (n2*n5)+n7
+               user.CartQuantity[j]=n3.toString()
+               user.CartPrice[j]=n6.toString()
+              Shop[temp].Quantity-=req.body.CartQuantity
+              await Shop[temp].save()
+              await user.save()
+                 return res.status(200).send("Hi")
+            }
+          }
+           if(Shop[temp].Quantity==0){
+            res.status(400).send("Over1")
+        }
+        
+
+
+           else{
+
+            const PushData = await Task.findOneAndUpdate({owner:req.user.id},
+
+                {
+                    $push:{
+                        CartPrice:req.body.CartPrice,
+                        CartName:req.body.CartName,
+                        CartQuantity:req.body.CartQuantity,
+                        CartImage:req.body.CartImage
+                    }
+                }
+            
+            
+            )
+            var q;
+            var tmp;
+
+            for(q=0;q<count1;q++){
+                if(req.body.CartName==user.CartName[q]){
+                    tmp=q
+                }
+            }
+            Shop[temp].Quantity-=req.body.CartQuantity
+            n2=parseInt(req.body.CartQuantity)
+            n5=parseInt(Shop[temp].Price)
+            n7=parseInt(user.CartPrice[tmp])
+            n3= n1+n2
+            n6 = (n2*n5)+n7
+            user.CartPrice[tmp]=n6.toString()
+            await user.save()
+            await Shop[temp].save()
+            await PushData.save()
+            res.status(200).send(Shop[temp])
+
+
+        
+            }
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 router.patch('/tasks/me', auth, async (req, res) => {
     
     const updates = Object.keys(req.body)
@@ -406,16 +521,19 @@ router.patch('/tasks/me', auth, async (req, res) => {
         const Task1 = await User.findIfD(req.body.name)
 
         const task = await Task.findOne({ owner: req.user._id})
+
         if(Task1==false){
             throw new Error()
            
           }
+
         updates.forEach((update) => req.user[update] = req.body[update],
         
         )
         updates.forEach((update) => task[update] = req.body[update],
         
         )
+        task.Name=req.body.name
         await task.save()
 
         await req.user.save()
@@ -426,60 +544,100 @@ router.patch('/tasks/me', auth, async (req, res) => {
     }
 })
 
+router.get('/tasks/getPrice',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner: req.user.id})
+        var arrayPrice=[];
+        var i;
+        for(i=0;i<user.CartPrice.length;i++){
+            arrayPrice[i]=user.CartPrice[i]
+        }
+
+        res.status(200).send(arrayPrice.toString())
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
 
-// router.get('/tasks/:id',auth, async (req, res) => {
-//     const _id = req.params.id
 
-//     try {
-//         const task = await Task.findOne({ _id, owner: req.user._id })
+router.get('/tasks/getQuantity',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner: req.user.id})
+        var arrayQuantity=[];
+        var i;
+        for(i=0;i<user.CartQuantity.length;i++){
+            arrayQuantity[i]=user.CartQuantity[i]
+        }
 
-//         if (!task) {
-//             return res.status(404).send()
-//         }
+        res.status(200).send(arrayQuantity.toString())
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+router.get('/tasks/getImage12', auth ,async (req, res) => {
+    try {
+        const user = await Task.findOne({owner: req.user.id})
+       
+        var arrayImage=[];
+        var i;
+        for(i=0;i<user.CartImage.length;i++){
+            arrayImage[i]=user.CartImage[i]
+        }
+        res.status(200).send(arrayImage.toString())
 
-//         res.send(task)
-//     } catch (e) {
-//         res.status(500).send()
-//     }
-// })
 
-// router.patch('/tasks/:id', auth, async (req, res) => {
-//     const updates = Object.keys(req.body)
-//     const allowedUpdates = ['description', 'completed']
-//     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+router.get('/tasks/getName',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner: req.user.id})
+        var arrayName=[];
+        var i;
+        for(i=0;i<user.CartName.length;i++){
+            arrayName[i]=user.CartName[i]
+        }
 
-//     if (!isValidOperation) {
-//         return res.status(400).send({ error: 'Invalid updates!' })
-//     }
+        res.status(200).send(arrayName.toString())
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
-//     try {
-//         const task = await Task.findOne({ _id: req.params.id, owner: req.user._id})
+router.get('/tasks/getCount',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner: req.user.id})
+            const count = user.CartName.length
+       
 
-//         if (!task) {
-//             return res.status(404).send()
-//         }
+        res.status(200).send(count.toString())
+        
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
-//         updates.forEach((update) => task[update] = req.body[update])
-//         await task.save()
-//         res.send(task)
-//     } catch (e) {
-//         res.status(400).send(e)
-//     }
-// })
 
-// router.delete('/tasks/:id', auth, async (req, res) => {
-//     try {
-//         const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
+router.post('/tasks/RemoveCart',auth, async (req, res) => {
+    try {
+        const user = await Task.findOne({owner: req.user.id})
+        let index1 = await user.CartName.indexOf(req.body.CartName)
+        console.log(index1)
+        user.CartName.splice(index1,1)
+        user.CartPrice.splice(index1,1)
+        user.CartImage.splice(index1,1)
+        user.CartQuantity.splice(index1,1)
+        await user.save()
+        res.status(200).send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
-//         if (!task) {
-//             res.status(404).send()
-//         }
-
-//         res.send(task)
-//     } catch (e) {
-//         res.status(500).send()
-//     }
-// })
 
 module.exports = router

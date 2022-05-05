@@ -3,6 +3,7 @@ import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
+import 'package:sara_music/Screens/bottom_bar.dart';
 import 'package:shape_of_view_null_safe/generated/i18n.dart';
 import 'package:toggle_bar/toggle_bar.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';

@@ -6,7 +6,10 @@ import 'product_data.dart';
 import 'cart_page.dart';
 import 'colors.dart';
 import 'product_detail_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
+import 'package:sara_music/globalss.dart';
 
 
 
@@ -17,6 +20,158 @@ class Shop extends StatefulWidget {
 
 class ShopState extends State<Shop> {
   @override
+var count="0";
+late Future coun;
+
+  Future InstrumentsCount() async{
+try{
+   var res= await http.post(Uri.parse(globalss.IP+"/Instruments/count"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+  if(mounted){
+  if(res.statusCode==200){
+    count=res.body;
+  }
+  }
+  }catch(e){
+    print(e);
+  }
+  if(int.parse(count)!=0){
+return  await count;
+  }
+}
+///
+var InstrumentsDes="";
+late Future Ind;
+var arrI;
+var InstrumentsDess=[];
+// Future InstrumentDes() async{
+//   try{
+//   var res= await http.post(Uri.parse(globalss.IP+"/Instruments/Des"),headers: {
+//       'Content-Type': 'application/json; charset=UTF-8',
+
+//   });
+// if(mounted){
+//   if(res.statusCode==200){
+//      InstrumentsDes = res.body;
+//   }
+     
+//     }
+//      var IN = InstrumentsDes.toString();
+//       arrI=IN.split(",");
+//       for(int i = 0; i<int.parse(count);i++){
+//       InstrumentsDess.add(arrI[i]);
+
+// }
+//   }catch(e){
+//     print(e);
+//   }
+      
+// return await [InstrumentsDess];
+// }
+
+
+///
+
+var InstrumentPrice="";
+var arrp;
+late Future Pr;
+var InstrumentPric=[];
+Future InstrumentPri() async{
+  var res= await http.post(Uri.parse(globalss.IP+"/Instruments/price"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+     InstrumentPrice = res.body;
+  }
+     
+    }
+     var InstrumentPricee = InstrumentPrice.toString();
+      arrp=InstrumentPricee.split(",");
+      if(int.parse(count)!=0){
+      for(int i = 0; i<int.parse(count);i++){
+     InstrumentPric.add(arrp[i]);
+
+}
+      
+      }
+return await [InstrumentPric];
+}
+
+
+////
+
+var InstrumentNa="";
+var arrC;
+var InstrumentsName=[];
+late Future Na;
+Future InstrumentName() async{
+  try{
+  var res= await http.post(Uri.parse(globalss.IP+"/Instruments/getName"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+     InstrumentNa = res.body;
+  }
+     
+    }
+     var INSN = InstrumentNa.toString();
+      arrC=INSN.split(",");
+      if(int.parse(count)!=0){
+      for(int i = 0; i<int.parse(count);i++){
+      InstrumentsName.add(arrC[i]);
+
+}
+      }
+      }catch(e){
+        print(e);
+      }
+return await [InstrumentsName];
+}
+var Imagess="";
+var InstrumentsImage=[];
+var arrImage;
+late Future Im;
+Future InstruemntImage() async{
+  try{
+  var res= await http.post(Uri.parse(globalss.IP+"/Instruments/getImage"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+  if(mounted){
+    if(res.statusCode==200){
+      Imagess=res.body;
+    }
+  }
+  var ii = Imagess.toString();
+  arrImage = ii.split(",");
+  if(int.parse(count)!=0){
+
+    for(int i = 0; i<int.parse(count);i++){
+      InstrumentsImage.add(arrImage[i]);
+
+}
+  }
+  }catch(e){
+    print(e);
+  }
+return await [InstrumentsImage];
+}
+void initState(){
+  super.initState();
+    coun=InstrumentsCount();
+
+  Na=InstrumentName();
+  Im=InstruemntImage();
+    Pr=InstrumentPri();
+
+  // Ind=InstrumentDes();
+}
   Widget build(BuildContext context) {
     return Scaffold(
       
@@ -57,19 +212,33 @@ class ShopState extends State<Shop> {
               ],
             ),  
         SizedBox(height: 30,),
-        Column(children: List.generate(products.length, (index){
+       Waitforme()
+      ],
+    );
+  }
+    Widget Waitforme() {
+  
+  return FutureBuilder( future: coun, builder:((context, snapshot)  {
+
+      return snapshot.data==null||int.parse(count)<=0||InstrumentsImage.length<=0?  Center(child: CircularProgressIndicator()): 
+     
+   Column(children: List.generate(int.parse(count), (index){
           return FadeInDown(
             duration: Duration(milliseconds: 350 * index),
                       child: Padding(
             padding: const EdgeInsets.all(6.0),
             child: InkWell(
               onTap: (){
+                 globalss.InstrumentsName="${InstrumentsName[index]}";
+                globalss.InstrumentsPrice="${InstrumentPric[index]}";
+                globalss.InstrumentsImage=InstrumentsImage[index];                 
                 Navigator.push(context, MaterialPageRoute(builder: (_) => ProductDetailPage(
+
                   id: products[index]['id'].toString(),
-                  name: products[index]['name'],
+                  name: globalss.InstrumentsName,
                   img: products[index]['img'],
-                  price: products[index]['price'],
-                  mulImg: products[index]['mul_img'],
+                  price: globalss.InstrumentsPrice,
+                  image: globalss.InstrumentsImage,
                   sizes: products[index]['sizes'],
                 )));
               },
@@ -93,17 +262,23 @@ class ShopState extends State<Shop> {
                               width: 280,
                               height: 180,
                               decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(products[index]['img']),fit: BoxFit.fill)
+                                image: DecorationImage(image:
+                                 MemoryImage(base64Decode("${InstrumentsImage[index]}")
+                                
+                                ),fit: BoxFit.fill)
                               ),
                             ),
                           ),
                           SizedBox(height: 15,),
-                          Text(products[index]['name'],style: TextStyle(
+                          Text("${InstrumentsName[index]}",style: TextStyle(
                             fontSize:17,
                             fontWeight: FontWeight.w600
                           ),),
-                          SizedBox(height: 15,),
-                          Text("\$ "+products[index]['price'],style: TextStyle(
+                          SizedBox(height: 30,),
+                          
+                          Text(
+                        "${InstrumentPric[index]}"
+                          ,style: TextStyle(
                             fontSize:16,
                             fontWeight: FontWeight.w500
                           ),),
@@ -119,8 +294,9 @@ class ShopState extends State<Shop> {
             ),
         ),
           );
-        }))
-      ],
-    );
-  }
+        }));
+
+  }));
+}
+    
 }

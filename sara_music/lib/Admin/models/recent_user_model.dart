@@ -25,7 +25,7 @@ List recentUsers = [
   RecentUser(
     icon: "images/icons/doc_file.svg",
     name: "N***** D****",
-    role: "Solution Architect",
+    role: "Guitar Course",
     email: "ne****tr@google.com",
     date: "23-02-2021",
     posts: "32",
@@ -33,7 +33,7 @@ List recentUsers = [
   RecentUser(
     icon: "images/icons/sound_file.svg",
     name: "B***** K****",
-    role: "Project Manager",
+    role: "Voics Course",
     email: "bu****lk@google.com",
     date: "21-02-2021",
     posts: "3",
@@ -41,7 +41,7 @@ List recentUsers = [
   RecentUser(
     icon: "images/icons/media_file.svg",
     name: "A**** S**** K****",
-    role: "Line Manager",
+    role: "Oud Course",
     email: "ah****az@google.com",
     date: "23-02-2021",
     posts: "2",
@@ -49,7 +49,7 @@ List recentUsers = [
   RecentUser(
     icon: "images/icons/pdf_file.svg",
     name: "T***** S****",
-    role: "UI/UX Designer",
+    role: "Violin Course",
     email: "te****cu@google.com",
     date: "25-02-2021",
     posts: "3",
@@ -57,7 +57,7 @@ List recentUsers = [
   RecentUser(
     icon: "images/icons/excle_file.svg",
     name: "K***** D****",
-    role: "Business Analyst",
+    role: "Piano Course",
     email: "ke****an@gmail.com",
     date: "25-02-2021",
     posts: "34",

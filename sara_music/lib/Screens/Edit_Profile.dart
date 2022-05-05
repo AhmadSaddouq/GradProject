@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:sara_music/Screens/Profile.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
@@ -29,17 +31,32 @@ class Edit_ProfileState extends State<Edit_Profile> {
     TextEditingController About = TextEditingController();
     TextEditingController Education = TextEditingController();
         TextEditingController Name = TextEditingController();
+              var imageProvider;
 
+late Future IMAGE;
   late file.File imagepicker;
+  late Future upload = Upload(imagepicker);
+
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imagepicker = image;
+              Upload(imagepicker);
+ 
     });
   }
-
+  
+  late Future Img;
+var image1="";
   @override
+  
+  void initState(){
+    super.initState();
+    Img=image2();
+  }
+
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -80,6 +97,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
                   ),
                 ),
                 Container(
+            
                     margin: EdgeInsets.only(top: 15, left: 130),
                     child: IconButton(
                       onPressed: () {
@@ -96,22 +114,9 @@ class Edit_ProfileState extends State<Edit_Profile> {
             SizedBox(
               height: 50,
             ),
-            Center(
-              child: CircleAvatar(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: InkWell(
-                    onTap: () => getImageFromGallery(),
-                    child: CircleAvatar(
-                      radius: 25,
-                      child: Icon(Icons.edit),
-                    ),
-                  ),
-                ),
-                radius: 90,
-                backgroundImage: AssetImage('images/ehab.jpg'),
-              ),
-            ),
+            
+          Waitforme(),
+            
             SizedBox(
               height: 40,
             ),
@@ -197,7 +202,11 @@ class Edit_ProfileState extends State<Edit_Profile> {
                                 color: Colors.black)),
                       ),
                       RaisedButton(
-                        onPressed: () {save();},
+                        onPressed: () {
+                          save();
+                          
+                      
+                        },
                         color: Colors.pink[600],
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         elevation: 2,
@@ -221,7 +230,39 @@ class Edit_ProfileState extends State<Edit_Profile> {
       ),
     );
   }
+  Widget Waitforme() {
   
+  return FutureBuilder( future: Img, builder:((context, snapshot)  {
+
+      return snapshot.data==null?  Center(child: CircularProgressIndicator()): 
+        Center(
+              child: CircleAvatar(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: InkWell(
+                    onTap: () => getImageFromGallery(),
+                    child: CircleAvatar(
+                      radius: 25,
+                      child: Icon(Icons.edit),
+                    ),
+                  ),
+                ),
+                radius: 90,
+                
+              backgroundImage: MemoryImage(base64Decode(image1))
+
+
+                        
+             
+              ),
+              
+             
+              
+            );
+  
+
+  }));
+}
     void _displayErrorMotionToast3() {
     MotionToast.error(
       title: Text(
@@ -266,6 +307,24 @@ class Edit_ProfileState extends State<Edit_Profile> {
       width: 300,
     ).show(context);
   }
+  Future image2() async{
+var body1 = jsonEncode({
+  "name": globalss.StudentName
+});
+
+var res= await http.post(Uri.parse(globalss.IP+"/users/avatar1"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  }, body: body1);
+
+if(res.statusCode==200) {
+  setState(() {
+    image1 = res.body;
+  });
+
+}
+return await image1;
+  }
   Future<void> save() async{
    
 
@@ -294,6 +353,7 @@ class Edit_ProfileState extends State<Edit_Profile> {
            }
 
            if(res.statusCode==200){
+             globalss.StudentName=Name.text;
                     
     Navigator.push(
               context,
@@ -311,4 +371,32 @@ class Edit_ProfileState extends State<Edit_Profile> {
     }
  
   }
+ Future Upload(File imageFile) async {    
+  var stream  = new http.ByteStream(imageFile.openRead());
+stream.cast();
+      var length = await imageFile.length();
+
+      var uri = Uri.parse(globalss.IP+"/users/avatar");
+
+     var request = new http.MultipartRequest("POST", uri);
+      var multipartFile = new http.MultipartFile('upload', stream, length,
+          filename: Path.basename(imageFile.path));
+          Map<String, String> headers = {
+             'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ' + globalss.authToken 
+          };
+                      request.headers["token"]=globalss.authToken;
+                      request.headers["Content-Type"]='application/json; charset=UTF-8';
+
+
+request.headers.addAll(headers);
+
+      request.files.add(multipartFile);
+      var response = await request.send();
+      print(response.statusCode);
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+    }
+
 }

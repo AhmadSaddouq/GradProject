@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sara_music/Screens/Booking.dart';
 import 'package:sara_music/Screens/bottom_bar.dart';
+import 'package:sara_music/globalss.dart';
 import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'dart:convert';
 
 class Details_Screen extends StatefulWidget {
   @override
@@ -14,6 +17,8 @@ class Details_Screen extends StatefulWidget {
 
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 12.0;
+    
+
 
 class Details_ScreenState extends State<Details_Screen> {
   @override
@@ -42,10 +47,16 @@ class Details_ScreenState extends State<Details_Screen> {
           SizedBox(
             height: 100,
           ),
-          Image.asset(
-            'images/playing-guitar.jpg',
-            height: size.height * 0.3,
-            fit: BoxFit.fill,
+          // Image.asset(  
+          //  imageProvider.toString(),
+          //   height: size.height * 0.3,
+          //   fit: BoxFit.fill,
+
+          // ),
+          Image(
+                
+
+            image:MemoryImage(base64Decode(globalss.courseimage))
           ),
           Expanded(
             child: Container(
@@ -68,28 +79,29 @@ class Details_ScreenState extends State<Details_Screen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Guitar",
+                            "${globalss.Coursname}",
                             style: GoogleFonts.sansita(fontSize: 32),
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            children: [
-                              SmoothStarRating(
-                                color: Colors.yellow,
-                                borderColor: Colors.yellow,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                "15 reviews",
-                                style: GoogleFonts.sansita(
-                                    color: Colors.grey[700]),
-                              )
-                            ],
-                          ),
+                          // Row(
+                            
+                          //   children: [
+                          //     SmoothStarRating(
+                          //       color: Colors.yellow,
+                          //       borderColor: Colors.yellow,
+                          //     ),
+                          //     SizedBox(
+                          //       width: 15,
+                          //     ),
+                          //     Text(
+                          //       ".",
+                          //       style: GoogleFonts.sansita(
+                          //           color: Colors.grey[700]),
+                          //     )
+                          //   ],
+                          // ),
                         ],
                       )),
                       ClipPath(
@@ -101,7 +113,7 @@ class Details_ScreenState extends State<Details_Screen> {
                           width: 65,
                           color: Colors.pink[400],
                           child: Text(
-                            "\$ 200",
+                            "${globalss.courseprice}",
                             style: GoogleFonts.sansita(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -115,7 +127,7 @@ class Details_ScreenState extends State<Details_Screen> {
                     height: 40,
                   ),
                   Text(
-                      "In this class students will be learning the basic fundamental skills needed for learning to play the guitar. Students will work on beginner music theory, finger mechanics, rhythm,melody, chords and building their ears to excel in music",
+                    "${globalss.coursedescription}",
                       style: GoogleFonts.montserrat(
                           color: Colors.grey[700], height: 1.5)),
                   SizedBox(
@@ -125,7 +137,13 @@ class Details_ScreenState extends State<Details_Screen> {
                     margin: EdgeInsets.only(top: 30),
                     child: ElevatedButton(
                       child: Text("Start Now"),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Booking()),
+            
+            );
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.pink[600],
                         onPrimary: Colors.white,

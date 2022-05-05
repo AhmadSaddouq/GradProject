@@ -6,16 +6,29 @@ const userRouter = require('./routers/users')
 const taskRouter = require('./routers/task')
 const TeacherRouter = require('./routers/Teachers')
 const TTASK = require('./routers/Ttask')
+const Admin= require('./routers/Admin')
+
+const Courses= require('./routers/Courses')
+const Instruments= require('./routers/ShoppingInstruments')
+
+
+
 
 
 const app = express()
 const port = process.env.PORT || 3000
-
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
 app.use(TeacherRouter)
+app.use(Admin)
+app.use(Courses)
 app.use(TTASK)
+app.use(Instruments)
+
 
 
 app.listen(port, ()=>{

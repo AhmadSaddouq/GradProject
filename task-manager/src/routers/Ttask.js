@@ -21,7 +21,7 @@ router.post('/taskss', auth1, async (req, res) => {
     try {
         task.Education = "Hey, Tell us About Your Qualifications."
         task.About = "Hi, Tell Us About You :)"
-        task.instrument = "Guitar"
+        task.instrument = req.body.instrument
         await task.save()
         res.status(201).send(task)
     } catch (e) {

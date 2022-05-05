@@ -282,8 +282,8 @@ var arrdays = days1.split(" ");
 
 var m=int.parse(arrmonth[1]);
 var d=int.parse(arrdays[2]);
- if(m>=selectdate.toLocal().month.toInt()){  
- if(d>=selectdate.toLocal().day.toInt()){
+ if(int.parse(arrmonth[1])>=selectdate.toLocal().month.toInt()){  
+ if(int.parse(arrdays[2])>=selectdate.toLocal().day.toInt()){
    
  
  if(mounted){
@@ -335,6 +335,9 @@ else if(m>selectdate.toLocal().month.toInt()){
     'status': FilterStatus.Upcoming
   
       });  
+        
+
+
 }
 
 else{
@@ -360,6 +363,7 @@ if(mounted){
     'status': FilterStatus.Complete
   
       });
+      
       Completed(NAMES[k]);
       
 }
@@ -390,6 +394,10 @@ if(mounted){
     'status': FilterStatus.Complete
   
       });
+
+                  Completed(NAMES[k]);
+
+
    
       // var NAMESQ = NAMES[k];
       // var ALL1Q = ALL1;
@@ -542,11 +550,14 @@ var body1 = jsonEncode({
   "Name": name.toString()
 });
 
+
+
    var res= await http.post(Uri.parse(globalss.IP+"/Ttasks/COMPS"),headers: {
       'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ' + globalss.authToken 
 
   }, body: body1);
+
  if(res.body==200){
 
  }
@@ -864,7 +875,7 @@ DatePickerController _controller = DatePickerController();
   }
     Widget Waitforme() {
   
-  return FutureBuilder( initialData: schedules ,future: TIM, builder:((context, snapshot)  {
+  return FutureBuilder( initialData: schedules ,future: STUC(), builder:((context, snapshot)  {
       return snapshot.data==null||schedules.length<=0?  Center(child: CircularProgressIndicator()):
    ListView.builder(
      

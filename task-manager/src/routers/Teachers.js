@@ -213,12 +213,26 @@ const router = new express.Router()
 router.post('/teachers',  async (req,res)=>{
     try{
          const teacher = new Teacher(req.body)
-       
-          if (req.body.password!=req.body.ConfPass) {
-              
-              throw new Error('Invalid Password"')
-          }
+         const temp = req.body.name
+         const count = temp.length
+         const temp1 = req.body.Phone
+         const count1 = temp1.toString()
+         const c = count1.length
+         const temp2 = req.body.password
+         const count3 = temp2.length
+          if(count<=4){
 
+            return res.status(400).send("UserMin")
+        }
+        if(c<=9){
+          return res.status(400).send("PhoneN")
+ 
+        }
+      
+          if(count3<=6){
+              return res.status(400).send("PASS")
+
+          }
 teacher.Pin = Math.floor(1000 + Math.random() * 9000)
 teacher.Tries = 4;
 

@@ -58,10 +58,10 @@ List<DailyInfoModel> dailyDatas =
 
 var dailyData = [
   {
-    "title": "Employee",
-    "volumeData": 1328,
+    "title": "Teachers",
+    "volumeData": 13,
     "icon": FlutterIcons.user_alt_faw5s,
-    "totalStorage": "+ %20",
+    "totalStorage": "+ %10",
     "color": primaryColor,
     "percentage": 35,
     "colors": [
@@ -104,10 +104,10 @@ var dailyData = [
     ]
   },
   {
-    "title": "On Leave",
-    "volumeData": 1328,
-    "icon": FlutterIcons.message1_ant,
-    "totalStorage": "+ %5",
+    "title": "Students",
+    "volumeData": 28,
+    "icon": FontAwesome.user_circle,
+    "totalStorage": "+ %25",
     "color": Color(0xFFFFA113),
     "percentage": 35,
     "colors": [Color(0xfff12711), Color(0xfff5af19)],
@@ -146,22 +146,23 @@ var dailyData = [
       )
     ]
   },
+  
   {
-    "title": "Onboarding",
-    "volumeData": 1328,
-    "icon": FlutterIcons.comment_alt_faw5s,
-    "totalStorage": "+ %8",
-    "color": Color(0xFFA4CDFF),
+    "title": "Courses",
+    "volumeData": 7,
+    "icon": FontAwesome.music,
+    "totalStorage": "+ %5",
+    "color": Color(0xFFd50000),
     "percentage": 10,
-    "colors": [Color(0xff2980B9), Color(0xff6DD5FA)],
+    "colors": [Color(0xff93291E), Color(0xffED213A)],
     "spots": [
       FlSpot(
         1,
-        1.3,
+        3,
       ),
       FlSpot(
         2,
-        5,
+        4,
       ),
       FlSpot(
         3,
@@ -169,7 +170,7 @@ var dailyData = [
       ),
       FlSpot(
         4,
-        6,
+        1.5,
       ),
       FlSpot(
         5,
@@ -185,18 +186,18 @@ var dailyData = [
       ),
       FlSpot(
         8,
-        1,
+        1.5,
       )
     ]
   },
   {
-    "title": "Open Position",
-    "volumeData": 1328,
-    "icon": FlutterIcons.heart_faw5s,
-    "totalStorage": "+ %8",
-    "color": Color(0xFFd50000),
-    "percentage": 10,
-    "colors": [Color(0xff93291E), Color(0xffED213A)],
+    "title": "Payments",
+    "volumeData": 100,
+    "icon": FontAwesome.shopping_bag,
+    "totalStorage": "+ %30",
+    "color": Color.fromARGB(255, 167, 37, 108),
+    "percentage": 40,
+    "colors":[Color.fromARGB(255, 128, 10, 96), Color.fromARGB(255, 179, 0, 250)],
     "spots": [
       FlSpot(
         1,

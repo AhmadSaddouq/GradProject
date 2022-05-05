@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const taskSchema = new mongoose.Schema({
+var taskSchema = new mongoose.Schema({
     About: {
         type: String,
         trim: true
@@ -19,6 +19,24 @@ const taskSchema = new mongoose.Schema({
         unique:true,
         required:false
 
+    },
+    CartName:{
+        type:Array,
+        required:false,
+        trim:true,
+    },
+    CartImage:{
+        type:Array
+    },
+    CartQuantity:{
+      type:Array,
+      required:false,
+      trim:true
+    },
+    CartPrice:{
+        type:Array,
+        required:false,
+        trim: true
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -61,6 +79,18 @@ const taskSchema = new mongoose.Schema({
 
     
 //     }
+taskSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+
+    delete userObject.password
+    delete userObject.tokens
+    if(userObject.CartImage){
+        userObject.CartImage=userObject.CartImage.toString("base64")
+    }
+
+    return userObject
+}
 
 const Task = mongoose.model('Task', taskSchema)
 

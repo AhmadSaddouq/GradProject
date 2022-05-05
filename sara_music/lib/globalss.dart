@@ -9,8 +9,14 @@ static var Teacherins="";
 static var StudentName ="";
 static var StudentNumber="";
 static var StudentEmail="";
-
-
+static var Coursname="";
+static var courseprice="";
+static var coursedescription="";
+static var courseimage="";
+static var InstrumentsName="";
+static var InstrumentsPrice="";
+static var InstrumentsDes="";
+static var InstrumentsImage="";
 
 
 }

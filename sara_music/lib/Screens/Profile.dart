@@ -28,6 +28,13 @@ class ProfileState extends State<Profile> {
   var EDU;
   var ABOU;
   var NAME;
+  var image1="";
+  late Future img;
+  late Future A;
+  late Future B;
+  late Future C;
+          var imageProvider;
+
   Future  ChangeEdu() async{
     
               
@@ -89,10 +96,17 @@ class ProfileState extends State<Profile> {
   }
 
    @override
+   void initState() {
+     super.initState();
+     A=ChangeEdu();
+     B=ChangeAbo();
+     C=SETNAME();
+          img = image2();
+   
+
+   }
+
   Widget build(BuildContext context) {
-        ChangeEdu();
-        ChangeAbo();
-        SETNAME();
 
      return Scaffold(
       drawer: DRawer(),
@@ -146,12 +160,8 @@ class ProfileState extends State<Profile> {
             SizedBox(
               height: 50,
             ),
-            Center(
-              child: CircleAvatar(
-                radius: 90,
-                backgroundImage: AssetImage('images/ehab.jpg'),
-              ),
-            ),
+            
+            Waitforme(),
             ListTile(
               
               title: 
@@ -199,6 +209,44 @@ class ProfileState extends State<Profile> {
         ),
       ),
     );
+  
   }
-      
+       Widget Waitforme() {
+  
+  return FutureBuilder( future: img, builder:((context, snapshot)  {
+
+      return snapshot.data==null?  Center(child: CircularProgressIndicator()): 
+      Center(
+              child: CircleAvatar(
+                radius: 90,
+                backgroundImage: MemoryImage(base64Decode(image1))
+              ),
+            );
+  
+
+  }));
+}
+    
+       Future image2() async{
+var body1 = jsonEncode({
+  "name": globalss.StudentName
+});
+
+var res= await http.post(Uri.parse(globalss.IP+"/users/avatar1"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  }, body: body1);
+
+if(res.statusCode==200) {
+  setState(() {
+    image1 = res.body;
+  });
+
+}
+if(image1!=""){
+
+return await image1;
+}
+  }
+ 
 }

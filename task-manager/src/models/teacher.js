@@ -21,6 +21,11 @@ const userSchema1 = new mongoose.Schema({
   
     }
     },
+    Salary:{
+     type: String,
+     required:true,
+     trim:true
+    },
     Gender:{
         type: String,
         required: false,
@@ -73,13 +78,6 @@ const userSchema1 = new mongoose.Schema({
                   throw new Error('Password cannot contain "password"')
               }
           }
-      },
-      ConfPass: {
-        type: String,
-        required: true,
-        minlength:7,
-        trim:true
-  
       },
       Tries: {
        type : Number

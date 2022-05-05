@@ -12,7 +12,7 @@ class Wrapper extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: Palette.wrapperBg,
+        color: Color.fromARGB(255, 138, 213, 232),
         borderRadius: BorderRadius.circular(defaultBorderRadius),
       ),
       child: Column(

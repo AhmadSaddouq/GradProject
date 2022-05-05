@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sara_music/Admin/screens/home/home_screen.dart';
 import 'package:sara_music/Screens/Categories_Screen.dart';
 import 'package:sara_music/Screens/Category.dart';
 import 'package:sara_music/Screens/Homepage.dart';
@@ -257,9 +258,20 @@ TextEditingController Passwoord = TextEditingController();
       'Content-Type': 'application/json; charset=UTF-8',
   },body: body1);
 
+   var res2= await http.post(Uri.parse(globalss.IP+"/Admin/log"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+  },body: body1);
+
+
 
     if(Passwoord.text.isNotEmpty&&UserN.text.isNotEmpty){
-           if(res1.statusCode==200){
+      if(res2.statusCode==200){
+   Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+}
+          else if(res1.statusCode==200){
      Map<String, dynamic> DB1 = jsonDecode(res1.body);
                                  
   globalss.authToken= DB1['token'];

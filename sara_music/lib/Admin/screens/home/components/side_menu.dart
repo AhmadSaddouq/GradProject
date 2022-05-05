@@ -17,18 +17,15 @@ class SideMenu extends StatelessWidget {
             DrawerHeader(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: defaultPadding * 3,
-                ),
+              children: [          
                 Image.asset(
-                  "images/icons/logo_icon.png",
-                  scale: 5,
+                  "images/Logo.png",
+                  scale: 1.2,
                 ),
                 SizedBox(
                   height: defaultPadding,
                 ),
-                Text("Smart HR - Application")
+                Text("Do Re Mi Music Center")
               ],
             )),
             DrawerListTile(

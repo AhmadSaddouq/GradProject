@@ -18,7 +18,10 @@ class Header extends StatelessWidget {
         if (!Responsive.isDesktop(context))
           IconButton(
             icon: Icon(Icons.menu),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => SideMenu()));
+            },
           ),
         if (!Responsive.isMobile(context))
           Column(
@@ -26,7 +29,7 @@ class Header extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hello, Deniz 👋",
+                "Hello, Ehab 👋",
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(
@@ -74,9 +77,9 @@ class ProfileCard extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Deniz Çolak"),
+              child: Text("Ehab Sarrawi"),
             ),
-          Icon(Icons.keyboard_arrow_down),
+          
         ],
       ),
     );

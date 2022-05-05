@@ -30,13 +30,13 @@ class RecentDiscussions extends StatelessWidget {
               columnSpacing: defaultPadding,
               columns: [
                 DataColumn(
-                  label: Text("Position Name"),
+                  label: Text("Course Name"),
                 ),
                 DataColumn(
                   label: Text("Create Date"),
                 ),
                 DataColumn(
-                  label: Text("Total Application"),
+                  label: Text("Total Students"),
                 ),
               ],
               rows: List.generate(

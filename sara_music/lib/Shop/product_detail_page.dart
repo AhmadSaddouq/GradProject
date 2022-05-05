@@ -3,26 +3,40 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sara_music/globalss.dart';
+import 'dart:convert';
+import 'dart:io';
+
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'cart_page.dart';
+
+import 'dart:io' as file;
+import 'package:path/path.dart' as Path;
 import 'colors.dart';
 import 'product_slider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'package:sara_music/globalss.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final String id;
   final String name;
   final String img;
   final String price;
-  final List<String> mulImg;
+  final String image;
   final List sizes;
+
 
   const ProductDetailPage(
       {Key? key,
+      
       required this.id,
       required this.name,
       required this.img,
       required this.price,
-      required this.mulImg,
+      required this.image,
       required this.sizes})
       : super(key: key);
   @override
@@ -32,9 +46,54 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   int _currentIntValue = 0;
   int activeSize = 0;
+  var min;
+  var PRICEE0=globalss.InstrumentsPrice;
   bool fav_bool = false;
   void intState() {
     super.initState();
+  }
+  Future RemoveData()async{
+var body1=jsonEncode({
+"Name": globalss.StudentName,
+
+
+ });
+
+  }
+  Future sendData(int quantity) async{
+
+
+var body1=jsonEncode({
+"Name": globalss.StudentName,
+'CartPrice': globalss.InstrumentsPrice,
+'CartName':globalss.InstrumentsName,
+'CartQuantity':quantity.toString(),
+'CartImage':globalss.InstrumentsImage
+ });
+
+ var res= await http.post(Uri.parse(globalss.IP+"/tasks/data"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ' + globalss.authToken 
+
+  }, body: body1);
+if(mounted){
+  if(res.statusCode==200){
+   print(res.body);
+    print("Ok");
+  }
+
+  }
+if(res.statusCode==400){
+    if(res.body=="NO"){
+      print("hi");
+    }
+     else if(res.body=="Over"){
+      print("hi1");
+    }
+    else {
+      print("hi11");
+    }
+  }
   }
 
   @override
@@ -70,11 +129,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 SizedBox(
                   height: 10,
                 ),
-                FadeInDown(
-                  child: ProductSlider(
-                    items: widget.mulImg,
-                  ),
-                ),
+              FadeInDown(
+            delay: Duration(milliseconds: 300),
+            child: Image(image:
+            MemoryImage(base64Decode("${globalss.InstrumentsImage}"))
+
+            )
+          ),
                 Positioned(
                   top: 30,
                   left: 10,
@@ -85,7 +146,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         size: 30,
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                          
                       }),
                 ),
               ],
@@ -125,7 +186,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             child: Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
               child: Text(
-                "\$ " + widget.price,
+                  "${(globalss.InstrumentsPrice)}",
                 style: TextStyle(
                     fontSize: 35, fontWeight: FontWeight.w500, height: 1.5),
                 textAlign: TextAlign.center,
@@ -143,7 +204,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   icon: Icon(Icons.remove),
                   onPressed: () => setState(() {
                     final newValue = _currentIntValue - 1;
+
                     _currentIntValue = newValue.clamp(0, 100);
+                       var Split = PRICEE0.split("\$");
+                        double c =int.parse(Split[0]) / 2;
+                        globalss.InstrumentsPrice=c.toString()+"\$";
+                   
                   }),
                 ),
                 Text(
@@ -155,7 +221,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   onPressed: () => setState(() {
                     final newValue = _currentIntValue + 1;
                     _currentIntValue = newValue.clamp(0, 100);
-                  }),
+                    var Split = PRICEE0.split("\$");
+                    
+                        int c =int.parse(Split[0]) *_currentIntValue;
+                        globalss.InstrumentsPrice=c.toString() + "\$";
+                        min=globalss.InstrumentsPrice=c.toString() + "\$";
+                         
+                  }), 
                 ),
               ],
             ),
@@ -200,6 +272,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               borderRadius: BorderRadius.circular(30)),
                           color: Colors.pink[600],
                           onPressed: () {
+                            sendData(_currentIntValue);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -228,4 +301,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
     );
   }
+  
+
 }
+

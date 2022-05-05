@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'Category.dart';
+import 'dart:convert';
+import 'package:sara_music/globalss.dart';
+
 
 class Categories_Screen extends StatefulWidget {
   @override
@@ -12,6 +16,87 @@ class Categories_Screen extends StatefulWidget {
 
 class Categories_ScreenState extends State<Categories_Screen> {
   @override
+
+       List CourseName=[];
+        List CourseImage=[];
+        var courses="";
+        var arrC;
+        var count="0";
+        var Imagess="";
+        var arrI;
+        late Future CourseN=CoursesName();
+        late Future CourseI=CoursesImage();
+        late Future CourCount=CoursesCount();
+
+        Future CoursesCount() async{
+
+   var res= await http.post(Uri.parse(globalss.IP+"/Courses/count"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+  if(mounted){
+  if(res.statusCode==200){
+    count=res.body;
+  }
+  }
+return  await count;
+}
+  Future CoursesName() async{
+  var res= await http.post(Uri.parse(globalss.IP+"/Courses/getName"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+if(mounted){
+  if(res.statusCode==200){
+     courses = res.body;
+  }
+     
+    }
+     var course1 = courses.toString();
+      arrC=course1.split(",");
+      if(int.parse(count)!=0){
+      for(int i = 0; i<int.parse(count);i++){
+      CourseName.add(arrC[i]);
+
+}
+      }
+return await [CourseName];
+}
+
+Future CoursesImage() async{
+  try{
+  var res= await http.post(Uri.parse(globalss.IP+"/Courses/getImage"),headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+
+  });
+  if(mounted){
+    if(res.statusCode==200){
+      Imagess=res.body;
+
+    }
+  }
+  var ii = Imagess.toString();
+  arrI = ii.split(",");
+  if(int.parse(count)!=0){
+
+  
+    for(int i = 0; i<int.parse(count);i++){
+      CourseImage.add(arrI[i]);
+
+}
+  }
+  }catch(e){
+    print(e);
+  }
+return await [CourseImage];
+}
+  void initState(){
+  super.initState();
+  CourCount = CoursesCount();
+  CourseN=CoursesName();
+  CourseI=CoursesImage();
+}
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -44,10 +129,23 @@ class Categories_ScreenState extends State<Categories_Screen> {
             SizedBox(
               height: 30,
             ),
-            Expanded(
+            Waitforme1()
+           
+          ],
+        ),
+      ),
+    );
+    
+  }
+  Widget Waitforme1() {
+  
+  return FutureBuilder(future:CourseI, builder:((context, snapshot)  {
+
+      return snapshot.data==null||CourseImage.length==0?  Center(child: CircularProgressIndicator()): 
+       Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.all(10),
-                itemCount: categories.length,
+                itemCount: int.parse(count),
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.only(left: 2, top: 10, bottom: 10),
@@ -55,7 +153,7 @@ class Categories_ScreenState extends State<Categories_Screen> {
                     height: 200,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(categories[index].image),
+                          image: MemoryImage(base64Decode("${CourseImage[index]}")),
                           fit: BoxFit.fill,
                         ),
                         borderRadius: BorderRadius.circular(16),
@@ -65,7 +163,7 @@ class Categories_ScreenState extends State<Categories_Screen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          categories[index].name,
+                          "${CourseName[index]}",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
@@ -84,10 +182,10 @@ class Categories_ScreenState extends State<Categories_Screen> {
                   );
                 },
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+            );
+  
+
+  }));
+}
+  
 }

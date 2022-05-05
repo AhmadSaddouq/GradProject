@@ -1,3 +1,5 @@
+import 'package:sara_music/Admin/screens/dashboard/Add_New.dart';
+
 import '../../../../responsive.dart';
 import '../../../core/constants/color_constants.dart';
 import '../../../models/daily_info_model.dart';
@@ -35,7 +37,7 @@ class MiniInformation extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(new MaterialPageRoute<Null>(
                     builder: (BuildContext context) {
-                      return new FormMaterial();
+                      return new AddNew() ;
                     },
                     fullscreenDialog: true));
               },

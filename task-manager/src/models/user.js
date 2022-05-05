@@ -75,7 +75,7 @@ const userSchema = new mongoose.Schema({
       },
       ConfPass: {
         type: String,
-        required: true,
+        required: false,
         minlength:7,
         trim:true
   
@@ -101,6 +101,9 @@ const userSchema = new mongoose.Schema({
         required: false,
         trim: true
     },
+    avatar:{
+        type:Buffer
+    }
    
   },
   {
@@ -148,6 +151,19 @@ return user
 
 }
 
+
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+
+    delete userObject.password
+    delete userObject.tokens
+    if(userObject.avatar){
+        userObject.avatar=userObject.avatar.toString("base64")
+    }
+
+    return userObject
+}
 
 userSchema.statics.DeleteFrom = async (Data)=>{
     const user =await User.findOneAndDelete({Data})

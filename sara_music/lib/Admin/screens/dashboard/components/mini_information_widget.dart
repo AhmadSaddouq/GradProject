@@ -47,34 +47,7 @@ class _MiniInformationWidgetState extends State<MiniInformationWidget> {
                   size: 18,
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.only(right: 12.0),
-              //   child: DropdownButton(
-              //     icon: Icon(Icons.more_vert, size: 18),
-              //     underline: SizedBox(),
-              //     style: Theme.of(context).textTheme.button,
-              //     value: _value,
-              //     items: [
-              //       DropdownMenuItem(
-              //         child: Text("Daily"),
-              //         value: 1,
-              //       ),
-              //       DropdownMenuItem(
-              //         child: Text("Weekly"),
-              //         value: 2,
-              //       ),
-              //       DropdownMenuItem(
-              //         child: Text("Monthly"),
-              //         value: 3,
-              //       ),
-              //     ],
-              //     onChanged: (int? value) {
-              //       setState(() {
-              //         _value = value!;
-              //       });
-              //     },
-              //   ),
-              // ),
+             
             ],
           ),
           Row(
@@ -88,12 +61,6 @@ class _MiniInformationWidgetState extends State<MiniInformationWidget> {
               SizedBox(
                 height: 8,
               ),
-              // Container(
-              //   child: LineChartWidget(
-              //     colors: widget.dailyData.colors,
-              //     spotsData: widget.dailyData.spots,
-              //   ),
-              // )
             ],
           ),
           SizedBox(
@@ -128,44 +95,6 @@ class _MiniInformationWidgetState extends State<MiniInformationWidget> {
   }
 }
 
-class LineChartWidget extends StatelessWidget {
-  const LineChartWidget({
-    Key? key,
-    required this.colors,
-    required this.spotsData,
-  }) : super(key: key);
-  final List<Color>? colors;
-  final List<FlSpot>? spotsData;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: 80,
-          height: 30,
-          child: LineChart(
-            LineChartData(
-                lineBarsData: [
-                  LineChartBarData(
-                      spots: spotsData,
-                      belowBarData: BarAreaData(show: false),
-                      aboveBarData: BarAreaData(show: false),
-                      isCurved: true,
-                      dotData: FlDotData(show: false),
-                      
-                      barWidth: 3),
-                ],
-                lineTouchData: LineTouchData(enabled: false),
-                titlesData: FlTitlesData(show: false),              
-                gridData: FlGridData(show: false),
-                borderData: FlBorderData(show: false)),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class ProgressLine extends StatelessWidget {
   const ProgressLine({

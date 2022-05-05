@@ -9,14 +9,12 @@ Color getRoleColor(String? role) {
     return Colors.red;
   } else if (role == "Piano Course") {
     return Colors.blueAccent;
-  } else if (role == "Solution Architect") {
+  } else if (role == "Oud Course") {
     return Colors.amberAccent;
-  } else if (role == "Project Manager") {
+  } else if (role == "Guitar Course") {
     return Colors.cyanAccent;
-  } else if (role == "Business Analyst") {
+  } else if (role == "Voice Course") {
     return Colors.deepPurpleAccent;
-  } else if (role == "UI/UX Designer") {
-    return Colors.indigoAccent;
-  }
+  } 
   return Colors.black38;
 }

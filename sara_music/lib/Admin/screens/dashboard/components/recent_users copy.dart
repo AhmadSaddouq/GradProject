@@ -26,35 +26,40 @@ class RecentUsers extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SingleChildScrollView(
-            //scrollDirection: Axis.vertical,
+            scrollDirection: Axis.vertical,
             child: SizedBox(
               width: double.infinity,
-              child: DataTable(
-                horizontalMargin: 0,
-                columnSpacing: defaultPadding,
-                columns: [
-                  DataColumn(
-                    label: Text("Name Surname"),
+              child:  SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  horizontalMargin: 0,
+                  showCheckboxColumn: true,
+                  
+                  columnSpacing: defaultPadding,
+                  columns: [
+                    DataColumn(
+                      label: Text("Name Surname"),
+                    ),
+                    DataColumn(
+                      label: Text("Course"),
+                    ),
+                    DataColumn(
+                      label: Text("E-mail"),
+                    ),
+                    DataColumn(
+                      label: Text("Address"),
+                    ),
+                    DataColumn(
+                      label: Text("Rate"),
+                    ),
+                    DataColumn(
+                      label: Text("Operation"),
+                    ),
+                  ],
+                  rows: List.generate(
+                    recentUsers.length,
+                    (index) => recentUserDataRow(recentUsers[index], context),
                   ),
-                  DataColumn(
-                    label: Text("Role"),
-                  ),
-                  DataColumn(
-                    label: Text("E-mail"),
-                  ),
-                  DataColumn(
-                    label: Text("Registration Date"),
-                  ),
-                  DataColumn(
-                    label: Text("Likes"),
-                  ),
-                  DataColumn(
-                    label: Text("Operation"),
-                  ),
-                ],
-                rows: List.generate(
-                  recentUsers.length,
-                  (index) => recentUserDataRow(recentUsers[index], context),
                 ),
               ),
             ),
@@ -69,6 +74,7 @@ DataRow recentUserDataRow(RecentUser userInfo, BuildContext context) {
   return DataRow(
     cells: [
       DataCell(
+        
         Row(
           children: [
             TextAvatar(
@@ -121,22 +127,7 @@ DataRow recentUserDataRow(RecentUser userInfo, BuildContext context) {
             ),
             SizedBox(
               width: 6,
-            ),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green.withOpacity(0.5),
-              ),
-              icon: Icon(
-                Icons.visibility,
-                size: 14,
-              ),
-              onPressed: () {},
-              //View
-              label: Text("View"),
-            ),
-            SizedBox(
-              width: 6,
-            ),
+            ),            
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 primary: Colors.red.withOpacity(0.5),
@@ -152,7 +143,7 @@ DataRow recentUserDataRow(RecentUser userInfo, BuildContext context) {
                           ),
                           content: Container(
                             color: secondaryColor,
-                            height: 70,
+                            height: 100,
                             child: Column(
                               children: [
                                 Text(

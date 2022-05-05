@@ -33,7 +33,7 @@ class UserDetailsWidget extends StatelessWidget {
           UserDetailsMiniCard(
             color: Color(0xff0293ee),
             title: "Technical Interview",
-            amountOfFiles: "%28.3",
+            amountOfFiles: "%28.2",
             numberOfIncrease: 1328,
           ),
           UserDetailsMiniCard(
@@ -46,7 +46,7 @@ class UserDetailsWidget extends StatelessWidget {
             color: Color(0xff845bef),
             title: "Final Interview",
             amountOfFiles: "%22.4",
-            numberOfIncrease: 1328,
+            numberOfIncrease:1328,
           ),
           UserDetailsMiniCard(
             color: Color(0xff13d38e),

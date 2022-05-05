@@ -4,10 +4,17 @@ const auth = require('../middleware/auth')
 const { sendWelcomeEmail} = require('../emails/accounts')
 const { deleteModel } = require('mongoose')
 const Task = require('../models/task')
-
+const multer = require('multer')
+const sharp = require('sharp')
 
 const router = new express.Router()
 
+
+const upload = multer({
+    limits: {
+        fileSize: 1000000
+    },
+})
 router.post('/users/log',  async (req, res)=>{
 try{
   const user = await User.findUser(req.body.name,req.body.password)
@@ -237,13 +244,7 @@ router.post('/users',  async (req,res)=>{
             return res.status(400).send("PhoneN")
    
           }
-          if (req.body.password!=req.body.ConfPass) {
-              
-              
-            throw new Error('Invalid Password"')
-         
-            
-            }
+        
             if(count3<=6){
                 return res.status(400).send("PASS")
   
@@ -254,7 +255,7 @@ user.Tries = 4;
 
 
     await user.save();
-    sendWelcomeEmail(user.email, user.name,user.Pin)
+    // sendWelcomeEmail(user.email, user.name,user.Pin)
 
    const token = await user.generateAuthToken()
 
@@ -318,4 +319,22 @@ router.patch('/users/reset',auth, async (req, res) => {
 
    
    })
+   router.post('/users/avatar', auth, upload.single('upload'), async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    req.user.avatar = buffer
+    
+    await req.user.save()
+    res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+})
+
+router.post('/users/avatar1', async (req, res) => {
+    try {
+        const user = await User.findOne({name:req.body.name})
+        res.send(user.avatar.toString("base64"))
+    } catch (e) {
+        res.status(404).send()
+    }
+})
 module.exports = router
